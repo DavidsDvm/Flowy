@@ -1,0 +1,125 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+	min-height: 100%;
+}
+
+.mainContent {
+    background-color: #fbf4ea;
+    max-width: 100%;
+}
+
+.mainContent__main--img {
+    max-width: 100%;
+    position: relative;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    text-align: center;
+    color: white;
+}
+
+.mainContent__main--img .text_blur {
+    max-width: 100%;
+    opacity: 60%;
+    background: #000000;
+    border-color: #000000;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px 5px 5px 5px;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.6em 8% 1.6em 8%;
+}
+
+.mainContent__main--img .centered {
+    color: #ffffff;
+    font-family: "DM Serif Display";
+    font-weight: Bold;
+    line-height: 1.3;
+    text-align: center;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-weight: Bold;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+@media screen and (min-width: 601px) {
+    .mainContent__main--img .centered {
+        font-size: 1.6em;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .mainContent__main--img .centered {
+        font-size: 100%;
+    }
+}
+
+.mainContent__main--img img {
+    width: 90%;
+    height: 15em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.mainContent__main--text {
+    margin: 0em;
+    padding: 3em 0em 0.5em 0em;
+    color: #000000;
+    font-family: "Source Sans Pro";
+    font-weight: 400;
+    font-size: 0.9em;
+    line-height: 1.5;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.mainContent__main--cards {
+    display: flex;
+    padding-top: 2em;
+}
+
+.mainContent__main--cards .mainContent__main--cards-half{
+    width: 50%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+}
+
+.mainContent__main--cards .mainContent__main--cards-half .card {
+    margin: 2.5em 0em 2.5em 0em;
+    background: #fbf4ea;
+    border: 0em;
+}
+
+.mainContent__main--cards .mainContent__main--cards-half .card .card-title {
+    color: #000000;
+    font-family: "DM Serif Display";
+    font-weight: 700;
+    font-size: 0.95em;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.mainContent__main--cards .mainContent__main--cards-half .card .card-text {
+    padding-top: 0.4em;
+    color: #000000;
+    font-family: "Source Sans Pro";
+    font-weight: 400;
+    font-size: 0.85em;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    text-align: center;
+}
