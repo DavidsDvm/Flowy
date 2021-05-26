@@ -1,6 +1,7 @@
 $( "#header__navbar--jQuery" ).load( "../view/header.html" );
 $( "#footer__main--jQuery" ).load( "../view/footer.html" );
-$( "#footer__index--jQuery" ).load( "../view/index_footer.html" );
+$( "#footer__index--jQuery" ).load( "view/index_footer.html" );
+$( "#header__navbar--index-jQuery" ).load( "view/header.html" );
 
 function myUrlFun(site){
     var actualUrl = window.location.pathname.split('/');
