@@ -8,7 +8,7 @@ if (window.location.pathname == "/Flowy/index.html"){
     window.location.href = "../Flowy";
 }
 
-$("document").ready(function() {
+$(document).ready(function() {
     if (window.location.pathname == "/Flowy/"){
         document.getElementById('header_logo').src = 'help/img/Logo_Flowy.svg';
         document.getElementById('header_shopping_cart').src = 'help/img/shopping_cart_1.svg';
