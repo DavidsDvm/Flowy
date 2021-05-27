@@ -16,6 +16,7 @@ $("document").ready(function() {
         document.getElementById('footer_ubication_symbol').src = 'help/img/ubication_symbol.svg';
         document.getElementById('footer_at_symbol').src = 'help/img/at_sing.svg';
         document.getElementById('footer_up_arrow_symbol').src = 'help/img/up_arrow.svg';
+        return;
     }
 });
 
