@@ -2,6 +2,7 @@ $("#header_shopping_cart").ready(function() {
     sessionStorage.setItem("numStopLoop", 0);
 
     if (window.location.pathname == "/Flowy/" && sessionStorage.getItem("numStopLoop")  == 0){
+        sleep(5000);
         document.getElementById('header_logo').src = 'help/img/Logo_Flowy.svg';
         document.getElementById('header_shopping_cart').src = 'help/img/shopping_cart_1.svg';
         document.getElementById('footer_copyright_symbol').src = 'help/img/cophyright_symbol.svg';
