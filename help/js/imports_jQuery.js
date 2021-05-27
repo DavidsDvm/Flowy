@@ -1,14 +1,12 @@
-$( document ).ready(function() {
-    $( "#header__navbar--jQuery" ).load( "../view/header.html" );
-    $( "#footer__main--jQuery" ).load( "../view/footer.html" );
-    $( "#footer__index--jQuery" ).load( "view/index_footer.html" );
-    $( "#header__navbar--index-jQuery" ).load( "view/header.html" );
+$( "#header__navbar--jQuery" ).load( "../view/header.html" );
+$( "#footer__main--jQuery" ).load( "../view/footer.html" );
+$( "#footer__index--jQuery" ).load( "view/index_footer.html" );
+$( "#header__navbar--index-jQuery" ).load( "view/header.html" );
 
-    // Si entra a index.html se le llevara a flowy normal
-    if (window.location.pathname == "/Flowy/index.html"){
-        window.location.href = "../Flowy";
-    }
-});
+// Si entra a index.html se le llevara a flowy normal
+if (window.location.pathname == "/Flowy/index.html"){
+    window.location.href = "../Flowy";
+}
 
 function myUrlFun(site){
     var actualUrl = window.location.pathname.split('/');
