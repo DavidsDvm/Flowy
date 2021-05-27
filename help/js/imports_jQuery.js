@@ -8,7 +8,7 @@ if (window.location.pathname == "/Flowy/index.html"){
     window.location.href = "../Flowy";
 }
 
-$(document).ready(function() {
+$("#header_shopping_cart").ready(function() {
     sessionStorage.setItem("numStopLoop", 0);
 
     if (window.location.pathname == "/Flowy/" && sessionStorage.getItem("numStopLoop")  == 0){
