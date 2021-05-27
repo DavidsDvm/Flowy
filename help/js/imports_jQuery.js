@@ -8,7 +8,7 @@ if (window.location.pathname == "/Flowy/index.html"){
     window.location.href = "../Flowy";
 }
 
-window.onload = function() {
+$( document ).ready(function() {
     if (window.location.pathname == "/Flowy/"){
         document.getElementById('header_logo').src = 'help/img/Logo_Flowy.svg';
         document.getElementById('header_shopping_cart').src = 'help/img/shopping_cart_1.svg';
@@ -17,7 +17,7 @@ window.onload = function() {
         document.getElementById('footer_at_symbol').src = 'help/img/at_sing.svg';
         document.getElementById('footer_up_arrow_symbol').src = 'help/img/up_arrow.svg';
     }
-};
+  });
 
 function myUrlFun(site){
     var actualUrl = window.location.pathname.split('/');
