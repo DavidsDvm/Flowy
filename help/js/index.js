@@ -3,6 +3,9 @@ function loadImagesHeader(){
         document.getElementById('header_logo').src = 'help/img/Logo_Flowy.svg';
         document.getElementById('header_shopping_cart').src = 'help/img/shopping_cart_1.svg';
     }
+    else {
+        console.log("No entendi");
+    }
 }
 
 function loadImagesFooter(){
@@ -11,5 +14,7 @@ function loadImagesFooter(){
         document.getElementById('footer_ubication_symbol').src = 'help/img/ubication_symbol.svg';
         document.getElementById('footer_at_symbol').src = 'help/img/at_sing.svg';
         document.getElementById('footer_up_arrow_symbol').src = 'help/img/up_arrow.svg';
+    } else {
+        console.log("No entendi2");
     }
 }
