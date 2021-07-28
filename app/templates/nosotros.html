@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/nosotros_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Nosotros
+{% endblock title %}
+
+{% block header_type %}
+    {% include 'header.html' %}
+{% endblock header_type %}
+
+{% block main__content %}
+    <section class="mainContent">
+        <div class="mainContent__main">
+            <div class="mainContent__main--img">
+                <img src="{{ url_for('static', filename='/img/background_flowers.png') }}" class="img-fluid" alt="Imagen de muchas flores">
+                <div class="text_blur"></div>
+                <div class="centered text-wrap">Conócenos</div>
+            </div>
+            <div class="mainContent__main--text text-center">
+                <p>
+                    Somos una empresa colombiana que brinda a sus clientes productos y<br>
+                    servicios de excelente calidad.<br>
+                    En Flowy podemos ayudarlo a expresar sus sentimientos con hermosas<br>
+                    flores a precios favorables y entregas a tiempo.<br>
+                    Entendemos lo importante que es usted al elegirnos para una experiencia<br>
+                    especial y estamos comprometidos a hacer todo lo posible para que usted y<br>
+                    sus seres queridos tengan momentos memorables. 
+                </p>
+            </div>
+            <div class="mainContent__main--cards text-center">
+                <div class="mainContent__main--cards-half">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuidadosos con los detalles</h5>
+                            <p class="card-text">Sabemos que cada pedido puede contar una historia, por eso cada detalle es importante para nosotros. Siempre estamos atentos a seguir tus especificaciones.</p>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Arreglos hechos a mano</h5>
+                            <p class="card-text">Para ofrecer los mejores diseños nuestros arreglos son diseñados por expertas en diseño floral con todo el amor y delicadeza que requieren</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mainContent__main--cards-half">
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Flores de exportación</h5>
+                            <p class="card-text">Para brindarte la mejor calidad nuestras flores son originarias del sector floricultor son traídas sin intermediarios.</p>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Calidad 100% garantizada</h5>
+                            <p class="card-text">Para nosotros es importante brindar un producto con las óptimas condiciones, por eso nuestros arreglos florales tienen garantía.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock main__content %}
+
+{% block footer_type %}
+    {% include 'footer.html' %}
+{% endblock footer_type %}
