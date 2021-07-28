@@ -1,11 +1,13 @@
-from flask import Flask
-from flask import Flask, render_template
+from flask import render_template
 
-app = Flask(__name__)
+from app import create_app
+from app.auth import auth
+
+app = create_app()
 
 @app.route('/')
 @app.route('/index.html')
-def homePage():
+def index():
     return render_template('index.html')
 
 @app.route('/nosotros', defaults={'_route': 'nosotros'})
@@ -14,6 +16,6 @@ def homePage():
 def navigationPages(_route):
     return render_template(_route+'.html')
 
-@app.route('/login')
-def loginCheck():
-    return render_template('login.html')
+# @app.route('/login')
+# def loginCheck():
+#     return render_template('login.html')
