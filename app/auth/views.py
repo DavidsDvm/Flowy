@@ -5,6 +5,7 @@ from app.forms import LoginForm
 from . import auth
 
 @auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     context = {
