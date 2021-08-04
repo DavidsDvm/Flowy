@@ -1,0 +1,143 @@
+{% extends 'basePanel.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/panel_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Panel Interno
+{% endblock title %}
+
+{% block lateralBar %}
+    {% include 'panelLateralBar.html' %}
+{% endblock lateralBar %}
+
+{% block topNavbar %}
+    {% include 'panelNavbar.html' %}
+{% endblock topNavbar %}
+    
+{% block userMessage %}
+    {% include 'panelUserMessage.html' %}
+{% endblock userMessage %}
+
+{% block content %}
+    <section class="bg-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 my-3 " >
+                    <div class="card rounded-0" id="app" >
+                        <div class="card-header bg-light">
+                            <h6 class="font-weight-bold mb-0 py-2">Pedidos  <button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></button></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2></div>
+                                <div class="align-self-center">
+                                    <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
+                                    <h6 class="text-muted d-inline-block">Lirio</h6>
+                                    <span class="badge badge-dark ml-2">$30.000</span>
+                                    <small class="d-block text-muted">Santiago</small>
+                                    <small class="d-block text-muted">2021-07-29</small>
+                                </div>
+                            </div>
+                            {% for row in pedidos %}
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2></div>
+                                <div class="align-self-center">
+                                    <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create"></i></button>
+                                    <h6 class="text-muted d-inline-block">{{row.especificacionPedido}}</h6>
+                                    <span class="badge badge-dark ml-2">{{row.totalPedido}}</span>
+                                    <small class="d-block text-muted">{{row.especificacionPedido}}</small>
+                                    <small class="d-block text-muted">{{row.fechaPedido}}</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modales -->
+    <!-- Modal de Registro -->
+    <div id="modalAdd" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        <div class="form-group">
+                            <label>Producto</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio Producto</label>
+                            <input type="number" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
+                            <label>Especificacion Producto</label>
+                            <textarea class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad Pedida</label>
+                            <input type="number" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">Añadir</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Editar -->
+    <div id="modalEdit" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        <div class="form-group">
+                            <label>Producto</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio Producto</label>
+                            <input type="number" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
+                            <label>Especificacion Producto</label>
+                            <textarea class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad Pedida</label>
+                            <input type="number" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
