@@ -1,0 +1,139 @@
+{% extends 'basePanel.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/panel_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Panel Interno
+{% endblock title %}
+
+{% block lateralBar %}
+    {% include 'panelLateralBar.html' %}
+{% endblock lateralBar %}
+
+{% block topNavbar %}
+    {% include 'panelNavbar.html' %}
+{% endblock topNavbar %}
+    
+{% block userMessage %}
+    {% include 'panelUserMessage.html' %}
+{% endblock userMessage %}
+
+{% block content %}
+    <section class="bg-mix">
+        <div class="container">
+            <div class="card rounded-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 d-flex stat my-3">
+                            <div class="mx-auto">
+                                <h6 class="text-muted">Ultimas Ventas</h6>
+                                <h3 class="font-weight-bold">$6000000</h3>
+                                <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
+                            </div>  
+                        </div>
+                        <div class="col-lg-3 d-flex stat my-3">
+                            <div class="mx-auto">
+                            <h6 class="text-muted">Ultimos Registros</h6>
+                            <h3 class="font-weight-bold">500</h3>
+                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>20%</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex stat my-3">
+                            <div class="mx-auto">
+                            <h6 class="text-muted">Progreso</h6>
+                            <h3 class="font-weight-bold">$6000000</h3>
+                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex my-3">
+                            <div class="mx-auto">
+                            <h6 class="text-muted">Ultimas Ventas</h6>
+                            <h3 class="font-weight-bold">$6000000</h3>
+                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-grey">
+        <div class="container">
+            <div class="row card__section">
+                <!-- <div class="col-lg-8 my-3 " > -->
+                    <div class="card rounded-0 card__section--cards" id="float">
+                        <div class="card-header bg-light">
+                            <h6 class="font-weight-bold mb-0">Ventas recientes</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-card"></i></h2></div>
+                                <div class="align-self-center">
+                                    <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <h6 class="text-muted d-inline-block">Lirio</h6>
+                                    <span class="badge badge-dark ml-2">$30.000</span>
+                                    <small class="d-block text-muted">Santiago</small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-card"></i></h2></div>
+                                <div class="align-self-center">
+                                    <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <h6 class="text-muted d-inline-block">Ramo Rosas</h6>
+                                    <span class="badge badge-dark ml-2">$44.000</span>
+                                    <small class="d-block text-muted">Santiago</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card rounded-0 card__section--cards" id="p">
+                        <div class="card-header bg-light">
+                            <h6 class="font-weight-bold mb-0">Ganancias/Perdidas</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-trending-up"></i></h2></div>
+                                <div class="align-self-center">
+                                    <h6 class="text-muted d-inline-block">Diariamente</h6>
+                                    <span class="badge badge-dark ml-2">+53%</span>
+                                    <small class="d-block text-muted">Ganancias</small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-trending-down"></i></h2></div>
+                                <div class="align-self-center">
+                                    <h6 class="text-muted d-inline-block">Mensual</h6>
+                                    <span class="badge badge-dark ml-2">-25%</span>
+                                    <small class="d-block text-muted">Perdidas</small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-trending-up"></i></h2></div>
+                                <div class="align-self-center">
+                                    <h6 class="text-muted d-inline-block">Anualmente</h6>
+                                    <span class="badge badge-dark ml-2">+35%</span>
+                                    <small class="d-block text-muted">Ganancias</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </section>              
+{% endblock content %}
