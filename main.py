@@ -15,7 +15,3 @@ def index():
 @app.route('/flores', defaults={'_route': 'flores'})
 def navigationPages(_route):
     return render_template(_route+'.html')
-
-# @app.route('/login')
-# def loginCheck():
-#     return render_template('login.html')
