@@ -37,7 +37,12 @@
                                 <div class="mr-3 d-flex">
                                     <h2 class="mb-0 align-self-center"><i class="icon ion-md-person"></i></h2></div>
                                 <div class="align-self-center">
-                                    <img src="{{ url_for('static', filename='img/carnationIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <div id = foto>
+                                        <img src="{{ url_for('static', filename='img/carnationIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                        <div id="info" class="position-absolute flower pl-1 pb-6 rounded-circle">
+                                            <h2><i class="icon ion-md-close"></i></h2>
+                                        </div>
+                                    </div>
                                     <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
                                     <h6 class="text-muted d-inline-block">500 Claveles</h6>
                                     <span class="badge badge-dark ml-2">$126.000</span>
@@ -51,7 +56,12 @@
                                 <div class="mr-3 d-flex">
                                     <h2 class="mb-0 align-self-center"><i class="icon ion-md-person"></i></h2></div>
                                 <div class="align-self-center">
-                                    <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <div id = foto>
+                                        <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                        <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                            <h2><i class="icon ion-md-close"></i></h2>
+                                        </div>
+                                    </div>
                                     <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
                                     <h6 class="text-muted d-inline-block">1000 Rosas</h6>
                                     <span class="badge badge-dark ml-2">$500.000</span>
@@ -69,7 +79,7 @@
     </section>
     <!-- Modales -->
     <!-- Modal de Registro -->
-    <div id="modalAdd" class="modal fade" role="dialog">
+    <div id="modalAdd" class="modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,11 +89,11 @@
                     <form action="" method="POST">
                         <div class="form-group">
                             <label>Total de la compra</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="number" class="form-control" name="name" required>
                         </div>
                         <div class="form-group">
                             <label>Nombre del Proovedor</label>
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="text" class="form-control" name="email" required>
                         </div>
                         <div class="form-group">
                             <label>Especificacion Compra</label>
@@ -116,7 +126,7 @@
                     <form action="" method="POST">
                         <div class="form-group">
                             <label>Total de la compra</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="number" class="form-control" name="name" required>
                         </div>
                         <div class="form-group">
                             <label>Nombre del Proovedor</label>
@@ -131,8 +141,11 @@
                             <input type="number" class="form-control"  required>
                         </div>
                         <div class="form-group">
+                            <label>Fecha de Compra</label>
+                            <input type="datetime-local" class="form-control"  required>
+                        </div>
+                        <div class="form-group">
                             <button class="btn btn-success" type="submit">Guardar</button>
-                            <button class="btn btn-danger" type="submit">Eliminar</button>
                         </div>
                     </form>
                 </div>

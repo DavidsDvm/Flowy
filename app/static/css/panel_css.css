@@ -79,6 +79,7 @@ a:hover {
     right: 5px;
 }
 
+
 #float {
     float: left;
 }
@@ -109,4 +110,21 @@ a:hover {
 
 .btn-edit{
     right: 7%;
+}
+div#foto{
+    width: 35px;    
+}
+
+div#info{
+    width: 4%;
+    height: auto;
+    visibility: hidden;
+    right: 2%;
+    
+}
+
+div#foto:hover div#info{
+    visibility: visible;
+    color: black;
+    opacity: 0.8;
 }
