@@ -6,7 +6,7 @@
 
 {% block title %}
     {{ super() }}
-    Panel Interno
+    Panel Interno | Pedidos
 {% endblock title %}
 
 {% block lateralBar %}
@@ -31,34 +31,102 @@
                             <h6 class="font-weight-bold mb-0 py-2">Pedidos  <button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></button></h6>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex border-bottom py-2">
-                                <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2></div>
-                                <div class="align-self-center">
-                                    <div id="foto">
-                                        <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                        <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
-                                            <h2><i class="icon ion-md-close"></i></h2>
-                                        </div>
-                                    </div>
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
-                                    <h6 class="text-muted d-inline-block">Lirio</h6>
-                                    <span class="badge badge-dark ml-2">$30.000</span>
-                                    <small class="d-block text-muted">Santiago</small>
-                                    <small class="d-block text-muted">2021-07-29</small>
-                                </div>
-                            </div>
                             {% for row in pedidos %}
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
                                     <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2></div>
                                 <div class="align-self-center">
-                                    <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create"></i></button>
+                                    <div id="foto">
+                                        <a href="/panel/pedidos/delete/{{row.idPedido}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                            <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                            <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                                <h2><i class="icon ion-md-close"></i></h2>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit{{row.idPedido}}"><i class="icon ion-md-create"></i></button>
                                     <h6 class="text-muted d-inline-block">{{row.especificacionPedido}}</h6>
-                                    <span class="badge badge-dark ml-2">{{row.totalPedido}}</span>
-                                    <small class="d-block text-muted">{{row.especificacionPedido}}</small>
+                                    <span class="badge badge-dark ml-2">${{row.totalPedido}}</span>
                                     <small class="d-block text-muted">{{row.fechaPedido}}</small>
+                                </div>
+                            </div>
+
+                            <!-- Modales -->
+                            <!-- Modal de Registro -->
+                            <div id="modalAdd" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Agregar Pedido</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                                <div class="form-group">
+                                                    <label>Producto</label>
+                                                    <input type="text" class="form-control" name="pedidoName" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Precio Producto</label>
+                                                    <input type="number" class="form-control" name="pedidoPrice" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Especificacion Producto</label>
+                                                    <textarea class="form-control" rows="3" name="pedidoEspecification" required></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cantidad Pedida</label>
+                                                    <input type="number" class="form-control" name="quantityPedido" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Añadir</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal de Editar -->
+                            <div id="modalEdit{{row.idPedido}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Editar Pedido</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/panel/pedidos/update/{{row.idPedido}}" method="POST">
+                                                <div class="form-group">
+                                                    <label>Producto</label>
+                                                    <input type="text" class="form-control" name="pedidoName" value="{{row.especificacionPedido}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Precio Producto</label>
+                                                    <input type="number" class="form-control" name="pedidoPrice" value="{{row.totalPedido}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Especificacion Producto</label>
+                                                    <textarea class="form-control" rows="3" name="pedidoEspecification" required>{{row.especificacionPedido}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cantidad Pedida</label>
+                                                    <input type="number" class="form-control" name="quantityPedido" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Fecha de Pedido</label>
+                                                    <input type="date" class="form-control" name="datePedido" value="{{row.fechaPedido}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Guardar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {% endfor %}
@@ -69,83 +137,4 @@
             </div>
         </div>
     </section>
-
-    <!-- Modales -->
-    <!-- Modal de Registro -->
-    <div id="modalAdd" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar Pedido</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Producto</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Precio Producto</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Producto</label>
-                            <textarea class="form-control" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Añadir</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Editar -->
-    <div id="modalEdit" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar Pedido</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Producto</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Precio Producto</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Producto</label>
-                            <textarea class="form-control" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha de Pedido</label>
-                            <input type="datetime-local" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock content %}
