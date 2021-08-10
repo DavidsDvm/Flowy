@@ -17,6 +17,6 @@ def login():
         password = login_form.password.data
         session['username'] = username
 
-        return "Lo hiciste felicitaciones"
+        return render_template('panelIndex.html')
 
     return render_template('login.html', **context)
