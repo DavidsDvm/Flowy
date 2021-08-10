@@ -76,15 +76,17 @@ class compra(db.Model):
     idCompra = db.Column(db.Integer, primary_key=True)
     fechaCompra = db.Column(db.DateTime)
     totalCompra = db.Column(db.Integer)
+    especificacionCompra = db.Column(db.String(100))
     idEmpleado = db.Column(db.Integer, db.ForeignKey('empleado.idEmpleado'))
     idProovedor = db.Column(db.Integer, db.ForeignKey('proovedor.idProovedor'))
     children = db.relationship("producto", secondary=association_table2)
 
-    def __init__(self, fechaCompra, totalCompra, idEmpleado, idProovedor):
+    def __init__(self, fechaCompra, totalCompra, idEmpleado, idProovedor, especificacionCompra):
         self.fechaCompra = fechaCompra
         self.totalCompra = totalCompra
         self.idEmpleado = idEmpleado
         self.idProovedor = idProovedor
+        self.especificacionCompra = especificacionCompra
 
 class cliente(db.Model):
     __tablename__ = 'cliente'
