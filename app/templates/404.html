@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/404_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Pagina no encontrada
+{% endblock title %}
+
+{% block main__content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina no encontrada</title>
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/404_css.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+</head>
+
+<body>
+    <section class="seccion-pagina-404">
+        <div class="numero-error">
+            <div class="contenedor-msj">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>404</h3>
+            </div>
+        </div>
+        <div class="contenido-error">
+            <div class="seccion-contenedor">
+                <h1>¡Lo sentimos!</h1>
+                <p>La Pagina que esta solicitando no se ha podido encontrar</p>
+            </div>
+            <div class="seccion-contenedor">
+                <div class="botones-escape">
+                    <a class="boton-escape" href="{{ url_for('/index.html') }}" >Ir a inicio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock main__content %}
