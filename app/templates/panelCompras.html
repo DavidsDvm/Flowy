@@ -6,7 +6,7 @@
 
 {% block title %}
     {{ super() }}
-    Panel Interno
+    Panel Interno | compras
 {% endblock title %}
 
 {% block lateralBar %}
@@ -33,126 +33,113 @@
 
                     
                         <div class="card-body">
+                            {% for row in compras %}
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-person"></i></h2></div>
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-person"></i></h2>
+                                </div>
                                 <div class="align-self-center">
                                     <div id = foto>
-                                        <img src="{{ url_for('static', filename='img/carnationIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                        <div id="info" class="position-absolute flower pl-1 pb-6 rounded-circle">
-                                            <h2><i class="icon ion-md-close"></i></h2>
-                                        </div>
+                                        <a href="/panel/compras/delete/{{row.idCompra}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                            <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                            <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                                <h2><i class="icon ion-md-close"></i></h2>
+                                            </div>
+                                        </a>
                                     </div>
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
-                                    <h6 class="text-muted d-inline-block">500 Claveles</h6>
-                                    <span class="badge badge-dark ml-2">$126.000</span>
-                                    <small class="d-block text-muted">Juan David</small>
-                                    <small class="d-block text-muted">2021-01-20</small>
-                                    <small class="d-block text-muted">Proovedor: Flor.com</small>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit{{row.idCompra}}"><i class="icon ion-md-create "></i></button>
+                                    <h6 class="text-muted d-inline-block">{{row.especificacionCompra}}</h6>
+                                    <span class="badge badge-dark ml-2">${{row.totalCompra}}</span>
+                                    <small class="d-block text-muted">{{row.idEmpleado}}</small>
+                                    <small class="d-block text-muted">{{row.fechaCompra}}</small>
+                                    <small class="d-block text-muted">Proovedor: {{row.idProovedor}}</small>
                                 </div>
                             </div>
 
-                            <div class="d-flex border-bottom py-2">
-                                <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-person"></i></h2></div>
-                                <div class="align-self-center">
-                                    <div id = foto>
-                                        <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                        <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
-                                            <h2><i class="icon ion-md-close"></i></h2>
+                            <!-- Modales -->
+                            <!-- Modal de Registro -->
+                            <div id="modalAdd" class="modal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Añadir Compra</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ url_for('panel.addCompras') }}" method="POST">
+                                                <div class="form-group">
+                                                    <label>Total de la compra</label>
+                                                    <input type="number" class="form-control" name="totalPurchase" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nombre del Proovedor</label>
+                                                    <input type="text" class="form-control" name="proovedorName" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Especificacion Compra</label>
+                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>Productos:</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cantidad Pedida</label>
+                                                    <input type="number" name="quantity" class="form-control"  required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Añadir</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create "></i></button>
-                                    <h6 class="text-muted d-inline-block">1000 Rosas</h6>
-                                    <span class="badge badge-dark ml-2">$500.000</span>
-                                    <small class="d-block text-muted">David V</small>
-                                    <small class="d-block text-muted">2021-03-25</small>
-                                    <small class="d-block text-muted">Proovedor: FloresElNacho</small>
                                 </div>
                             </div>
+
+                            <!-- Modal de Editar -->
+                            <div id="modalEdit{{row.idCompra}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Editar Compra</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/panel/compras/update/{{row.idCompra}}" method="POST">
+                                                <div class="form-group">
+                                                    <label>Total de la compra</label>
+                                                    <input type="number" class="form-control" name="totalPurchase" value="{{row.totalCompra}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nombre del Proovedor</label>
+                                                    <input type="test" class="form-control" name="proovedorName" value="{{row.idProovedor}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Especificacion Compra</label>
+                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>{{row.especificacionCompra}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cantidad Pedida</label>
+                                                    <input type="number" class="form-control" name="quantity" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Fecha de Compra</label>
+                                                    <input type="date" class="form-control" name="fechaCompra" value="{{row.fechaCompra}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Guardar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
-                    
-                </div>
+            
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Modales -->
-    <!-- Modal de Registro -->
-    <div id="modalAdd" class="modal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Añadir Compra</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Total de la compra</label>
-                            <input type="number" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre del Proovedor</label>
-                            <input type="text" class="form-control" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Compra</label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Añadir</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Editar -->
-    <div id="modalEdit" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar Compra</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Total de la compra</label>
-                            <input type="number" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre del Proovedor</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Compra</label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha de Compra</label>
-                            <input type="datetime-local" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock content %}
