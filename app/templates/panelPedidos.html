@@ -33,7 +33,7 @@
                         <div class="card-body">
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2></div>
+                                    <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-pricetags"></i></a></h2></div>
                                 <div class="align-self-center">
                                     <div id="foto">
                                         <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
@@ -153,12 +153,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Especificacion Pedido</h4>
+                    <h4 class="modal-title">Especificacion Pedidos</h4>
                 </div>
                 <div class="modal-body">
                         <div class="form-group">
                             <label>Especificacion Pedido: </label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
+                            <input type="text" class="form-control disabled" placeholder="Un Ramo De Rosas x2" readonly><br>
+                            <input type="text" class="form-control disabled" placeholder="Una arreglo floras tipo c" readonly>
                         </div>
                     </form>
                 </div>
