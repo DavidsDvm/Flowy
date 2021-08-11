@@ -35,6 +35,7 @@ def login():
         if user:
             if password == user.password and user.estadoUsuario == 'activo':
                 login_user(user)
+                session['username'] = user.usuario
                 return redirect(url_for('panel.inicioPanel'))
 
     if register_form.validate_on_submit():
