@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-person" data-bs-target="#modalShowEsp"></i></h2></div>
+                                    <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-person" ></i></a></h2></div>
                                 <div class="align-self-center">
                                     <div id = foto>
                                         <img src="{{ url_for('static', filename='img/carnationIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
@@ -164,7 +164,8 @@
                 <div class="modal-body">
                         <div class="form-group">
                             <label>Especificacion Compra: </label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
+                            <input type="text" class="form-control disabled" placeholder="1000 Flores Lirios" readonly><br>
+                            <input type="text" class="form-control disabled" placeholder="300 Rosas" readonly>
                         </div>
                     </form>
                 </div>
