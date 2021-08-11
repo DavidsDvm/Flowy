@@ -4,15 +4,25 @@ from datetime import date
 from . import panel
 from ..models import pedido, compra, db
 
-@panel.route('/inicio')
+@panel.route('/', methods=['GET', 'POST'])
+@panel.route('/inicio', methods=['GET', 'POST'])
 def inicioPanel():
-    return render_template('panelIndex.html')
+    context = {
+        'personalName': session['username']
+    }
+
+    return render_template('panelIndex.html', **context)
 
 @panel.route('/compras')
 def comprasPanel():
     all_data = compra.query.all()
 
-    return render_template('panelCompras.html', compras = all_data)
+    context = {
+        'personalName': session['username'],
+        'compras' : all_data
+    }
+
+    return render_template('panelCompras.html', **context)
 
 @panel.route('/compras/insert', methods =['POST'])
 def addCompras():
@@ -57,7 +67,12 @@ def deleteCompras(id):
 def pedidosPanel():
     all_data = pedido.query.all()
 
-    return render_template('panelPedidos.html', pedidos = all_data)
+    context = {
+        'personalName': session['username'],
+        'pedidos' : all_data
+    }
+
+    return render_template('panelPedidos.html', **context)
 
 @panel.route('/pedidos/insert', methods =['POST'])
 def addPedidos():
