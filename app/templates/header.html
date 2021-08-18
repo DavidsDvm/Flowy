@@ -39,27 +39,28 @@
                             </li>
                         </ul>
                     </div>
-                        <div class="navbar-collapse header__nav__main--cart d-flex justify-content-end" id="navbarCollapse">
-                            <div class="dropstart">
-                                <img src="{{ url_for('static', filename='img/shopping_cart_1.svg') }}"  height="30px" width="30px" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></img>
-                                    <div id="carrito" class="dropdown-menu" aria-labelledby="navbarCollapse">
-                                        <table id="lista-carrito" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Imagen</th>
-                                                    <th>Nombre</th>
-                                                    <th>Precio</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                        <hr class="dropdown-divider">
-                                        <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar</a>
-                                        <a href="/compra" id="procesar-pedido" class="btn btn-danger btn-block">Pagar</a>
-                                    </div>
+                    <div class="navbar-collapse header__nav__main--cart d-flex justify-content-end" id="navbarCollapse">
+                        <div class="dropstart">
+                            <img src="{{ url_for('static', filename='img/shopping_cart_1.svg') }}"  height="30px" width="30px" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></img>
+                            <div id="carrito" class="dropdown-menu" aria-labelledby="navbarCollapse">
+                                <table id="lista-carrito" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagen</th>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <hr class="dropdown-divider">
+                                <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar</a>
+                                <a href="/compra" id="procesar-pedido" class="btn btn-danger btn-block">Pagar</a>
                             </div>
                         </div>
+                    </div>
+                </div>
             </nav>
         </header>
     </div>
