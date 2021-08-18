@@ -218,3 +218,8 @@ body {
     font-size: 14px;
     text-align: center;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+}
