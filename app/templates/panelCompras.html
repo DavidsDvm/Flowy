@@ -35,7 +35,7 @@
                             {% for row in compras %}
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-person" ></i></a></h2></div>
+                                    <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-person" ></i></a></h2>
                                 </div>
                                 <div class="align-self-center">
                                     <div id = foto>
@@ -133,111 +133,33 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal de MostrarEspecificacion-->
+                            <div id="modalShowEsp" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Especificacion Compra</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Especificacion Compra: </label>
+                                                    <input type="text" class="form-control disabled" placeholder="1000 Flores Lirios" readonly><br>
+                                                    <input type="text" class="form-control disabled" placeholder="300 Rosas" readonly>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {% endfor %}
                         </div>
-            
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Modales -->
-    <!-- Modal de Registro -->
-    <div id="modalAdd" class="modal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Añadir Compra</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Total de la compra</label>
-                            <input type="number" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre del Proovedor</label>
-                            <input type="text" class="form-control" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Compra</label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Añadir</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Editar -->
-    <div id="modalEdit" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Editar Compra</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST">
-                        <div class="form-group">
-                            <label>Total de la compra</label>
-                            <input type="number" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre del Proovedor</label>
-                            <input type="email" class="form-control" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Especificacion Compra</label>
-                            <textarea class="form-control" rows="3" required>Productos:</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad Pedida</label>
-                            <input type="number" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha de Compra</label>
-                            <input type="datetime-local" class="form-control"  required>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal de MostrarEspecificacion-->
-    <div id="modalShowEsp" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Especificacion Compra</h4>
-                </div>
-                <div class="modal-body">
-                        <div class="form-group">
-                            <label>Especificacion Compra: </label>
-                            <input type="text" class="form-control disabled" placeholder="1000 Flores Lirios" readonly><br>
-                            <input type="text" class="form-control disabled" placeholder="300 Rosas" readonly>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock content %}
