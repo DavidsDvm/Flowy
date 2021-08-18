@@ -6,7 +6,9 @@ html {
 body {
     width: 100%;
 	min-height: 100%;
+    background-color: #fbf4ea !important;
 }
+
 
 .mainContent {
     background-color: #fbf4ea;
