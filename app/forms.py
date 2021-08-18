@@ -13,17 +13,17 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Logeate')
 
 class RegisterForm(FlaskForm):
-    username = StringField(validators=[DataRequired(), Length(min=4, max=25)], render_kw={"placeholder": "Ingresa tu usario"})
-    email = StringField(validators=[DataRequired(), Length(min=4, max=100)], render_kw={"placeholder": "Ingresa tu Correo"})
-    password = PasswordField(validators=[DataRequired(), Length(min=4, max=32)], render_kw={"placeholder": "Ingresa tu contrasena"})
-    submit = SubmitField('Registrate')
+    usernameRegister = StringField(validators=[DataRequired(), Length(min=4, max=25)], render_kw={"placeholder": "Ingresa tu usario"})
+    emailRegister = StringField(validators=[DataRequired(), Length(min=4, max=100)], render_kw={"placeholder": "Ingresa tu Correo"})
+    passwordRegister = PasswordField(validators=[DataRequired(), Length(min=4, max=32)], render_kw={"placeholder": "Ingresa tu contrasena"})
+    submitRegister = SubmitField('Registrate')
 
-    def validate_username(self, username):
-        existing_user_username = usuario.query.filter_by(usuario = username.data).first()
+    def validate_username(self, usernameRegister):
+        existing_user_username = usuario.query.filter_by(usuario = usernameRegister.data).first()
         if existing_user_username:
             raise ValidationError("Ese usuario ya existe, por favor selecciona otro")
 
     def validate_mail(self, correo):
-        existing_user_mail = usuario.query.filter_by(usuario = correo.data).first()
+        existing_user_mail = usuario.query.filter_by(emailUsuario = correo.data).first()
         if existing_user_mail:
             raise ValidationError("Ese correo ya existe, por favor selecciona otro")
