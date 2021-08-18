@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -14,6 +15,8 @@
         <link rel="icon" href="{{ url_for('static', filename='img/icon_Flowy.svg') }}">
         <!--Tipografia-->
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli">
+        <!-- Alerts JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <title>
             {% block title %}Flowy | {% endblock title %}
         </title>
@@ -32,32 +35,53 @@
                 </div>
             </div>
         </div>
-        <!-- Optional JavaScript; choose one of the two! -->
 
+        {% block flashMessages %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == 'success' %}
+                            <script>
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Correcto',
+                                    text: "{{message}}",
+                                    showConfirmButton: true,
+                                    timer: 5000
+                                })
+                            </script>                    
+                        {% endif %}
+                        {% if category == 'error' %}
+                            <script>
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: "{{message}}",
+                                    showConfirmButton: true,
+                                    timer: 5000
+                                })
+                            </script>                    
+                        {% endif %}
+                        {% if category == 'info' %}
+                            <script>
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'warning',
+                                    title: 'Atencion',
+                                    text: "{{message}}",
+                                    showConfirmButton: true,
+                                    timer: 5000
+                                })
+                            </script>                    
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith  %}
+        {% endblock flashMessages %}
         <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-        <!-- Option 2: Separate Popper and Bootstrap JS -->
-        <!--
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        -->
     </body>
-</html>
-    
-
-    
-
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
-  </body>
 </html>

@@ -18,16 +18,17 @@
     <div class="forms-container">
       <div class="signin-signup">
         <form action="{{ url_for('auth.login') }}" method="POST" class="sign-in-form">
+          {{ login_form.csrf_token }}
           <h2 class="title">Iniciar Sesion</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            {{ login_form.username(placeholder="Usuario") }}
+            {{ login_form.username() }}
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            {{ login_form.password(placeholder="Contraseña") }}
+            {{ login_form.password() }}
           </div>
-            {{ login_form.submit(class_="btn solid", value="Iniciar Sesion") }}
+            {{ login_form.submit(class_="btn solid") }}
           <p class="social-text">O inicia sesion con:</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -44,22 +45,27 @@
             </a>
           </div>
         </form>
-        <form action="#" class="sign-up-form">
+        <form method="POST" action="" class="sign-up-form">
+          {{ register_form.csrf_token }}
           <h2 class="title">Registrase</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Usuario" />
+            {{ register_form.usernameRegister() }}
+          </div>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            {{ register_form.emailRegister() }}
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Contraseña" />
+            {{ register_form.passwordRegister() }}
           </div>
           <div class="input-check">
             <i class="fas fa-user-check"></i>
             <input type="checkbox" />
             <label><a href="#">Acepto Terminos y condiciones</a></label>
           </div>
-          <input type="submit" class="btn" value="Registrase" />
+          {{ register_form.submitRegister(class_="btn solid") }}
           <p class="social-text">O inicia sesion con:</p>
           <div class="social-media">
             <a href="#" class="social-icon">
