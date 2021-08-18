@@ -1,6 +1,6 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, flash
 from flask_login import login_manager, login_user, LoginManager, login_required, logout_user, current_user
 import uuid
 
@@ -12,6 +12,8 @@ from . import auth
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
+login_manager.login_message = "Tienes que iniciar primero sesion"
+login_manager.login_message_category = "error"
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -33,56 +35,77 @@ def login():
 
         user = usuario.query.filter_by(usuario = nombreUsuario).first()
         if user:
-            if password == user.password and user.estadoUsuario == 'activo':
-                login_user(user)
-                session['username'] = user.usuario
-                return redirect(url_for('panel.inicioPanel'))
+            if password == user.password:
+                if user.estadoUsuario == 'activo':
+                    login_user(user)
+                    session['username'] = user.usuario
+                    
+                    flash('Te has logeado correctamente', 'success')
+
+                    return redirect(url_for('panel.inicioPanel'))
+                else:
+                    flash('Tu usuario no tiene el correo electronico confirmado', 'error')
+            else:
+                flash('La contrasena es incorrecta', 'error')
+        else:
+            flash('Hay un problema con tu usuario o contrasena', 'error')
 
     if register_form.validate_on_submit():
-        nombreUsuario = register_form.username.data
-        correo = register_form.email.data
-        password = register_form.password.data
+        nombreUsuario = register_form.usernameRegister.data
+        correo = register_form.emailRegister.data
+        password = register_form.passwordRegister.data
         estadoUsuario = 'inactivo'
         confirmationHash = str(uuid.uuid4().hex)
         idTipoUsuario = '2'
-
-        new_user = usuario(nombreUsuario, password, correo,estadoUsuario, confirmationHash, idTipoUsuario)
-        db.session.add(new_user)
-        db.session.commit()
-
         user = usuario.query.filter_by(usuario = nombreUsuario).first()
+        mail = usuario.query.filter_by(emailUsuario = correo).first()
 
-        msg = MIMEMultipart('alternative')
+        if user or mail:
+            flash('Este usuario o correo ya existen, prueba con otro', 'error')
+        else: 
+            new_user = usuario(nombreUsuario, password, correo,estadoUsuario, confirmationHash, idTipoUsuario)
+            db.session.add(new_user)
+            db.session.commit()
 
-        contextMail = {
-            'nombreUsuario' : nombreUsuario,
-            'hash' : confirmationHash
-        }
+            msg = MIMEMultipart('alternative')
 
-        file = render_template('mail_accountConfirmation.html', **contextMail )
+            contextMail = {
+                'nombreUsuario' : nombreUsuario,
+                'hash' : confirmationHash
+            }
 
-        text = """\
-        Confirmation mail
-        If you dont see the button below
-        Just press on the next link:
-        localhost:5000/auth/confirm/{}
-        """.format(confirmationHash)
+            file = render_template('mail_accountConfirmation.html', **contextMail )
 
-        msg['From']= 'david@mi.com.co'
-        msg['To']= str(correo)
-        msg['Subject']= "Confirm your email FLOWY"
+            text = """\
+            Confirmation mail
+            If you dont see the button below
+            Just press on the next link:
+            localhost:5000/auth/confirm/{}
+            """.format(confirmationHash)
 
-        part1 = MIMEText(text, "plain")
-        part2 = MIMEText(file, "html")
+            msg['From']= 'david@mi.com.co'
+            msg['To']= str(correo)
+            msg['Subject']= "Confirm your email FLOWY"
 
-        msg.attach(part1)
-        msg.attach(part2)
+            part1 = MIMEText(text, "plain")
+            part2 = MIMEText(file, "html")
 
-        s.send_message(msg)
+            msg.attach(part1)
+            msg.attach(part2)
 
-        return redirect(url_for('index'))
-        
-    return render_template('login.html', **context)
+            s.send_message(msg)
+
+            flash('Te has registrado correctamente, revisa tu bandeja de entrada', 'success')
+
+            return redirect(url_for('index'))
+    
+    if current_user.is_authenticated:
+        flash('Ya te encuentras logeado, si deseas utilizar otra cuenta cierra sesion primero', 'info')
+        return redirect(url_for('panel.inicioPanel'))
+    else:
+        return render_template('login.html', **context)
+
+    
 
 
 @auth.route('/confirm/<hash>', methods=['GET', 'POST'])
