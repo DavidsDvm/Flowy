@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -11,20 +12,27 @@ class tipoUsuario(db.Model):
     def __init__(self, tipoUsuario):
         self.tipoUsuario = tipoUsuario
 
-class usuario(db.Model):
+class usuario(UserMixin, db.Model):
     __tablename__ = 'usuario'
     idUsuario = db.Column(db.Integer, primary_key=True)
-    usuario = db.Column(db.String(25))
-    password = db.Column(db.String(32))
+    usuario = db.Column(db.String(25), nullable=False, unique=True)
+    password = db.Column(db.String(32), nullable=False)
+    emailUsuario = db.Column(db.String(100), nullable=False, unique=True)
     estadoUsuario = db.Column(db.String(8))
+    confirmationHash = db.Column(db.String(50))
     idTipoUsuario = db.Column(db.Integer, db.ForeignKey('tipoUsuario.idTipoUsuario'))
     children = db.relationship("empleado")
     children2 = db.relationship("cliente")
 
-    def __init__(self, usuario, password, estadoUsuario, idTipoUsuario):
+    def get_id(self):
+           return (self.idUsuario)
+
+    def __init__(self, usuario, password, emailUsuario, estadoUsuario, confirmationHash,idTipoUsuario):
         self.usuario = usuario
         self.password = password
+        self.emailUsuario = emailUsuario
         self.estadoUsuario = estadoUsuario
+        self.confirmationHash = confirmationHash
         self.idTipoUsuario = idTipoUsuario
 
 class empleado(db.Model):
@@ -76,15 +84,17 @@ class compra(db.Model):
     idCompra = db.Column(db.Integer, primary_key=True)
     fechaCompra = db.Column(db.DateTime)
     totalCompra = db.Column(db.Integer)
+    especificacionCompra = db.Column(db.String(100))
     idEmpleado = db.Column(db.Integer, db.ForeignKey('empleado.idEmpleado'))
     idProovedor = db.Column(db.Integer, db.ForeignKey('proovedor.idProovedor'))
     children = db.relationship("producto", secondary=association_table2)
 
-    def __init__(self, fechaCompra, totalCompra, idEmpleado, idProovedor):
+    def __init__(self, fechaCompra, totalCompra, idEmpleado, idProovedor, especificacionCompra):
         self.fechaCompra = fechaCompra
         self.totalCompra = totalCompra
         self.idEmpleado = idEmpleado
         self.idProovedor = idProovedor
+        self.especificacionCompra = especificacionCompra
 
 class cliente(db.Model):
     __tablename__ = 'cliente'
