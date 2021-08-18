@@ -15,4 +15,4 @@ def index():
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/error404', defaults={'_route': '404'})
 def navigationPages(_route):
-    return render_template(_route+'.html')
+    return render_template(_route+'.html');
