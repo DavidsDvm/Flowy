@@ -1,4 +1,3 @@
-from email import message
 import smtplib
 import os
 
