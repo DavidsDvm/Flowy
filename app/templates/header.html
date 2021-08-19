@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <!-- index css -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header_css.css') }}">
     <!-- Boostrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    
+    <!-- iconos-->
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <title>Floowy</title>
 </head>
 <body>
@@ -52,7 +53,19 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+                                        <tr>
+                                            <td><img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" width="30px" class="shopping_card-picture"></img></td>
+                                            <td>Flores</td>
+                                            <td>500000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" width="30px" class="shopping_card-picture"></img></td>
+                                            <td>Lirios</td>
+                                            <td>500000</td>
+                                        </tr>
+                                    </tbody>
+                                    
                                 </table>
                                 <hr class="dropdown-divider">
                                 <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar</a>
