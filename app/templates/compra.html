@@ -19,25 +19,10 @@
             <div class="col">
                 <h2 class="d-flex justify-content-center mb-3">Realizar Compra</h2>
                 <form id="procesar-pago">
-                    <div class="form-group row">
-                        <label for="cliente" class="col-12 col-md-2 col-form-label h2">Cliente :</label>
-                        <div class="col-12 col-md-10">
-                            <input type="text" class="form-control" id="cliente"
-                                placeholder="Ingresa nombre cliente" name="destinatario">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <label for="email" class="col-12 col-md-2 col-form-label h2">Correo :</label>
-                        <div class="col-12 col-md-10">
-                            <input type="text" class="form-control" id="correo" placeholder="Ingresa tu correo" name="cc_to">
-                        </div>
-                    </div>
-
                     <div  class="form-group table-responsive" >
                         <table class="form-group table" id="lista-compra" >
                             <thead>
-                                <tr>
+                                <tr class="shopping_card-center">
                                     <th scope="col">Imagen</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Precio</th>
@@ -47,8 +32,24 @@
                                 </tr>
 
                             </thead>
-                            <tbody >
+                            <tbody class="shopping_card-center">
                                 <tr>
+                                    <td><img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}"  class="shopping_card-picture_mode"></img></td>
+                                    <td>Flores</td>
+                                    <td>50000</td>
+                                    <td>5</td>
+                                    <td>250000</td>
+                                    <td><i class="icon ion-md-close"></i></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}"  class="shopping_card-picture_mode"></img></td>
+                                    <td>Flores</td>
+                                    <td>50000</td>
+                                    <td>5</td>
+                                    <td>250000</td>
+                                    <td><i class="icon ion-md-close"></i></td>
+                                </tr>
+                                <tr class="justify-content-end">
                                     <th colspan="4" scope="col" class="text-right">SUB TOTAL :</th>
                                     <th scope="col">
                                         <p id="subtotal"></p>
