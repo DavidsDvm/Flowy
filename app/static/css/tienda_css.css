@@ -9,6 +9,18 @@ body {
     background-color: #fbf4ea !important;
 }
 
+.shopping_card-picture_mode{
+    width: 5vw;
+}
+
+.shopping_card-picture{
+    width: 2vw;
+}
+
+.shopping_card-center{
+    text-align: center;
+}
+
 
 .mainContent {
     background-color: #fbf4ea;
