@@ -15,6 +15,7 @@ def index():
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/compra', defaults={'_route': 'compra'})
 @app.route('/error404', defaults={'_route': '404'})
+@app.route('/description', defaults={'_route': 'productDescription'})
 def navigationPages(_route):
     return render_template(_route+'.html');
 

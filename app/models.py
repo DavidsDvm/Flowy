@@ -1,3 +1,4 @@
+from enum import unique
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 
@@ -16,6 +17,7 @@ class usuario(UserMixin, db.Model):
     __tablename__ = 'usuario'
     idUsuario = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(25), nullable=False, unique=True)
+    avatar = db.Column(db.String(200))
     password = db.Column(db.String(32), nullable=False)
     emailUsuario = db.Column(db.String(100), nullable=False, unique=True)
     estadoUsuario = db.Column(db.String(8))
@@ -27,8 +29,9 @@ class usuario(UserMixin, db.Model):
     def get_id(self):
            return (self.idUsuario)
 
-    def __init__(self, usuario, password, emailUsuario, estadoUsuario, confirmationHash,idTipoUsuario):
+    def __init__(self, usuario, avatar, password, emailUsuario, estadoUsuario, confirmationHash,idTipoUsuario):
         self.usuario = usuario
+        self.avatar = avatar
         self.password = password
         self.emailUsuario = emailUsuario
         self.estadoUsuario = estadoUsuario
@@ -143,6 +146,7 @@ class pedido(db.Model):
 class producto(db.Model):
     __tablename__ = 'producto'
     idProducto = db.Column(db.Integer, primary_key=True)
+    imgProducto = db.Column(db.String(200))
     precioProducto = db.Column(db.Integer)
     nombreProducto = db.Column(db.String(15))
     cantidadProducto = db.Column(db.Integer)
@@ -150,7 +154,8 @@ class producto(db.Model):
     idTipProducto = db.Column(db.Integer, db.ForeignKey('tipoProducto.idProducto'))
     child = db.relationship("tipoProducto")
 
-    def __init__(self, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, idTipProducto):
+    def __init__(self, imgProducto, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, idTipProducto):
+        self.imgProducto = imgProducto
         self.precioProducto = precioProducto
         self.nombreProducto = nombreProducto
         self.cantidadProducto = cantidadProducto
