@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/description_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Detalle Producto
+{% endblock title %}
+
+{% block header_type %}
+    {% include 'header.html' %}
+{% endblock header_type %}
+
+{% block main__content %}
+
+   <section class="mainContent">
+        <div class="mainContent__main">
+            <div class="mainContent__main--bigProduct">
+                <div class="imagenContent">
+                    <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" alt="Flores en un jarron" class="aligment-center">
+                </div>
+                <div class="textContent">
+                    <h1>Lavanda Unit</h1>
+                    <p>Precio: $5000<br>
+                       Descuento:<c class="text-muted p-0"> NO APLICA </c><br>´
+                       <hr class="dropdown-divider pt-0"></hr>
+                        Descripcion del producto<br><br>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut fugiat cumque odit, autem perspiciatis harum blanditiis modi eius animi facere deleniti tempore amet dolorum dolor accusamus fuga. Ipsam, doloremque pariatur!<br>
+                    </p>
+                    <div class="input-group mb-3 d-flex">
+                        <span class="input-group-text">Cantidad</span>
+                        <input type="number" class="input-quantity">
+                        <button class="btn-agregate">Agregar Carrito</button>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="mainContent__main--products text-center">
+                <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}">
+                <img src="{{ url_for('static', filename='img/shop_flower_2.jpg') }}">
+                <img src="{{ url_for('static', filename='img/shop_flower_3.jpg') }}">
+            </div>
+        </div>
+    </section>
+
+
+{% endblock main__content %}
+
+{% block footer_type %}
+    {% include 'footer.html' %}
+{% endblock footer_type %}
