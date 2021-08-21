@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, session
 
 from app import create_app
 from app.auth import auth
@@ -17,3 +17,9 @@ def index():
 @app.route('/error404', defaults={'_route': '404'})
 def navigationPages(_route):
     return render_template(_route+'.html');
+
+# @app.route('/tienda/<int:id>', methods =['POST'])
+# def shopAdd(id):
+#     if (request.method == 'POST'):
+#         session['shoppingCart'] = []
+        
