@@ -146,20 +146,20 @@ class pedido(db.Model):
 class producto(db.Model):
     __tablename__ = 'producto'
     idProducto = db.Column(db.Integer, primary_key=True)
-    imgProducto = db.Column(db.String(200))
     precioProducto = db.Column(db.Integer)
-    nombreProducto = db.Column(db.String(15))
+    nombreProducto = db.Column(db.String(50))
     cantidadProducto = db.Column(db.Integer)
-    especificacionProducto = db.Column(db.String(100))
+    especificacionProducto = db.Column(db.String(255))
+    idImagenes = db.Column(db.String(255), db.ForeignKey('imagenesProducto.idImagenes'))
     idTipProducto = db.Column(db.Integer, db.ForeignKey('tipoProducto.idProducto'))
     child = db.relationship("tipoProducto")
 
-    def __init__(self, imgProducto, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, idTipProducto):
-        self.imgProducto = imgProducto
+    def __init__(self, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, idImagenes ,idTipProducto):
         self.precioProducto = precioProducto
         self.nombreProducto = nombreProducto
         self.cantidadProducto = cantidadProducto
         self.especificacionProducto = especificacionProducto
+        self.idImagenes = idImagenes
         self.idTipProducto = idTipProducto
 
 class tipoProducto(db.Model):
@@ -169,3 +169,20 @@ class tipoProducto(db.Model):
 
     def __init__(self, nombreTipo):
         self.nombreTipo = nombreTipo
+
+class imagenesProducto(db.Model):
+    __tablename__ = 'imagenesProducto'
+    idImagenes = db.Column(db.Integer, primary_key=True)
+    imagen1 = db.Column(db.String(255), nullable=False)
+    imagen2 = db.Column(db.String(255))
+    imagen3 = db.Column(db.String(255))
+    imagen4 = db.Column(db.String(255))
+    imagen5 = db.Column(db.String(255))
+    children = db.relationship("producto")
+
+    def __init__(self, imagen1, imagen2, imagen3, imagen4, imagen5):
+        self.imagen1 = imagen1
+        self.imagen2 = imagen2
+        self.imagen3 = imagen3
+        self.imagen4 = imagen4
+        self.imagen5 = imagen5
