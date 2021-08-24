@@ -57,6 +57,18 @@
                                 })
                             </script>                    
                         {% endif %}
+                        {% if category == 'info' %}
+                            <script>
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'warning',
+                                    title: 'Atencion',
+                                    text: "{{message}}",
+                                    showConfirmButton: true,
+                                    timer: 5000
+                                })
+                            </script>                    
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             {% endwith  %}
