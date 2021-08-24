@@ -19,28 +19,41 @@
         <div class="mainContent__main">
             <div class="mainContent__main--bigProduct">
                 <div class="imagenContent">
-                    <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" alt="Flores en un jarron" class="aligment-center">
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen1) }}" alt="Flores en un jarron" class="aligment-center">
                 </div>
                 <div class="textContent">
-                    <h1>Lavanda Unit</h1>
-                    <p>Precio: $5000<br>
+                    <h1>{{data.nombreProducto}}</h1>
+                    <p>${{data.precioProducto}}<br>
                        Descuento:<c class="text-muted p-0"> NO APLICA </c><br>´
                        <hr class="dropdown-divider pt-0"></hr>
-                        Descripcion del producto<br><br>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut fugiat cumque odit, autem perspiciatis harum blanditiis modi eius animi facere deleniti tempore amet dolorum dolor accusamus fuga. Ipsam, doloremque pariatur!<br>
+                        Descripcion del producto:<br><br>
+                        {{data.especificacionProducto}}<br>
                     </p>
-                    <div class="input-group mb-3 d-flex">
-                        <span class="input-group-text">Cantidad</span>
-                        <input type="number" class="input-quantity">
-                        <button class="btn-agregate">Agregar Carrito</button>
-                    </div>
-                    
+                    <form action="{{url_for('addCart')}}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <div class="input-group">
+                            <input type="hidden" name="product_id" value="{{data.idProducto}}">
+                            <div class="input-quantity">
+                                <span class="input-group-text">Cantidad</span>
+                                <input type="number" name="quantity" value="1" min="1" max="{{data.cantidadProducto}}">
+                            </div>
+                            <button class="btn-agregate">Agregar Carrito</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="mainContent__main--products text-center">
-                <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}">
-                <img src="{{ url_for('static', filename='img/shop_flower_2.jpg') }}">
-                <img src="{{ url_for('static', filename='img/shop_flower_3.jpg') }}">
+                {% if imagenes.imagen2 != none %}
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen2) }}">
+                {% endif %}
+                {% if imagenes.imagen3 != none %}
+                    <p>{{'imagenes.imagen'~i | safe}}</p>
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen3) }}">
+                {% endif %}
+                {% if imagenes.imagen4 != none %}
+                    <p>{{'imagenes.imagen'~i | safe}}</p>
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen4) }}">
+                {% endif %}
             </div>
         </div>
     </section>
