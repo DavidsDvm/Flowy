@@ -11,6 +11,14 @@ app = create_app()
 def not_found(error):
     return render_template('404.html', error=error)
 
+@app.errorhandler(500)
+def not_found(error):
+    return render_template('500.html', error=error)
+
+@app.errorhandler(505)
+def not_found(error):
+    return render_template('505.html', error=error)
+
 @app.route('/')
 @app.route('/index')
 def index():
