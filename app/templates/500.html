@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css_style %}
-    {{ url_for('static', filename='css/404_css.css') }}
+    {{ url_for('static', filename='css/errores_css.css') }}
 {% endblock css_style %}
 
 {% block title %}
@@ -10,26 +10,17 @@
 {% endblock title %}
 
 {% block main__content %}
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Error 405</title>
-        <link rel="stylesheet" href="estilos.css">
-    </head>
-    <body>
-        <div class="container-404">
-            <p style="text-align: center;">
-                <img src="https://i.postimg.cc/3N8B6Q88/logo.png" width="120px;">
-            <h1>Error 505</h1>
-            <p>Esta pàgina no se encuentra disponible en estos momentos. Esto puede deberse a un problema de actualización. 
-                Disculpa las molestias.</p>
-                <p>
-                    Floowy ©
-                </p>
-            <a href="index.html" class="boton">
-                Pàgina Principal
-            </a>
-        </div>
-    </body>
-</html>
+<div class="container-404">
+    <p style="text-align: center;">
+        <img src="{{ url_for('static', filename='img/Logo_Flowy.svg') }}" width="120px;">
+    <h1>Error 505</h1>
+    <p>Esta pàgina no se encuentra disponible en estos momentos. Esto puede deberse a un problema de actualización. 
+        Disculpa las molestias.</p>
+        <p>
+            Floowy ©
+        </p>
+    <a href="index.html" class="boton">
+        Pàgina Principal
+    </a>
+</div>
 {% endblock main__content %}

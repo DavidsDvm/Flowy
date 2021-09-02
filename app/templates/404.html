@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css_style %}
-    {{ url_for('static', filename='css/404_css.css') }}
+	{{ url_for('static', filename='css/errores_css.css') }}
 {% endblock css_style %}
 
 {% block title %}
@@ -10,24 +10,16 @@
 {% endblock title %}
 
 {% block main__content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="UTF-8">
-	<title>Error 404</title>
-	<link rel="stylesheet" href="../static/css/errores_css.css">
-	</style>
-</head>
 <body>
 	<div class="container-404">
 		<p style="text-align: center;">
-			<img src="https://i.postimg.cc/3N8B6Q88/logo.png" width="120px;">
+			<img src="{{ url_for('static', filename='img/Logo_Flowy.svg') }}" width="120px;">
 		<h1>Error 404</h1>
 		<p>Esta pàgina no se encuentra disponible en estos momentos. Disculpa las molestias.</p>
 		<p>
 			Floowy ©
 		</p>
-		<a href="/index" class="boton">
+		<a href="{{ url_for('index') }}" class="boton">
 			Página Principal
 		</a>
 	</div>
