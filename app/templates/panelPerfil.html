@@ -1,0 +1,124 @@
+{% extends 'basePanel.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/panel_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Perfil
+{% endblock title %}
+
+{% block lateralBar %}
+    {% include 'panelLateralBar.html' %}
+{% endblock lateralBar %}
+
+{% block topNavbar %}
+    {% include 'panelNavbar.html' %}
+{% endblock topNavbar %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <div class="card w-100">
+            <div class="card-body">
+                <a data-bs-toggle="modal" data-bs-target="#modalEdit" class="btn btn-light position-absolute  mr-2 btn-edit-perf"><i class="icon ion-md-create "> Editar Datos</i></a>
+                <h2 class="card-title"><i class="icon ion-md-contact">PERFIL</i></h2>
+                <br>
+                <div class="card-text">
+                    <div class="img">
+                        <img src="../static/img/userImage_1.png" class="rounded-circle  img-fluid">
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Nombres</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="David Sanchez">
+                        </div>
+                        <div class="border-bottom"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Dirección</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="Cll 54 A Sur #37-11">
+                        </div>
+                        <div class="border-bottom"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Correo</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="santiago.sanchezda@gmail.com">
+                        </div>
+                        <div class="border-bottom"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Telefono</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="3168097495">
+                        </div>
+                        <div class="border-bottom"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ciudad</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="Bogota">
+                        </div>
+                        <div class="border-bottom"></div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Documento</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext fro" value="1030524257">
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <!-- Modal de Editar -->
+          <div id="modalEdit" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar Datos Perfil</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <label>Nombres</label>
+                                <input type="text" class="form-control" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Direccion</label>
+                                <input type="text" class="form-control" name="proovedorName" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Correo</label>
+                                <input type="text" class="form-control" name="proovedorName" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefono</label>
+                                <input type="number" maxlength="10" class="form-control" name="quantity" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Ciudad</label>
+                                <input type="text" class="form-control" name="fechaCompra" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Documento</label>
+                                <input type="number" class="form-control" name="fechaCompra" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Foto</label>
+                                <input type="file" class="form-control" name="fechaCompra" placeholder="Foto" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" type="submit">Guardar</button>
+                                <button type="button" class="btn btn-secondary more" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

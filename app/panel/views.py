@@ -24,6 +24,25 @@ def comprasPanel():
 
     return render_template('panelCompras.html', **context)
 
+# @panel.route('/usuarios', defaults={'_route': 'panelUsuarios'})
+# def usuariosPanel():
+#     context = {
+#         'personalName': session['username']
+#     }
+
+#     return render_template('panelUser.html', **context)
+
+
+@panel.route('/perfil')
+def perfilPanel():
+    context = {
+        'personalName': session['username']
+    }
+
+    return render_template('panelPerfil.html', **context)
+
+
+
 @panel.route('/compras/insert', methods =['POST'])
 def addCompras():
     if (request.method == 'POST'):

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/description_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Detalle Producto
+{% endblock title %}
+
+{% block header_type %}
+    {% include 'header.html' %}
+{% endblock header_type %}
+
+{% block main__content %}
+
+   <section class="mainContent">
+        <div class="mainContent__main">
+            <div class="mainContent__main--bigProduct">
+                <div class="imagenContent">
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen1) }}" alt="Flores en un jarron" class="aligment-center">
+                </div>
+                <div class="textContent">
+                    <h1>{{data.nombreProducto}}</h1>
+                    <p>${{data.precioProducto}}<br>
+                       Descuento:<c class="text-muted p-0"> NO APLICA </c><br>´
+                       <hr class="dropdown-divider pt-0"></hr>
+                        Descripcion del producto:<br><br>
+                        {{data.especificacionProducto}}<br>
+                    </p>
+                    <form action="{{url_for('addCart')}}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <div class="input-group">
+                            <input type="hidden" name="product_id" value="{{data.idProducto}}">
+                            <div class="input-quantity">
+                                <span class="input-group-text">Cantidad</span>
+                                <input type="number" name="quantity" value="1" min="1" max="{{data.cantidadProducto}}">
+                            </div>
+                            <button class="btn-agregate">Agregar Carrito</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mainContent__main--products text-center">
+                {% if imagenes.imagen2 != none %}
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen2) }}">
+                {% endif %}
+                {% if imagenes.imagen3 != none %}
+                    <p>{{'imagenes.imagen'~i | safe}}</p>
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen3) }}">
+                {% endif %}
+                {% if imagenes.imagen4 != none %}
+                    <p>{{'imagenes.imagen'~i | safe}}</p>
+                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen4) }}">
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+{% endblock main__content %}
+
+{% block footer_type %}
+    {% include 'footer.html' %}
+{% endblock footer_type %}

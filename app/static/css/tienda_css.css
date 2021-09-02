@@ -6,7 +6,21 @@ html {
 body {
     width: 100%;
 	min-height: 100%;
+    background-color: #fbf4ea !important;
 }
+
+.shopping_card-picture_mode{
+    width: 5vw;
+}
+
+.shopping_card-picture{
+    width: 2vw;
+}
+
+.shopping_card-center{
+    text-align: center;
+}
+
 
 .mainContent {
     background-color: #fbf4ea;
@@ -215,4 +229,9 @@ body {
     font-weight: 400;
     font-size: 14px;
     text-align: center;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
 }

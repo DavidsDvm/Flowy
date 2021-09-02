@@ -1,0 +1,138 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+	min-height: 100%;
+    background-color: #fbf4ea !important;
+}
+
+.mainContent {
+    background-color: #fbf4ea;
+    max-width: 100%;
+}
+
+.mainContent__main--img {
+    max-width: 100%;
+    width: 90%;
+    position: relative;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    text-align: center;
+    color: white;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.mainContent__main--img img {
+    height: 25em;
+    width: 100%;
+}
+
+.mainContent__main--bigProduct {
+    padding-top: 3em;
+    display: flex;
+    max-width: 100%;
+    width: 100%;
+}
+
+.mainContent__main--bigProduct .imagenContent {
+    width: 75%;
+    margin-left: 5%;
+}
+
+.mainContent__main--bigProduct .textContent {
+    width: 25%;
+    padding-right: 2em;
+}
+
+.mainContent__main--bigProduct img{
+    width: 75%;
+    height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: 2em;
+}
+
+.mainContent__main--bigProduct .textContent h1{
+    color: #000000;
+    font-family: "DM Serif Display";
+    font-weight: 600;
+    font-size: 1.2em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.mainContent__main--bigProduct .input-group input{
+    padding: 4px 8px 4px 8px;
+    background: #ffffff;
+    color: #6d6a6a;
+    border-color: #232323;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px 3px 3px 3px;
+    font-family: "DM Serif Text";
+    font-weight: 400;
+    font-size: 14px;
+    text-align: left;
+    width: 60%;
+}
+
+.mainContent__main--bigProduct .input-group span{
+    padding: 4px 8px 4px 8px;
+    border-color: #232323;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px 3px 3px 3px;
+    font-family: "DM Serif Text";
+    font-weight: 400;
+    font-size: 14px;
+    text-align: left;
+    width: 40%;
+}
+
+.mainContent__main--bigProduct .input-quantity{
+    width: 50%;
+    display: flex;
+}
+
+.mainContent__main--bigProduct .input-group button{
+    width: 50%;
+}
+
+.mainContent__main--bigProduct .textContent button {
+    padding: 0px 10px 0px 10px;
+    background: #000000;
+    color: #ffffff;
+    border-color: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px 5px 5px 5px;
+    font-family: "Helvetica";
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    height: 2.5em;
+}
+
+.mainContent__main--products {
+    margin-top: 3em;
+    padding-bottom: 3em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mainContent__main--products img {
+    width: 10em;
+    height: 8em;
+    margin-right: 2em;
+}
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+}
