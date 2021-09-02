@@ -24,10 +24,22 @@ def comprasPanel():
 
     return render_template('panelCompras.html', **context)
 
-@panel.route('/perfil', defaults={'_route': 'perfil'})
-@panel.route('/usuarios', defaults={'_route': 'usuarios'})
-def navigationPages(_route):
-    return render_template(_route+'.html');
+# @panel.route('/usuarios', defaults={'_route': 'panelUsuarios'})
+# def usuariosPanel():
+#     context = {
+#         'personalName': session['username']
+#     }
+
+#     return render_template('panelUser.html', **context)
+
+
+@panel.route('/perfil')
+def perfilPanel():
+    context = {
+        'personalName': session['username']
+    }
+
+    return render_template('panelPerfil.html', **context)
 
 
 
