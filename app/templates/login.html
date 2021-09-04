@@ -14,6 +14,17 @@
 {% endblock title %}
 
 {% block main__content %}
+  <script>
+    function alertTemsNConditions(){
+      Swal.fire({
+        icon: 'info',
+        title: 'Terminos y condiciones',
+        text: 'TERMINOS',
+        footer: '<span class="text-center">Floowy © 2021 - Todos los derechos reservados - Términos y condiciones de uso</span>'
+      })
+    }
+  </script>
+
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
@@ -63,7 +74,7 @@
           <div class="input-check">
             <i class="fas fa-user-check"></i>
             <input type="checkbox" />
-            <label><a href="#">Acepto Terminos y condiciones</a></label>
+            <label><a href="#" onClick="alertTemsNConditions()">Acepto Terminos y condiciones</a></label>
           </div>
           {{ register_form.submitRegister(class_="btn solid") }}
           <p class="social-text">O inicia sesion con:</p>
