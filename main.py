@@ -1,9 +1,11 @@
 from flask import render_template, request, session, redirect, url_for, flash
 from flask_login import current_user
+from datetime import datetime
 
 from app import create_app
 from app.auth import auth
-from app.models import producto, imagenesProducto, db
+from app.auth.views import load_user
+from app.models import producto, imagenesProducto, cliente, pedido, pedidoProducto, db
 
 app = create_app()
 
@@ -95,8 +97,26 @@ def buyShopping():
 
     if request.method == 'POST':
         if current_user.is_authenticated:
-            flash('comprado!', 'success')
-            return redirect(url_for('index'))
+            currentUserIsClient = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
+            if currentUserIsClient:
+                especificacionPedido = "Compra del usuario: " + str(current_user.usuario)
+                newPedido = pedido(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total, especificacionPedido, 'Activo', currentUserIsClient.idCliente)
+                db.session.add(newPedido)
+                db.session.commit()
+                                
+                for key in session['Shoppingcart']:
+                    precio = int(session['Shoppingcart'][key]['precio'])
+                    inventario = int(session['Shoppingcart'][key]['cantidad'])
+                    subtotal = precio * inventario
+                    nuevoProducto = pedidoProducto(newPedido.idPedido, key, subtotal , int(session['Shoppingcart'][key]['cantidad']))
+                    db.session.add(nuevoProducto)
+
+                db.session.commit()
+
+                flash('comprado!', 'success')
+                return redirect(url_for('index'))
+            else:
+                flash('Ya solo falta tu info bancaria', 'info')
         else:
             flash('Ya casi tienes tu producto, primero registrate', 'info')
             return redirect(url_for('auth.login'))
