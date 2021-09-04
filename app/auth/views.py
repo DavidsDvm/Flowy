@@ -17,7 +17,10 @@ login_manager.login_message_category = "error"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return usuario.query.get(int(user_id))
+    try:
+        return usuario.query.get(user_id)
+    except:
+        return None
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,7 +66,7 @@ def login():
         if user or mail:
             flash('Este usuario o correo ya existen, prueba con otro', 'error')
         else: 
-            new_user = usuario(nombreUsuario, password, correo,estadoUsuario, confirmationHash, idTipoUsuario)
+            new_user = usuario(nombreUsuario, None, password, correo, estadoUsuario, confirmationHash, idTipoUsuario)
             db.session.add(new_user)
             db.session.commit()
 
