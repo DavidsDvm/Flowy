@@ -100,16 +100,18 @@ class compra(db.Model):
     fechaCompra = db.Column(db.DateTime)
     totalCompra = db.Column(db.Integer)
     especificacionCompra = db.Column(db.String(100))
+    estadoCompra = db.Column(db.String(12))
     idEmpleado = db.Column(db.Integer, db.ForeignKey('empleado.idEmpleado'))
     idProovedor = db.Column(db.Integer, db.ForeignKey('proovedor.idProovedor'))
     compraMTM = db.relationship("compraProducto", back_populates="compra")
 
-    def __init__(self, fechaCompra, totalCompra, especificacionCompra, idEmpleado, idProovedor):
+    def __init__(self, fechaCompra, totalCompra, especificacionCompra, estadoCompra, idEmpleado, idProovedor):
         self.fechaCompra = fechaCompra
         self.totalCompra = totalCompra
+        self.especificacionCompra = especificacionCompra
+        self.estadoCompra = estadoCompra
         self.idEmpleado = idEmpleado
         self.idProovedor = idProovedor
-        self.especificacionCompra = especificacionCompra
 
 class cliente(db.Model):
     __tablename__ = 'cliente'
