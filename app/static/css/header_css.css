@@ -9,13 +9,14 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-}
+}	
 .header__nav__main--title p{
 	color: #000000;
 	font-family: "Helvetica";
 	font-weight: 500;
-	font-size: 14px;
+	font-size: 20px;
 	text-align: center;
+	padding-top: 2%;
 }
 .header__nav__main--options {
 	color: #000000;
@@ -59,4 +60,28 @@
 .flower-cute img{
 	width: 426px;
 	height: 425px;
+}
+
+.row {
+	font-size: 80% !important;
+}
+
+.submenu{
+	position: relative;
+}
+.submenu #carrito{
+	display: none;
+}
+.submenu:hover #carrito {
+	display: block;
+	color: #fff;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	background:#17181b;
+	padding: 20px;
+}
+
+.f{
+	float: right;
 }
