@@ -1,0 +1,244 @@
+{% extends 'basePanel.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/panel_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Usuarios
+{% endblock title %}
+
+{% block lateralBar %}
+    {% include 'panelLateralBar.html' %}
+{% endblock lateralBar %}
+
+{% block topNavbar %}
+    {% include 'panelNavbar.html' %}
+{% endblock topNavbar %}
+
+{% block userMessage %}
+    {% include 'panelUserMessage.html' %}
+{% endblock userMessage %}
+
+{% block content %}
+<section class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 my-3 " >
+                <div class="card rounded-0">
+                    <div class="card-header bg-light">
+                        <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex border-bottom py-2">
+                            <div class="mr-3 d-flex">
+                            <h2 class="mb-0 align-self-center"><a href="/panel/pedidos/" style="color: inherit;"><i class="icon ion-md-pricetags"></i></a></h2></div>
+                            <div class="align-self-center">
+                                <div id="foto">
+                                    <a href="/panel/pedidos/delete/" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                        <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                        <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                            <h2><i class="icon ion-md-close"></i></h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create"></i></button>
+                                <h6 class="text-muted d-inline-block">a</h6>
+                                <span class="badge badge-dark ml-2">a</span>
+                                <small class="d-block text-muted">a</small>
+                            </div>
+                        </div>
+
+                        <!-- Modales -->
+                        <!-- Modal New Empleado -->
+                        <div id="modalAdd" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="name-f">Seleccionar Tipo</h4>
+                                    </div>
+                                    <form class="modal-body" action="" method="POST">
+                                        <input type="button" class="btn btn-dark btn-f" onclick="fun()" value="Seleccionar">
+                                        <select class="form-select in-f" id="DIST" >
+                                            <option selected>Seleccione Tipo Usuario</option>
+                                            <option value="1">Usuario</option>
+                                            <option value="2">Empleado</option>
+                                        </select>
+                                    </form>
+                                    <div class="modal-body" id="Users" style="display: none;">
+                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                            <div class="form-group">
+                                                <label>Nombre Usuario</label>
+                                                <input type="text" class="form-control" name="name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Contraseña</label>
+                                                <input type="password" class="form-control" name="pass" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Correo</label>
+                                                <input type="email" class="form-control" name="email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Foto</label>
+                                                <input type="file" class="form-control" name="fechaCompra" placeholder="Foto" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success" type="submit">Añadir</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-body" id="Empleados" style="display: none;">
+                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                            <div class="form-group">
+                                                <label>Nombre Empleado</label>
+                                                <input type="text" class="form-control" name="nameEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tipo Empleado</label>
+                                                <input type="text" class="form-control" name="tipEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Celular Empleado</label>
+                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>tipoDocEmpleado</label>
+                                                <select class="form-select">
+                                                    <option selected>Seleccione Documento</option>
+                                                    <option value="CE">CE</option>
+                                                    <option value="CC">CC</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Doc Empleado</label>
+                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Usuario</label>
+                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success" type="submit">Añadir</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Editar Empleados -->
+                        <div id="modalEdit" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Editar Pedido</h4>
+                                    </div>
+                                    <div class="modal-body" id="Empleados" style="display: none;">
+                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                            <div class="form-group">
+                                                <label>Nombre Empleado</label>
+                                                <input type="text" class="form-control" name="nameEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tipo Empleado</label>
+                                                <input type="text" class="form-control" name="tipEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Celular Empleado</label>
+                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>tipoDocEmpleado</label>
+                                                <select class="form-select">
+                                                    <option selected>Seleccione Documento</option>
+                                                    <option value="CE">CE</option>
+                                                    <option value="CC">CC</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Doc Empleado</label>
+                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Usuario</label>
+                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success" type="submit">Modificar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Editar Usuarios -->
+                        <div class="modal-body" id="Users" style="display: none;">
+                            <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                <div class="form-group">
+                                    <label>Nombre Usuario</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contraseña</label>
+                                    <input type="password" class="form-control" name="pass" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Correo</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Foto</label>
+                                    <input type="file" class="form-control" name="fechaCompra" placeholder="Foto" required>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit">Modificar</button>
+                                </div>
+                            </form>
+                        </div><br>
+                        <div>
+                            <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function fun(){
+    var LOCK = document.getElementById('DIST');
+    var Select = LOCK.options[LOCK.selectedIndex].value;
+
+    if (Select == "1") {
+        document.getElementById("name-f").innerHTML = "Agregar Usuario";
+        document.getElementById("Users").style.display = "block";
+        document.getElementById("Empleados").style.display = "none";
+    }else if (Select == "2") {
+        document.getElementById("name-f").innerHTML = "Agregar Empleado";
+        document.getElementById("Users").style.display = "none";
+        document.getElementById("Empleados").style.display = "block";
+    }
+}
+</script>
+{% endblock content %}
