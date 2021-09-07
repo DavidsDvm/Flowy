@@ -3,7 +3,7 @@ from sqlalchemy import Integer, func
 from datetime import date
 
 from . import panel
-from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor,db 
+from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, db 
 
 @panel.route('/', methods=['GET', 'POST'])
 @panel.route('/inicio', methods=['GET', 'POST'])
@@ -111,9 +111,9 @@ def pedidosPanelEspecific(id):
     my_data = pedidoProducto.query.filter_by(idPedido = id)
     productos = {}
     for key, data in enumerate(my_data, start=1):
+        imagen = imagenesProducto.query.filter_by(idImagenes = data.idProducto).first()
         productoNombre = producto.query.filter_by(idProducto = data.idProducto).first().nombreProducto
-        productos[key] = {'nombre' : productoNombre, 'subtotal' : data.subtotalPedidoProducto, 'cantidad' : data.cantidadPedidoProducto}
-    print(productos)
+        productos[key] = {'nombre' : productoNombre, 'subtotal' : data.subtotalPedidoProducto, 'cantidad' : data.cantidadPedidoProducto, 'imagen' : imagen.imagen1}
 
     context = {
         'personalName': session['username'],
