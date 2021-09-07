@@ -49,9 +49,18 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@panel.route('/usuarios')
+def usuariosPanel():
+    context = {
+        'usuarioLogeadoActualmente' : current_user
+    }
+
+    return render_template('panelUsuarios.html', **context)
 
 @panel.route('/perfil', methods =['GET', 'POST'])
 def perfilPanel():
