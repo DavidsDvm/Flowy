@@ -49,18 +49,39 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
+@panel.route('/usuarios')
+def usuariosPanel():
+    all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'usuarios' : all_data
+    }
+
+    return render_template('panelUsuarios.html', **context)
+
+@panel.route('/usuarios/<int:id>')
+def usuariosPanelEspecificacion(id):
+    all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
+    data = usuario.query.filter_by(idUsuario = id).first()
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'usuarios' : all_data
+    }
+    
+    if data.idTipoUsuario == 1 or data.idTipoUsuario == 3:
+        userEmp = empleado.query.filter_by(idUsuario = id).first()
+        context['especificacionUsuarioEmp'] = userEmp
+    if data.idTipoUsuario == 2:
+        userCli = cliente.query.filter_by(idCliente = id).first()
+        context['especificacionUsuarioCli'] = userCli
+
+   
+
+    return render_template('panelUsuarios.html', **context)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@panel.route('/usuarios')
-def usuariosPanel():
-    context = {
-        'usuarioLogeadoActualmente' : current_user
-    }
-
-    return render_template('panelUsuarios.html', **context)
 
 @panel.route('/perfil', methods =['GET', 'POST'])
 def perfilPanel():
