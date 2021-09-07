@@ -146,15 +146,16 @@
                                                 <div class="modal-body">
                                                         <div class="form-group">
                                                             {% for key, producto in productos.items() %}
-                                                                <label>nombre: </label>
-                                                                <input type="text" class="form-control disabled" placeholder="Flores" readonly>
-                                                                <label>subtotal: </label>
-                                                                <input type="number" class="form-control disabled" placeholder="2555" readonly>
-                                                                <label>cantidad: </label>
-                                                                <input type="number" class="form-control disabled" placeholder="2" readonly>
-                                                                <label>Especificacion Pedido: </label>
-                                                                <input type="text" class="form-control disabled" placeholder="Un Ramo De Rosas x2" readonly><br>
-                                                                <input type="text" class="form-control disabled" placeholder="Una arreglo floras tipo c" readonly>
+                                                            <div class="d-flex border-bottom py-2">
+                                                                <div class="mr-3 d-flex">
+                                                                    <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+producto.imagen) }}" alt="flower">
+                                                                </div>
+                                                                <div class="align-self-center">
+                                                                    <h6 class="text-muted d-inline-block">{{producto.nombre}}</h6>
+                                                                    <span class="badge badge-dark ml-2">${{producto.subtotal}}</span>
+                                                                    <small class="d-block text-muted">Cantidad: {{producto.cantidad}}</small>
+                                                                </div>
+                                                            </div>
                                                             {% endfor %}
                                                         </div>
                                                     </form>
