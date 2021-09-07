@@ -34,8 +34,8 @@
                             {{usuarioLogeadoActualmente.usuario}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                          <li><button class="dropdown-item" type="button">Mi Perfil</button></li>
-                          <li><button class="dropdown-item" type="button">Compras</button></li>
+                          <li><a class="dropdown-item" type="button" href="{{url_for('panel.perfilPanel')}}">Mi Perfil</a></li>
+                          <!-- <li><button class="dropdown-item" type="button">Compras</button></li> -->
                           <li><div class="dropdown-divider"></div></li>
                           <li><a class="dropdown-item" href="{{url_for('auth.logout')}}">Cerrar Sesion</a></li>
                         </ul>  
