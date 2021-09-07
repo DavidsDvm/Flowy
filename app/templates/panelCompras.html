@@ -32,26 +32,26 @@
                         </div>
 
                         <div class="card-body">
-                            {% for row in compras %}
+                            {% for key, compra in compras.items() %}
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
                                     <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-person" ></i></a></h2>
                                 </div>
                                 <div class="align-self-center">
                                     <div id = foto>
-                                        <a href="/panel/compras/delete/{{row.idCompra}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                        <a href="/panel/compras/delete/{{compra.idCompra}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
                                             <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
                                             <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
                                                 <h2><i class="icon ion-md-close"></i></h2>
                                             </div>
                                         </a>
                                     </div>
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit{{row.idCompra}}"><i class="icon ion-md-create "></i></button>
-                                    <h6 class="text-muted d-inline-block">{{row.especificacionCompra}}</h6>
-                                    <span class="badge badge-dark ml-2">${{row.totalCompra}}</span>
-                                    <small class="d-block text-muted">{{row.idEmpleado}}</small>
-                                    <small class="d-block text-muted">{{row.fechaCompra}}</small>
-                                    <small class="d-block text-muted">Proovedor: {{row.idProovedor}}</small>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit{{compra.idCompra}}"><i class="icon ion-md-create "></i></button>
+                                    <h6 class="text-muted d-inline-block">{{compra.especificacionCompra}}</h6>
+                                    <span class="badge badge-dark ml-2">${{compra.totalCompra}}</span>
+                                    <small class="d-block text-muted">Nombre empleado: {{compra.empleadoNombre}}</small>
+                                    <small class="d-block text-muted">{{compra.fechaCompra}}</small>
+                                    <small class="d-block text-muted">Proovedor: {{compra.proovedorNombre}}</small>
                                 </div>
                             </div>
 
@@ -94,25 +94,25 @@
                             </div>
 
                             <!-- Modal de Editar -->
-                            <div id="modalEdit{{row.idCompra}}" class="modal fade" role="dialog">
+                            <div id="modalEdit{{compra.idCompra}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Editar Compra</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/panel/compras/update/{{row.idCompra}}" method="POST">
+                                            <form action="/panel/compras/update/{{compra.idCompra}}" method="POST">
                                                 <div class="form-group">
                                                     <label>Total de la compra</label>
-                                                    <input type="number" class="form-control" name="totalPurchase" value="{{row.totalCompra}}" required>
+                                                    <input type="number" class="form-control" name="totalPurchase" value="{{compra.totalCompra}}" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nombre del Proovedor</label>
-                                                    <input type="test" class="form-control" name="proovedorName" value="{{row.idProovedor}}" required>
+                                                    <input type="test" class="form-control" name="proovedorName" value="{{compra.idProovedor}}" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Especificacion Compra</label>
-                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>{{row.especificacionCompra}}</textarea>
+                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>{{compra.especificacionCompra}}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Cantidad Pedida</label>
@@ -120,7 +120,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Fecha de Compra</label>
-                                                    <input type="date" class="form-control" name="fechaCompra" value="{{row.fechaCompra}}" required>
+                                                    <input type="date" class="form-control" name="fechaCompra" value="{{compra.fechaCompra}}" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <button class="btn btn-success" type="submit">Guardar</button>
@@ -143,6 +143,12 @@
                                         </div>
                                         <div class="modal-body">
                                                 <div class="form-group">
+                                                    <label>nombre: </label>
+                                                    <input type="text" class="form-control disabled" placeholder="Flores" readonly>
+                                                    <label>subtotal: </label>
+                                                    <input type="number" class="form-control disabled" placeholder="2555" readonly>
+                                                    <label>cantidad: </label>
+                                                    <input type="number" class="form-control disabled" placeholder="2" readonly>
                                                     <label>Especificacion Compra: </label>
                                                     <input type="text" class="form-control disabled" placeholder="1000 Flores Lirios" readonly><br>
                                                     <input type="text" class="form-control disabled" placeholder="300 Rosas" readonly>
