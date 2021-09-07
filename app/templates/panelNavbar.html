@@ -28,8 +28,8 @@
                     </form>
                     <div class="dropdown navbar-nav ml-auto mt-2 mt-lg-0">
                         <a class="dropdown-toggle nav-link text-dark" id="dropdownMenu2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ url_for('static', filename='img/userImage_1.png') }}" class="img-fluid rounded-circle avatar mr-2">
-                            {{personalName}}
+                            <img src="{{ url_for('static', filename='img/'+usuarioLogeadoActualmente.avatar) }}" class="img-fluid rounded-circle avatar mr-2">
+                            {{usuarioLogeadoActualmente.usuario}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                           <li><button class="dropdown-item" type="button">Mi Perfil</button></li>
