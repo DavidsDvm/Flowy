@@ -28,25 +28,35 @@
             <div class="col-lg-8 my-3 " >
                 <div class="card rounded-0">
                     <div class="card-header bg-light">
-                        <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6>
+                        <!-- <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6> -->
                     </div>
                     <div class="card-body">
+                        {% for usuario in usuarios %}
                         <div class="d-flex border-bottom py-2">
                             <div class="mr-3 d-flex">
-                            <h2 class="mb-0 align-self-center"><a href="/panel/pedidos/" style="color: inherit;"><i class="icon ion-md-pricetags"></i></a></h2></div>
+                            <h2 class="mb-0 align-self-center"><a href="/panel/usuarios/{{usuario.idUsuario}}" style="color: inherit;"><i class="icon ion-md-contact"></i></a></h2></div>
                             <div class="align-self-center">
                                 <div id="foto">
-                                    <a href="/panel/pedidos/delete/" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
-                                        <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                    <a href="/panel/pedidos/delete/{{usuario.idUsuario}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                        <img src="{{ url_for('static', filename='img/'+usuario.avatar) }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
                                         <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
                                             <h2><i class="icon ion-md-close"></i></h2>
                                         </div>
                                     </a>
                                 </div>
                                 <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create"></i></button>
-                                <h6 class="text-muted d-inline-block">a</h6>
-                                <span class="badge badge-dark ml-2">a</span>
-                                <small class="d-block text-muted">a</small>
+                                <h6 class="text-muted d-inline-block">{{usuario.usuario}}</h6>
+                                {% if usuario.idTipoUsuario == 1 %}
+                                    {% set tipoUsuario = 'Empleado' %}
+                                {% endif %}
+                                {% if usuario.idTipoUsuario == 2 %}
+                                    {% set tipoUsuario = 'Cliente' %}
+                                {% endif %}
+                                {% if usuario.idTipoUsuario == 3 %}
+                                    {% set tipoUsuario = 'Admin' %}
+                                {% endif %}
+                                <span class="badge badge-dark ml-2">{{tipoUsuario}}</span>
+                                <small class="d-block text-muted">{{usuario.emailUsuario}}</small>
                             </div>
                         </div>
 
@@ -180,7 +190,7 @@
                             </div>
                         </div>
 
-                        <!-- Modal Editar Usuarios -->
+                        <!-- Modal Editar Cliente -->
                         <div class="modal-body" id="Users" style="display: none;">
                             <form action="{{ url_for('panel.addPedidos') }}" method="POST">
                                 <div class="form-group">
@@ -204,6 +214,60 @@
                                 </div>
                             </form>
                         </div><br>
+                        {% if especificacionUsuarioEmp or especificacionUsuarioCli %}
+                        <script>
+                            $(document).ready(function(){
+                                $("#modalShowEsp").modal("show");
+                            });
+                        </script>
+                        <div id="modalShowEsp" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Especificacion Pedidos</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                            <div class="form-group">
+                                                {% if especificacionUsuarioEmp %}
+                                                    <div class="d-flex border-bottom py-2">
+                                                        <div class="mr-3 d-flex">
+                                                            <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
+                                                        </div>
+                                                        <div class="align-self-center">
+                                                            <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioEmp.nombreEmpleado}}</h6>
+                                                            <span class="badge badge-dark ml-2">Tipo de empleado: {{especificacionUsuarioEmp.tipoEmpleado}}</span>
+                                                            <small class="d-block text-muted">celular: {{especificacionUsuarioEmp.celularEmpleado}}</small>
+                                                            <small class="d-block text-muted">estado: {{especificacionUsuarioEmp.estadoemplado}}</small>
+                                                            <small class="d-block text-muted">tipo doc: {{especificacionUsuarioEmp.tipoDocEmpleado}}</small>
+                                                            <small class="d-block text-muted">Numero doc: {{especificacionUsuarioEmp.docEmpleado}}</small>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% if especificacionUsuarioCli %}
+                                                    <div class="d-flex border-bottom py-2">
+                                                        <div class="mr-3 d-flex">
+                                                            <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
+                                                        </div>
+                                                        <div class="align-self-center">
+                                                            <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioCli.nombreCliente}}</h6>
+                                                            <span class="badge badge-dark ml-2">Metodo de pago: {{especificacionUsuarioCli.tipoMetodoPago}}</span>
+                                                            <small class="d-block text-muted">Celular: {{especificacionUsuarioCli.celularCliente}}</small>
+                                                            <small class="d-block text-muted">direccion: {{especificacionUsuarioCli.direccionCliente}}</small>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                        {% endfor %}
                         <div>
                             <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
