@@ -22,37 +22,24 @@
 {% endblock userMessage %}
 
 {% block content %}
+    {% if usuarioLogeadoActualmente.idTipoUsuario == 1 or usuarioLogeadoActualmente.idTipoUsuario == 3 %}
     <section class="bg-mix">
         <div class="container">
             <div class="card rounded-0">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-3 d-flex stat my-3">
+                        <div class="col-lg-6 d-flex stat my-6">
                             <div class="mx-auto">
                                 <h6 class="text-muted">Ultimas Ventas</h6>
-                                <h3 class="font-weight-bold">$6000000</h3>
+                                <h3 class="font-weight-bold">${{ultimasGanancias}}</h3>
                                 <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
                             </div>  
                         </div>
-                        <div class="col-lg-3 d-flex stat my-3">
+                        <div class="col-lg-6 d-flex my-6">
                             <div class="mx-auto">
-                            <h6 class="text-muted">Ultimos Registros</h6>
-                            <h3 class="font-weight-bold">500</h3>
-                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>20%</h6>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex stat my-3">
-                            <div class="mx-auto">
-                            <h6 class="text-muted">Progreso</h6>
-                            <h3 class="font-weight-bold">$6000000</h3>
-                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex my-3">
-                            <div class="mx-auto">
-                            <h6 class="text-muted">Ultimas Ventas</h6>
-                            <h3 class="font-weight-bold">$6000000</h3>
-                            <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>75%</h6>
+                                <h6 class="text-muted">Ultimos Registros</h6>
+                                <h3 class="font-weight-bold">{{totalRegistros}}</h3>
+                                <h6 class="text-success"><i class="icon ion-md-arrow-dropup p-1"></i>20%</h6>
                             </div>
                         </div>
                     </div>
@@ -70,27 +57,18 @@
                             <h6 class="font-weight-bold mb-0">Ventas recientes</h6>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex border-bottom py-2">
-                                <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-card"></i></h2></div>
-                                <div class="align-self-center">
-                                    <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                    <h6 class="text-muted d-inline-block">Lirio</h6>
-                                    <span class="badge badge-dark ml-2">$30.000</span>
-                                    <small class="d-block text-muted">Santiago</small>
+                            {% for ventas in ultimasVentas %}
+                                <div class="d-flex border-bottom py-2">
+                                    <div class="mr-3 d-flex">
+                                        <h2 class="mb-0 align-self-center"><i class="icon ion-md-card"></i></h2></div>
+                                    <div class="align-self-center">
+                                        <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                        <h6 class="text-muted d-inline-block">{{ventas.especificacionPedido}}</h6>
+                                        <span class="badge badge-dark ml-2">${{ventas.totalPedido}}</span>
+                                        <small class="d-block text-muted">{{ventas.fechaPedido}}</small>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="d-flex border-bottom py-2">
-                                <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-card"></i></h2></div>
-                                <div class="align-self-center">
-                                    <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                    <h6 class="text-muted d-inline-block">Ramo Rosas</h6>
-                                    <span class="badge badge-dark ml-2">$44.000</span>
-                                    <small class="d-block text-muted">Santiago</small>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
 
                     </div>
@@ -135,5 +113,6 @@
                 <!-- </div> -->
             </div>
         </div>
-    </section>              
+    </section>        
+    {% endif %}      
 {% endblock content %}

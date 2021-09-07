@@ -20,12 +20,28 @@
             <div class="Logo">
                 <h4 class="font-weight-bold text-light mb-0 py-3">Flowy</h4>
             </div>
-            <div class="Side-bar">
-                <a href="{{ url_for('panel.inicioPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-apps mr-2 lead p-2"></i>Inicio</a>
-                <a href="" class="d-block text-light p-3"><i class="icon ion-md-people mr-2 lead p-2"></i>Usuarios</a>
-                <a href="{{ url_for('panel.pedidosPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-checkbox mr-2 lead p-2"></i>Pedidos</a>
-                <a href="{{ url_for('panel.comprasPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-cash mr-2 lead p-2"></i>Compras</a>
-            </div>
+            {% if usuarioLogeadoActualmente.idTipoUsuario == 1 %}
+                <div class="Side-bar">
+                    <a href="{{ url_for('panel.inicioPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-apps mr-2 lead p-2"></i>Inicio</a>
+                    <a href="{{ url_for('panel.pedidosPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-checkbox mr-2 lead p-2"></i>Pedidos</a>
+                    <a href="{{ url_for('panel.comprasPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-cash mr-2 lead p-2"></i>Compras</a>
+                </div>
+            {% endif %}
+            {% if usuarioLogeadoActualmente.idTipoUsuario == 2 %}
+                <div class="Side-bar">
+                    <a href="{{ url_for('panel.inicioPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-apps mr-2 lead p-2"></i>Inicio</a>
+                    <a href="{{ url_for('panel.perfilPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-cash mr-2 lead p-2"></i>Perfil</a>
+                </div>
+            {% endif %}
+            {% if usuarioLogeadoActualmente.idTipoUsuario == 3 %}
+                <div class="Side-bar">
+                    <a href="{{ url_for('panel.inicioPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-apps mr-2 lead p-2"></i>Inicio</a>
+                    <a href="" class="d-block text-light p-3"><i class="icon ion-md-people mr-2 lead p-2"></i>Usuarios</a>
+                    <a href="{{ url_for('panel.pedidosPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-checkbox mr-2 lead p-2"></i>Pedidos</a>
+                    <a href="{{ url_for('panel.comprasPanel') }}" class="d-block text-light p-3"><i class="icon ion-md-cash mr-2 lead p-2"></i>Compras</a>    
+                </div>
+            {% endif %}
+            
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

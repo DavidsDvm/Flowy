@@ -1,6 +1,6 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from flask import render_template, session, redirect, url_for, flash
+from flask import render_template, session, redirect, url_for, flash, request
 from flask_login import login_manager, login_user, LoginManager, login_required, logout_user, current_user
 import uuid
 
@@ -17,12 +17,19 @@ login_manager.login_message_category = "error"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return usuario.query.get(int(user_id))
+    try:
+        return usuario.query.get(user_id)
+    except:
+        return None
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     register_form = RegisterForm()
+
+    if request.method == 'GET':
+        session['nextUrl'] = request.args.get('next')
+        print(session['nextUrl'])
 
     context = {
         'login_form': login_form,
@@ -38,11 +45,14 @@ def login():
             if password == user.password:
                 if user.estadoUsuario == 'activo':
                     login_user(user)
-                    session['username'] = user.usuario
                     
                     flash('Te has logeado correctamente', 'success')
-
-                    return redirect(url_for('panel.inicioPanel'))
+                    if session['nextUrl']:
+                        redirectRute = session['nextUrl']
+                        session.pop('nextUrl')
+                        return redirect(url_for(redirectRute))
+                    else:
+                        return redirect(url_for('panel.inicioPanel'))
                 else:
                     flash('Tu usuario no tiene el correo electronico confirmado', 'error')
             else:
@@ -54,16 +64,21 @@ def login():
         nombreUsuario = register_form.usernameRegister.data
         correo = register_form.emailRegister.data
         password = register_form.passwordRegister.data
+        terms = register_form.termsAndConditions.data
+        print(terms)
         estadoUsuario = 'inactivo'
         confirmationHash = str(uuid.uuid4().hex)
         idTipoUsuario = '2'
         user = usuario.query.filter_by(usuario = nombreUsuario).first()
         mail = usuario.query.filter_by(emailUsuario = correo).first()
 
-        if user or mail:
-            flash('Este usuario o correo ya existen, prueba con otro', 'error')
+        if user or mail or not terms:
+            if not terms:
+                flash('No aceptaste terminos y condiciones', 'error')
+            else:
+                flash('Este usuario o correo ya existen, prueba con otro', 'error')
         else: 
-            new_user = usuario(nombreUsuario, password, correo,estadoUsuario, confirmationHash, idTipoUsuario)
+            new_user = usuario(nombreUsuario, 'userImage_1.png', password, correo, estadoUsuario, confirmationHash, idTipoUsuario)
             db.session.add(new_user)
             db.session.commit()
 

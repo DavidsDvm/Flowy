@@ -18,7 +18,7 @@
     <tr>
       <td style="background-color: #E1E0E0;">
         <p style="text-align: center;">
-            <img src="https://i.postimg.cc/3N8B6Q88/logo.png" width="120px;">   
+          <img src="https://i.postimg.cc/3N8B6Q88/logo.png" width="120px;">
     </td>
     </tr>
 	<td style="background-color: #FFF6F5;">
@@ -30,26 +30,28 @@
       </p>
       <h3>Información  del pedido:
       </h3>
-      <p>Pedido #32323</p>
-      <p>Pedido Realizado:29 Julio 2021</p>
-      <p>Costo:$53.000 </p>
-      <p>Estado de pago: Realizado</p>
+      <p>Pedido #{{idPedido}}</p>
+      <p>Pedido Realizado:{{fecha}}</p>
+      <p>Costo:${{total}} </p>
+      <p>Estado de pago: {{estadoPedido}}</p>
       <p>--------------------------------------------------------------------------------------</p>
       <h3>Detalles del pedido</h3>
-      <p>Producto: RAMO DE 12 TULIPANES</p>
-      <p>Precio:$45.000</p>
-      <P>Cantidad:1</P>
+      {% for key in productos %}
+        <p>Producto: {{productos[key].nombre}}</p>
+        <p>Precio:${{productos[key].precio}}</p>
+        <P>Cantidad:{{productos[key].cantidad}}</P>
+        <hr>
+      {% endfor %}
       <p>--------------------------------------------------------------------------------------</p>
       <h3>Datos de  facturación  y envió </h3>
-      <p>Nombre: Pablo Antonio García</p>
-      <p>Ciudad: Bogotá</p>
-      <p>Celular:300 21092120</p>
-      <p>Correo:PabloAntonio@gmail.com</p>
-      <p>Dirección: Calle 14 #24 sur</p>
+      <p>Nombre: {{cliente.nombreCliente}}</p>
+      <p>Celular:{{cliente.celularCliente}}</p>
+      <p>Dirección: {{cliente.direccionCliente}}</p>
       <p>--------------------------------------------------------------------------------------</p>
-      <p>Subtotal:$45.000</p>
-      <p>Envío:$8.000</p>
-      <h2>Total:$53.000</h2>
+      {% set subtotal = total - (total * 0.19) %}
+      <p>Subtotal:${{subtotal}}</p>
+      <p>Envío:$0</p>
+      <h2>Total:${{total}}</h2>
       <p>--------------------------------------------------------------------------------------</p>
       <p style="text-align: center;">¿tienes alguna pregunta?        Obtén más  información  sobre FLOWY por nuestras redes sociales
     </p>
