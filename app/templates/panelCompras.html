@@ -35,18 +35,18 @@
                             {% for key, compra in compras.items() %}
                             <div class="d-flex border-bottom py-2">
                                 <div class="mr-3 d-flex">
-                                    <h2 class="mb-0 align-self-center"><a data-bs-toggle="modal" data-bs-target="#modalShowEsp"><i class="icon ion-md-person" ></i></a></h2>
+                                    <h2 class="mb-0 align-self-center"><a href="/panel/compras/{{compra.idCompras}}" style="color: inherit;"><i class="icon ion-md-person" ></i></a></h2>
                                 </div>
                                 <div class="align-self-center">
                                     <div id = foto>
-                                        <a href="/panel/compras/delete/{{compra.idCompra}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                        <a href="/panel/compras/delete/{{compra.idCompras}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
                                             <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
                                             <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
                                                 <h2><i class="icon ion-md-close"></i></h2>
                                             </div>
                                         </a>
                                     </div>
-                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit{{compra.idCompra}}"><i class="icon ion-md-create "></i></button>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalEdit{{compra.idCompras}}"><i class="icon ion-md-create "></i></button>
                                     <h6 class="text-muted d-inline-block">{{compra.especificacionCompra}}</h6>
                                     <span class="badge badge-dark ml-2">${{compra.totalCompra}}</span>
                                     <small class="d-block text-muted">Nombre empleado: {{compra.empleadoNombre}}</small>
@@ -94,14 +94,15 @@
                             </div>
 
                             <!-- Modal de Editar -->
-                            <div id="modalEdit{{compra.idCompra}}" class="modal fade" role="dialog">
+                            <div id="modalEdit{{compra.idCompras}}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Editar Compra</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/panel/compras/update/{{compra.idCompra}}" method="POST">
+                                            <form action="/panel/compras/update/{{compra.idCompras}}" method="POST">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                                 <div class="form-group">
                                                     <label>Total de la compra</label>
                                                     <input type="number" class="form-control" name="totalPurchase" value="{{compra.totalCompra}}" required>
@@ -120,7 +121,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Fecha de Compra</label>
-                                                    <input type="date" class="form-control" name="fechaCompra" value="{{compra.fechaCompra}}" required>
+                                                    <input type="date" class="form-control" name="fechaCompra" value="{{compra.fechaCompra}}" max="{{today}}" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <button class="btn btn-success" type="submit">Guardar</button>
@@ -135,32 +136,42 @@
                             </div>
 
                             <!-- Modal de MostrarEspecificacion-->
-                            <div id="modalShowEsp" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Especificacion Compra</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>nombre: </label>
-                                                    <input type="text" class="form-control disabled" placeholder="Flores" readonly>
-                                                    <label>subtotal: </label>
-                                                    <input type="number" class="form-control disabled" placeholder="2555" readonly>
-                                                    <label>cantidad: </label>
-                                                    <input type="number" class="form-control disabled" placeholder="2" readonly>
-                                                    <label>Especificacion Compra: </label>
-                                                    <input type="text" class="form-control disabled" placeholder="1000 Flores Lirios" readonly><br>
-                                                    <input type="text" class="form-control disabled" placeholder="300 Rosas" readonly>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            {% if productos %}
+                                <script>
+                                    $(document).ready(function(){
+                                        $("#modalShowEsp").modal("show");
+                                    });
+                                </script>
+                                <div id="modalShowEsp" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Especificacion Pedidos</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                    <div class="form-group">
+                                                        {% for key, producto in productos.items() %}
+                                                        <div class="d-flex border-bottom py-2">
+                                                            <div class="mr-3 d-flex">
+                                                                <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+producto.imagen) }}" alt="flower">
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <h6 class="text-muted d-inline-block">{{producto.nombre}}</h6>
+                                                                <span class="badge badge-dark ml-2">${{producto.subtotal}}</span>
+                                                                <small class="d-block text-muted">Cantidad: {{producto.cantidad}}</small>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
                         <nav aria-label="...">
