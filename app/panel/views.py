@@ -27,7 +27,16 @@ def inicioPanel():
 #         'personalName': session['username']
 #     }
 
-#     return render_template('panelUser.html', **context)
+#     return render_template('panelUsario.html', **context)
+
+@panel.route('/usuarios')
+def usuariosPanel():
+    context = {
+        'personalName': session['username']
+    }
+
+    return render_template('panelUsuarios.html', **context)
+
 
 
 @panel.route('/perfil')
