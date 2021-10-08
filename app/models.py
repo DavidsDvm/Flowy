@@ -204,17 +204,19 @@ class producto(db.Model):
     nombreProducto = db.Column(db.String(50))
     cantidadProducto = db.Column(db.Integer)
     especificacionProducto = db.Column(db.String(255))
+    estadoProducto = db.Column(db.String(12))
     idImagenes = db.Column(db.Integer, db.ForeignKey('imagenesProducto.idImagenes'))
     idTipProducto = db.Column(db.Integer, db.ForeignKey('tipoProducto.idProducto'))
     child = db.relationship("tipoProducto")
     productoMTM = db.relationship("pedidoProducto", back_populates="producto")
     productoCompraMTM = db.relationship("compraProducto", back_populates="producto")
 
-    def __init__(self, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, idImagenes ,idTipProducto):
+    def __init__(self, precioProducto, nombreProducto, cantidadProducto, especificacionProducto, estadoProducto, idImagenes ,idTipProducto):
         self.precioProducto = precioProducto
         self.nombreProducto = nombreProducto
         self.cantidadProducto = cantidadProducto
         self.especificacionProducto = especificacionProducto
+        self.estadoProducto = estadoProducto
         self.idImagenes = idImagenes
         self.idTipProducto = idTipProducto
 
