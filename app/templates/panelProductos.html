@@ -1,0 +1,173 @@
+{% extends 'basePanel.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/panel_css.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Panel Interno | Productos
+{% endblock title %}
+
+{% block lateralBar %}
+    {% include 'panelLateralBar.html' %}
+{% endblock lateralBar %}
+
+{% block topNavbar %}
+    {% include 'panelNavbar.html' %}
+{% endblock topNavbar %}
+    
+{% block userMessage %}
+    {% include 'panelUserMessage.html' %}
+{% endblock userMessage %}
+
+{% block content %}
+    <section class="bg-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 my-3 " >
+                    <div class="card rounded-0" id="app" >
+                        <div class="card-header bg-light">
+                            <h6 class="font-weight-bold mb-0 py-2">Productos <button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></button></h6>
+                        </div> 
+                        <div class="card-body">
+                            {% for row in productos %}
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                    <h2 class="mb-0 align-self-center"><i class="icon ion-md-pricetags"></i></h2>
+                                </div>
+                                <div class="align-self-center">
+                                    <div id="foto">
+                                        <a href="/panel/producto/delete/{{row.idProducto}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                            <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                            <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                                <h2><i class="icon ion-md-close"></i></h2>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit{{row.idProducto}}"><i class="icon ion-md-create"></i></button>
+                                    <h6 class="text-muted d-inline-block">Nombre: {{row.nombreProducto}}</h6>
+                                    <span class="badge badge-dark ml-2">${{row.precioProducto}}</span>
+                                    <small class="d-block text-muted">Cantidad Stock: {{row.cantidadProducto}}</small>
+                                    <small class="d-block text-muted">Especificacion: {{row.especificacionProducto}}</small>
+                                </div>
+                            </div>
+
+                            <!-- Modales -->
+                            <!-- Modal de Registro -->
+                            <div id="modalAdd" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Agregar Producto</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ url_for('panel.addProductos') }}" method="POST" enctype=multipart/form-data>
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                <div class="form-group">
+                                                    <label>Nombre Producto</label>
+                                                    <input type="text" class="form-control" name="NombreProducto" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Precio Producto</label>
+                                                    <input type="number" class="form-control" name="PrecioProducto" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cantidad Producto</label>
+                                                    <input type="number" class="form-control" name="CantidadProducto" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Especificacion Producto</label>
+                                                    <textarea class="form-control" rows="3" name="EspecificacionProducto" required></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tipo Producto</label>
+                                                    <select class="form-select in-f" name="TipoProducto">
+                                                        <option selected>Seleccione Tipo Usuario</option>
+                                                        <option value="1">Unitario</option>
+                                                        <option value="2">Arreglo</option>
+                                                        <option value="3">Boutique</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Añadir</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Modal de Editar -->
+                             <div id="modalEdit{{row.idProducto}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Editar Producto</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                                <div class="modal-body">
+                                                    <form action="/panel/producto/update/{{row.idProducto}}" method="POST">
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                        <div class="form-group">
+                                                            <label>Nombre Producto</label>
+                                                            <input type="text" class="form-control" name="NombreProducto" value="{{row.nombreProducto}}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Precio Producto</label>
+                                                            <input type="number" class="form-control" name="PrecioProducto" value="{{row.precioProducto}}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Cantidad Producto</label>
+                                                            <input type="number" class="form-control" name="CantidadProducto" value="{{row.cantidadProducto}}" required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Especificacion Producto</label>
+                                                            <textarea class="form-control" rows="3" name="EspecificacionProducto" required>{{row.especificacionProducto}}</textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tipo Producto</label>
+                                                            <select class="form-select in-f" name="TipoProducto" required>
+                                                                <option selected>Seleccione Tipo Usuario</option>
+                                                                <option value="1">Unitario</option>
+                                                                <option value="2">Arreglo</option>
+                                                                <option value="3">Boutique</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-success" type="submit">Editar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <nav aria-label="...">
+                            <ul class="pagination justify-content-center">
+                              <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#">2</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
