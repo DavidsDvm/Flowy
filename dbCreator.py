@@ -44,9 +44,9 @@ imagen1 = imagenesProducto('shop_flower_1.jpg', None, None, None, None)
 imagen2 = imagenesProducto('shop_flower_2.jpg', None, None, None, None)
 imagen3 = imagenesProducto('shop_flower_3.jpg', None, None, None, None)
 
-producto1 = producto(12000, 'Rosa', 500, 'Flores en un jarron Arreglo Tulipanes Flor tipo tulipán de la familia Liliaceae flor con gran aroma, viene con jarrón Características: Tulipanes: Tulipa gesneriana Colores: A elección del usuario', 1, 1)
-producto2 = producto(600000, 'Boutique cumpleaños', 600, 'Arreglo floral de cumpleaños', 2, 2)
-producto3 = producto(646545, 'Boutique Matrimonial', 300, 'Arreglo floral Matrimonial', 3, 3)
+producto1 = producto(12000, 'Rosa', 500, 'Flores en un jarron Arreglo Tulipanes Flor tipo tulipán de la familia Liliaceae flor con gran aroma, viene con jarrón Características: Tulipanes: Tulipa gesneriana Colores: A elección del usuario', 'Activo', 1, 1)
+producto2 = producto(600000, 'Boutique cumpleaños', 600, 'Arreglo floral de cumpleaños','Activo', 2, 2)
+producto3 = producto(646545, 'Boutique Matrimonial', 300, 'Arreglo floral Matrimonial','Activo', 3, 3)
 
 pedidoP1 = pedidoProducto(1, 1, 500000, 5)
 pedidoP2 = pedidoProducto(2, 2, 1500000, 50)
