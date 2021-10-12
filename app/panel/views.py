@@ -160,6 +160,10 @@ def perfilPanel():
 
     return render_template('panelPerfil.html', **context)
 
+
+
+
+
 @panel.route('/compras')
 @employ_required
 def comprasPanel():
