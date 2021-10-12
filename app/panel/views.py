@@ -7,7 +7,7 @@ from functools import wraps
 from datetime import date
 
 from . import panel
-from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, usuario 
+from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, usuario 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -49,6 +49,7 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
+# Usuarios
 @panel.route('/usuarios')
 def usuariosPanel():
     all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
@@ -256,6 +257,7 @@ def deleteCompras(id):
 
     return redirect(url_for('panel.comprasPanel'))
 
+# Pedidos
 @panel.route('/pedidos')
 @employ_required
 def pedidosPanel():
@@ -330,3 +332,61 @@ def deletePedidos(id):
     db.session.commit()
 
     return redirect(url_for('panel.pedidosPanel'))
+
+
+
+# Productos
+@panel.route('/productos')
+def productosPanel():
+    all_data = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
+
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'productos' : all_data
+    }
+    return render_template('panelProductos.html', **context)
+
+@panel.route('/productos/insert', methods =['POST'])
+@employ_required
+def addProductos():
+    if (request.method == 'POST'):
+        nombreProducto = request.form['NombreProducto']
+        precioProducto = request.form['PrecioProducto']
+        cantidadProducto = request.form['CantidadProducto']
+        especificacionProducto = request.form['EspecificacionProducto']
+        estadoProducto = 'Activo'
+        tipoProducto = request.form['TipoProducto']
+        idImagenes = 1
+
+        my_data = producto(precioProducto, nombreProducto, cantidadProducto, especificacionProducto, estadoProducto, idImagenes, tipoProducto)
+        db.session.add(my_data)
+        db.session.commit()
+
+        return redirect(url_for('panel.productosPanel'))
+
+@panel.route('/producto/update/<int:id>', methods =['GET', 'POST'])
+@employ_required
+def editProductos(id):
+    if (request.method == 'POST'):
+        my_data = producto.query.get(id)
+
+        my_data.precioProducto = request.form['PrecioProducto']
+        my_data.nombreProducto = request.form['NombreProducto']
+        my_data.cantidadProducto = request.form['CantidadProducto']
+        my_data.especificacionProducto = request.form['EspecificacionProducto']
+        my_data.idImagenes = 1
+        my_data.idTipProducto = request.form['TipoProducto']
+
+        db.session.commit()
+
+        return redirect(url_for('panel.productosPanel'))
+
+@panel.route('/producto/delete/<int:id>', methods = ['GET', 'POST'])
+@employ_required
+def deleteProductos(id):
+    my_data = producto.query.get(id)
+
+    my_data.estadoProducto = "Inactivo"
+    db.session.commit()
+
+    return redirect(url_for('panel.productosPanel'))
