@@ -162,6 +162,62 @@ def perfilPanel():
     return render_template('panelPerfil.html', **context)
 
 
+# @panel.route('/usuarios/insert', methods =['POST'])
+# @employ_required
+# def addUsuarios():
+#     if (request.method == 'POST'):
+#             my_dataUser = usuario.query.get(current_user.idUsuario)
+#             clienteData.nombreCliente = request.form['nombreUsuario']
+#             clienteData.direccionCliente = request.form['direccionCliente']
+#             clienteData.celularCliente = request.form['celularCliente']
+#             my_data = usuario(nombreCliente,direccionCliente,celularCliente)
+#             db.session.add(my_data)
+#             db.session.commit()
+#     else:
+#         my_dataUser = usuario.query.get(current_user.idUsuario)
+#         empleadoData = empleado.query.filter_by(idUsuario = current_user.idUsuario).first()
+#     return redirect(url_for('panel.usuariosPanel'))
+
+#     if (request.method == 'POST'):
+#             empleadoData.nombreEmpleado = request.form['nombreEmpleado']
+#             empleadoData.celularEmpleado = request.form['telefonoEmpleado']
+#             empleadoData.tipoDocEmplead = request.form['tipDocumento']
+#             empleadoData.docEmpleado = request.form['documento']
+#             my_data = usuario(nombreEmpleado,celularEmpleado,tipoDocEmplead,docEmpleado)
+#             db.session.commit()
+
+#     return redirect(url_for('panel.usuariosPanel'))
+
+
+
+@panel.route('/usuarios/delete/<int:id>', methods = ['GET', 'POST'])
+@employ_required
+def deleteUsuario(id):
+    my_data = usuario.query.get(id)
+
+    my_data.estadoUsuario = "Inactivo"
+    db.session.commit()
+
+    return redirect(url_for('panel.usuariosPanel'))
+
+
+# @panel.route('/usuarios/update/<int:id>', methods =['GET', 'POST'])
+# @employ_required
+# def editUsuarios(id):
+#     if (request.method == 'POST'):
+#         my_data = usuario.query.get(id)
+#         my_data.nombreCliente = request.form['nombreUsuario']
+#         my_data.direccionCliente = request.form['direccionCliente']
+#         my_data.celularCliente = request.form['celularCliente']
+#         db.session.commit()
+
+#     return redirect(url_for('panel.usuariosPanel'))
+
+
+
+
+
+
 
 
 

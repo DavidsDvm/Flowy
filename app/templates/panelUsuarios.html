@@ -28,7 +28,7 @@
             <div class="col-lg-8 my-3 " >
                 <div class="card rounded-0">
                     <div class="card-header bg-light">
-                        <!-- <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6> -->
+                        <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6> 
                     </div>
                     <div class="card-body">
                         {% for usuario in usuarios %}
@@ -37,7 +37,7 @@
                             <h2 class="mb-0 align-self-center"><a href="/panel/usuarios/{{usuario.idUsuario}}" style="color: inherit;"><i class="icon ion-md-contact"></i></a></h2></div>
                             <div class="align-self-center">
                                 <div id="foto">
-                                    <a href="/panel/pedidos/delete/{{usuario.idUsuario}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                    <a href="/panel/usuarios/delete/{{usuario.idUsuario}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
                                         <img src="{{ url_for('static', filename='img/'+usuario.avatar) }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
                                         <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
                                             <h2><i class="icon ion-md-close"></i></h2>
@@ -57,11 +57,105 @@
                                 {% endif %}
                                 <span class="badge badge-dark ml-2">{{tipoUsuario}}</span>
                                 <small class="d-block text-muted">{{usuario.emailUsuario}}</small>
+                                <small class="d-block text-muted">{{usuario.estadoUsuario}}</small>
+
                             </div>
                         </div>
 
                         <!-- Modales -->
-                        <!-- Modal New Empleado -->
+                        <!-- Modal Empleado -->
+                        {% if usuario.idTipoUsuario == 1 %}
+                            {% set tipoUsuario = 'Empleado' %}
+                            <div class="modal-body" id="Empleados" style="display: none;">
+                                <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                    <div class="form-group">
+                                        <label>Nombre Empleado</label>
+                                        <input type="text" class="form-control" name="nameEmp" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipo Empleado</label>
+                                        <input type="text" class="form-control" name="tipEmp" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Celular Empleado</label>
+                                        <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>tipoDocEmpleado</label>
+                                        <select class="form-select">
+                                            <option selected>Seleccione Documento</option>
+                                            <option value="CE">CE</option>
+                                            <option value="CC">CC</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Doc Empleado</label>
+                                        <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Usuario</label>
+                                        <input type="text" maxlength="10" class="form-control" name="celEmp" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="submit">Añadir</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <!-- Modal de Editar Empleados -->
+                            <div id="modalEdit" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Editar Empleado</h4>
+                                        </div>
+                                        <div class="modal-body" id="Empleados" style="display: none;">
+                                            <form action="{{ url_for('panel.addPedidos') }}" method="POST">
+                                                <div class="form-group">
+                                                    <label>Nombre Empleado</label>
+                                                    <input type="text" class="form-control" name="nameEmp" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tipo Empleado</label>
+                                                    <input type="text" class="form-control" name="tipEmp" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Celular Empleado</label>
+                                                    <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>tipoDocEmpleado</label>
+                                                    <select class="form-select">
+                                                        <option selected>Seleccione Documento</option>
+                                                        <option value="CE">CE</option>
+                                                        <option value="CC">CC</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Doc Empleado</label>
+                                                    <input type="number" maxlength="10" class="form-control" name="celEmp" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Usuario</label>
+                                                    <input type="text" maxlength="10" class="form-control" name="celEmp" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success" type="submit">Modificar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+
+                        {% endif %}
+                        <!-- Modal Cliente -->
+                        {% if usuario.idTipoUsuario == 2 %}
                         <div id="modalAdd" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -99,41 +193,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="modal-body" id="Empleados" style="display: none;">
-                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                            <div class="form-group">
-                                                <label>Nombre Empleado</label>
-                                                <input type="text" class="form-control" name="nameEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tipo Empleado</label>
-                                                <input type="text" class="form-control" name="tipEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Celular Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>tipoDocEmpleado</label>
-                                                <select class="form-select">
-                                                    <option selected>Seleccione Documento</option>
-                                                    <option value="CE">CE</option>
-                                                    <option value="CC">CC</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Doc Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Usuario</label>
-                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success" type="submit">Añadir</button>
-                                            </div>
-                                        </form>
-                                    </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
@@ -141,54 +201,6 @@
                             </div>
                         </div>
 
-                        <!-- Modal de Editar Empleados -->
-                        <div id="modalEdit" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Editar Pedido</h4>
-                                    </div>
-                                    <div class="modal-body" id="Empleados" style="display: none;">
-                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                            <div class="form-group">
-                                                <label>Nombre Empleado</label>
-                                                <input type="text" class="form-control" name="nameEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tipo Empleado</label>
-                                                <input type="text" class="form-control" name="tipEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Celular Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>tipoDocEmpleado</label>
-                                                <select class="form-select">
-                                                    <option selected>Seleccione Documento</option>
-                                                    <option value="CE">CE</option>
-                                                    <option value="CC">CC</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Doc Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Usuario</label>
-                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success" type="submit">Modificar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Modal Editar Cliente -->
                         <div class="modal-body" id="Users" style="display: none;">
@@ -213,7 +225,9 @@
                                     <button class="btn btn-success" type="submit">Modificar</button>
                                 </div>
                             </form>
-                        </div><br>
+                        </div>
+                        {% endif %}
+                        <br>
                         {% if especificacionUsuarioEmp or especificacionUsuarioCli %}
                         <script>
                             $(document).ready(function(){
