@@ -49,7 +49,8 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
-# Usuarios
+# Usuarios ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/usuarios')
 def usuariosPanel():
     all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
@@ -161,7 +162,8 @@ def perfilPanel():
 
     return render_template('panelPerfil.html', **context)
 
-# Compras
+# Compras ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/compras')
 @employ_required
 def comprasPanel():
@@ -254,7 +256,8 @@ def deleteCompras(id):
 
     return redirect(url_for('panel.comprasPanel'))
 
-# Pedidos
+# Pedidos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/pedidos')
 @employ_required
 def pedidosPanel():
@@ -332,7 +335,8 @@ def deletePedidos(id):
 
 
 
-# Productos
+# Productos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/productos')
 def productosPanel():
     all_data = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
