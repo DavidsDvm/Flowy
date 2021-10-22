@@ -10,3 +10,6 @@ SQLAlchemy
 Flask-SQLAlchemy
 mariadb
 flask-login
+Authlib
+requests
+python-dotenv
