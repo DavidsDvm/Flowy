@@ -1,8 +1,8 @@
 import smtplib
 import os
 
-username = 'flowydomain@gmail.com'
-password = 'flowysi1'
+username = 'pruebafloowy@gmail.com'
+password = 'Floowysi1'
 # file = codecs.open("index.html", "r", "utf-8")
 
 s = smtplib.SMTP('smtp.gmail.com')
