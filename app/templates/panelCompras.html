@@ -74,17 +74,46 @@
                                                     <input type="text" class="form-control" name="proovedorName" required>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Productos:</label>
+                                                    <button type="button" class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalProductos"><i class="icon ion-md-add"></i></button>
+                                                    <div id="product"></div>
+                                                </div>
+                                                <!-- <div class="form-group">
                                                     <label>Especificacion Compra</label>
                                                     <textarea class="form-control" rows="3" name="buyEspecification" required>Productos:</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Cantidad Pedida</label>
                                                     <input type="number" name="quantity" class="form-control"  required>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group">
                                                     <button class="btn btn-success" type="submit">Añadir</button>
                                                 </div>
                                             </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Productos -->
+
+                            <div id="modalProductos" class="modal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Productos</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label>Producto</label>
+                                            {% for pro in producto %}
+                                                <div class="input-group mb-3">
+                                                    <label type="text" class="form-control">{{ pro.nombreProducto }}</label>
+                                                    <button class="btn btn-outline-secondary" type="button" id="producto{{pro.idProducto}}"><i class="icon ion-md-add"></i></button>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -195,3 +224,11 @@
         </div>
     </section>
 {% endblock content %}
+{% block js_scripts %}
+    <script>
+        var Producto = document.getElementById("product").innerHTML;
+    </script>
+
+   
+   
+{% endblock js_scripts %} 
