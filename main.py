@@ -8,7 +8,7 @@ from app import create_app
 from app.auth import auth
 from app.auth.views import load_user
 from app.models import producto, imagenesProducto, cliente, pedido, pedidoProducto, db
-# from app.mailing import s
+from app.mailing import s
 
 app = create_app()
 
