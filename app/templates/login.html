@@ -150,15 +150,6 @@
             {{ login_form.password() }}
           </div>
             {{ login_form.submit(class_="btn solid") }}
-          <p class="social-text">O inicia sesion con:</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-          </div>
         </form>
         <form method="POST" action="" class="sign-up-form">
           {{ register_form.csrf_token }}
@@ -181,15 +172,6 @@
             <label><a href="#" onClick="alertTemsNConditions()">Acepto Terminos y condiciones</a></label>
           </div>
           {{ register_form.submitRegister(class_="btn solid") }}
-          <p class="social-text">O inicia sesion con:</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-          </div>
         </form>
       </div>
     </div>
