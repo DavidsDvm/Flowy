@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block css_style %}
-    {{ url_for('static', filename='css/tienda_css.css') }}
+    {{ url_for('static', filename='css/index_css.css') }}
 {% endblock css_style %}
 
 {% block title %}
     {{ super() }}
-    Compra
+    Carrito de compras
 {% endblock title %}
 
 {% block header_type %}
@@ -14,65 +14,162 @@
 {% endblock header_type %}
 
 {% block main__content %}
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col">
-                <h2 class="d-flex justify-content-center mb-3">Realizar Compra</h2>
-                <form action="{{url_for('buyShopping')}}" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <div  class="form-group table-responsive" >
-                        <table class="form-group table" id="lista-compra" >
-                            <thead>
-                                <tr class="shopping_card-center">
-                                    <th scope="col">Imagen</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Sub Total</th>
-                                    <th scope="col">Eliminar</th>
-                                </tr>
 
-                            </thead>
-                            <tbody class="shopping_card-center">
-                                {% if 'Shoppingcart' in session %}
-                                    {% for key, product in session['Shoppingcart'].items() %}
-                                        <tr>
-                                            <td><img src="{{ url_for('static', filename='img/'+product.imagen) }}"  class="shopping_card-picture_mode"></img></td>
-                                            <td>{{product.nombre}}</td>
-                                            <td>${{product.precio}}</td>
-                                            <td>{{product.cantidad}}</td>
-                                            {% set subtotal = product.cantidad|int * product.precio|int %}
-                                            <td>${{subtotal}}</td>
-                                            <td><a href="{{url_for('deleteItem', id=key)}}"><i class="icon ion-md-close"></i></a></td>
-                                        </tr>
-                                    {% endfor %}
-                                    <tr class="justify-content-end">
-                                        <th colspan="4" scope="col" class="text-right">TOTAL :</th>
-                                        <th scope="col">
-                                            <p id="subtotal">${{total}}</p>
-                                        </th>
-                                            
-                                    </tr>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row justify-content-between">
-                        <div class="col-md-4 mb-2">
-                            <a href="/tienda" class="btn btn-success">Seguir comprando</a>
-                        </div>
-                        <div class="col-xs-12 col-md-4">
-                            <button type="submit" class="btn btn-dark btn-block" id="procesar-compra">Realizar compra</button>
-                        </div>
-                    </div>
-                </form>
+    <!--===== Pre-Loading area Start =====-->
+    <div id="preloader">
+        <div class="preloader">
+            <div class="spinner-block">
+                <h1 class="spinner spinner-3 mb-0">.</h1>
             </div>
         </div>
     </div>
-{% endblock main__content %}
+    <!--==== Pre-Loading Area End ====-->
+    <!-- cart main wrapper start -->
+    <div class="cart-main-wrapper mt-no-text">
+        <div class="container custom-area">
+            <div class="row">
+                <div class="col-lg-12 col-custom">
+                    <!-- Cart Table Area -->
+                    <div class="cart-table table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="pro-thumbnail">Image</th>
+                                    <th class="pro-title">Product</th>
+                                    <th class="pro-price">Price</th>
+                                    <th class="pro-quantity">Quantity</th>
+                                    <th class="pro-subtotal">Total</th>
+                                    <th class="pro-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/Flor_Rosa_1.jpg" alt="Product"/></a></td>
+                                    <td class="pro-title"><a href="#">Flor Roja</a></td>
+                                    <td class="pro-price"><span>$60.00</span></td>
+                                    <td class="pro-quantity">
+                                        <div class="quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="0" type="text">
+                                                <div class="dec qtybutton">-</div>
+                                                <div class="inc qtybutton">+</div>
+                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="pro-subtotal"><span>$295.00</span></td>
+                                    <td class="pro-remove"><a href="#"><i class="lnr lnr-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/shop_flower_1.jpg" alt="Product" /></a></td>
+                                    <td class="pro-title"><a href="#">Lavanda</a></td>
+                                    <td class="pro-price"><span>$80.00</span></td>
+                                    <td class="pro-quantity">
+                                        <div class="quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="0" type="text">
+                                                <div class="dec qtybutton">-</div>
+                                                <div class="inc qtybutton">+</div>
+                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="pro-subtotal"><span>$550.00</span></td>
+                                    <td class="pro-remove"><a href="#"><i class="lnr lnr-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/lilyIcon_1.jpg" alt="Product" /></a></td>
+                                    <td class="pro-title"><a href="#">Flor Tipo Tulipan </a></td>
+                                    <td class="pro-price"><span>$80.00</span></td>
+                                    <td class="pro-quantity">
+                                        <div class="quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="0" type="text">
+                                                <div class="dec qtybutton">-</div>
+                                                <div class="inc qtybutton">+</div>
+                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="pro-subtotal"><span>$295.00</span></td>
+                                    <td class="pro-remove"><a href="#"><i class="lnr lnr-trash"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="assets/images/flowersIcon_1.jpg" alt="Product" /></a></td>
+                                    <td class="pro-title"><a href="#">Ramo de Flores Rojo</a></td>
+                                    <td class="pro-price"><span>$80.00</span></td>
+                                    <td class="pro-quantity">
+                                        <div class="quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="2" type="text">
+                                                <div class="dec qtybutton">-</div>
+                                                <div class="inc qtybutton">+</div>
+                                                <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="pro-subtotal"><span>$110.00</span></td>
+                                    <td class="pro-remove"><a href="#"><i class="lnr lnr-trash"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Cart Update Option -->
+                    <div class="cart-update-option d-block d-md-flex justify-content-between">
+                        <div class="apply-coupon-wrapper">
+                            <form action="#" method="post" class=" d-block d-md-flex">
+                                <input type="text" placeholder="Ingresa tu Codigo de Cupon" required />
+                                <button class="btn flosun-button primary-btn rounded-0 black-btn">Aplica El Cupon</button>
+                            </form>
+                        </div>
+                        <div class="cart-update mt-sm-16">
+                            <a href="#" class="btn flosun-button primary-btn rounded-0 black-btn">Actualiza El Carrito</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 ml-auto col-custom">
+                    <!-- Cart Calculation Area -->
+                    <div class="cart-calculator-wrapper">
+                        <div class="cart-calculate-items">
+                            <h3>Total Carrito</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <td>SubTotal</td>
+                                        <td>$230</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Envio</td>
+                                        <td>$70</td>
+                                    </tr>
+                                    <tr class="total">
+                                        <td>Total</td>
+                                        <td class="total-amount">$300</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <a href="checkout.html" class="btn flosun-button primary-btn rounded-0 black-btn w-100">Comprar</a>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% block main__content %}
+
+{% block js_scripts %}
+    <script src="../static/js/main.js"></script>
+{% endblock js_scripts %}
 
 {% block footer_type %}
-    {% include 'footer.html' %}
+    {%include 'footer.html'%}
 {% endblock footer_type %}
-
-
