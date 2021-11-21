@@ -49,66 +49,77 @@
                     <!--shop toolbar end-->
                     <!-- Shop Wrapper Start -->
                     <div class="row shop_wrapper grid_4">
+                        {% for producto in productos %}
                         <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
                             <div class="product-item">
                                 <div class="single-product position-relative mr-0 ml-0">
                                     <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Flor_Rosa_1.jpg') }}" alt="" class="product-image-1 w-100">
-                                            <img src="{{ url_for('static', filename='img/Flor_Rosa_1.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = producto.idProducto) }}">
+                                            {% for imagen in imagenes %}
+                                                {% if imagen.idImagenes == producto.idImagenes %}   
+                                                    {% set imagenProducto = imagen.imagen1 %}
+                                                    <img src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="" class="product-image-1 w-100">
+                                                    <img src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="" class="product-image-2 position-absolute w-100">
+                                                {% endif %}
+                                            {% endfor %}
                                         </a>
-                                        <span class="onsale">Sale!</span>
+                                        <span class="onsale">Oferta!</span>
                                         <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
+                                            <a href="#" title="Comparar">
                                                 <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
                                             </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                            <a href="#" title="Agregar a la lista de deseos">
                                                 <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
                                             </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            <a href="#exampleModalCenter{{producto.idProducto}}" title="Vista rapida" data-toggle="modal" data-target="#exampleModalCenter{{producto.idProducto}}">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Vista rapida"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="product-content">
                                         <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron Brillo Solar</a></h4>
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = producto.idProducto) }}">{{producto.nombreProducto}}</a></h4>
                                         </div>
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
+                                            {% set randomStars = random.randint(1,5) + 1 %}
+                                            {% for x in range(1, 6) %}
+                                                {% if x <= randomStars %}
+                                                    <i class="fa fa-star"></i>
+                                                {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                         <div class="price-box">
-                                            <span class="regular-price ">$60.00</span>
-                                            <span class="old-price"><del>$70.00</del></span>
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
                                         </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                        <a href="{{ url_for('shopAdd', id = producto.idProducto) }}" class="btn product-cart">Añadir Carrito</a>
                                     </div>
                                     <div class="product-content-listview">
                                         <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron Brillo Solar</a></h4>
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = producto.idProducto) }}">{{producto.nombreProducto}}</a></h4>
                                         </div>
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
+                                            {% for x in range(1, 6) %}
+                                                {% if x <= randomStars %}
+                                                    <i class="fa fa-star"></i>
+                                                {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                         <div class="price-box">
-                                            <span class="regular-price ">$60.00</span>
-                                            <span class="old-price"><del>$70.00</del></span>
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
                                         </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
+                                        <p class="desc-content">{{producto.especificacionProducto}}</p>
                                         <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
+                                            <a href="#" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
+                                            <a class="list-icon" href="#" title="Compare">
                                                 <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
                                             </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
+                                            <a class="list-icon" href="#" title="Add To Lista Deseos">
                                                 <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
                                             </a>
                                         </div>
@@ -116,727 +127,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Lavanda</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Lavanda</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/lilyIcon_1.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flor Tipo tulipan</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flor Tipo tulipan</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/flowersIcon_1.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Ramo de Flores Rojo</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Ramo de Flores Rojo</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Flor_Carnation_1.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosa tipo Gardenia</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosa tipo Gardenia</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/jarron_flores.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron de 36 flores</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron de 36 flores</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron Brillo Solar</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$60.00</span>
-                                            <span class="old-price"><del>$70.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron Brillo Solar</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$60.00</span>
-                                            <span class="old-price"><del>$70.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Luz _de_colores.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Lavanda</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Lavanda</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Rosas_Lirios_Blancos.jpg') }}" alt="" class="product-image-1 w-100">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flor Tipo tulipan</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flor Tipo tulipan</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Bouquet_de_6_girasoles.jpg') }}" alt="" class="product-image-1 w-100">                           
-                                        </a>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Ramo de Flores Rojo</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Ramo de Flores Rojo</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Arreglo_floral_marqueza.jpg') }}" alt="product">
-                                        </a>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosa tipo Gardenia</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosa tipo Gardenia</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
-                            <div class="product-item">
-                                <div class="single-product position-relative mr-0 ml-0">
-                                    <div class="product-image">
-                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
-                                            <img src="{{ url_for('static', filename='img/Arreglo_floral_marqueza.jpg') }}" alt="product">
-                                        </a>
-                                        <span class="onsale">Sale!</span>
-                                        <div class="add-action d-flex flex-column position-absolute">
-                                            <a href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
-                                            </a>
-                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
-                                            </a>
-                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron de 36 flores</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
-                                    </div>
-                                    <div class="product-content-listview">
-                                        <div class="product-title">
-                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron de 36 flores</a></h4>
-                                        </div>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
-                                        </div>
-                                        <p class="desc-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce posuere metus vitae arcu imperdiet, id aliquet ante scelerisque. Sed sit amet sem vitae urna fringilla tempus.</p>
-                                        <div class="button-listview">
-                                            <a href="cart.html" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
-                                            <a class="list-icon" href="compare.html" title="Compare">
-                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
-                                            </a>
-                                            <a class="list-icon" href="Lista Deseos.html" title="Add To Lista Deseos">
-                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <!-- Shop Wrapper End -->
                     <!-- Bottom Toolbar Start -->
@@ -865,7 +156,8 @@
     
 
     <!-- Modal -->
-    <div class="modal flosun-modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+    {% for producto in productos %}
+    <div class="modal flosun-modal fade" id="exampleModalCenter{{producto.idProducto}}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
@@ -877,7 +169,12 @@
                             <div class="col-md-6 col-custom">
                                 <div class="modal-product-img">
                                     <a class="w-100" href="#">
-                                        <img class="w-100" src="{{ url_for('static', filename='img/product/large-size/1.jpg') }}" alt="Product">
+                                        {% for imagen in imagenes %}
+                                            {% if imagen.idImagenes == producto.idImagenes %}   
+                                                {% set imagenProducto = imagen.imagen1 %}
+                                                <img class="w-100" src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="Product">
+                                            {% endif %}
+                                        {% endfor %}
                                     </a>
                                 </div>
                             </div>
@@ -885,11 +182,11 @@
                                 <div class="modal-product">
                                     <div class="product-content">
                                         <div class="product-title">
-                                            <h4 class="title">Product dummy name</h4>
+                                            <h4 class="title">{{producto.nombreProducto}}</h4>
                                         </div>
                                         <div class="price-box">
-                                            <span class="regular-price ">$80.00</span>
-                                            <span class="old-price"><del>$90.00</del></span>
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
                                         </div>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
@@ -899,18 +196,7 @@
                                             <i class="fa fa-star-o"></i>
                                             <span>1 Review</span>
                                         </div>
-                                        <p class="desc-content">we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame bel...</p>
-                                        <form class="d-flex flex-column w-100" action="#">
-                                            <div class="form-group">
-                                                <select class="form-control nice-select w-100">
-                                                    <option>S</option>
-                                                    <option>M</option>
-                                                    <option>L</option>
-                                                    <option>XL</option>
-                                                    <option>XXL</option>
-                                                </select>
-                                            </div>
-                                        </form>
+                                        <p class="desc-content">{{producto.especificacionProducto}}</p>
                                         <div class="quantity-with-btn">
                                             <div class="quantity">
                                                 <div class="cart-plus-minus">
@@ -922,8 +208,8 @@
                                                 </div>
                                             </div>
                                             <div class="add-to_btn">
-                                                <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Añadir Carrito</a>
-                                                <a class="btn flosun-button secondary-btn rounded-0" href="Lista Deseos.html">Add to Lista Deseos</a>
+                                                <a class="btn product-cart button-icon flosun-button dark-btn" href="{{ url_for('shopAdd', id = producto.idProducto) }}">Añadir Carrito</a>
+                                                <a class="btn flosun-button secondary-btn rounded-0" href="#">Add to Lista Deseos</a>
                                             </div>
                                         </div>
                                     </div>
@@ -934,7 +220,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>        
+    {% endfor %}
 
     <!-- Scroll to Top Start -->
     <a class="scroll-to-top" href="#">
