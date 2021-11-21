@@ -8,7 +8,7 @@ from app import create_app
 from app.auth import auth
 from app.auth.views import load_user
 from app.models import producto, imagenesProducto, cliente, pedido, pedidoProducto, db
-from app.mailing import s
+# from app.mailing import s
 
 app = create_app()
 
@@ -25,11 +25,10 @@ def not_found(error):
     return render_template('505.html', error=error)
 
 @app.route('/')
-@app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('indexF.html')
 
-@app.route('/nosotros', defaults={'_route': 'nosotros'})
+@app.route('/contacto', defaults={'_route': 'contacto'})
 @app.route('/tienda', defaults={'_route': 'tienda'})
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/error404', defaults={'_route': '404'})
@@ -96,6 +95,8 @@ def addCart():
 def buyShopping():
     if request.method == 'GET' and session.get('Shoppingcart') is None:
         flash('para ver tu carrito tienes que primero agregar algo', 'info')
+        if request.referrer == None:
+            return redirect(url_for('index'))
         return redirect(request.referrer)
     else:
         total = 0
