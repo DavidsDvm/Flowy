@@ -3,6 +3,7 @@ from flask_login import current_user
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime
+import random
 
 from app import create_app
 from app.auth import auth
@@ -33,6 +34,15 @@ def index():
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/error404', defaults={'_route': '404'})
 def navigationPages(_route):
+    if _route == 'tienda':
+        context = {
+            'productos': producto.query.limit(12).all(),
+            'imagenes': imagenesProducto.query.all(),
+            'random': random
+        }
+
+        return render_template(_route+'.html', **context);
+
     return render_template(_route+'.html');
 
 @app.route('/tienda/<int:id>', methods =['GET'])
@@ -41,8 +51,11 @@ def shopAdd(id):
     imagenes = imagenesProducto.query.get(data.idImagenes)
 
     context = {
-        'data' : data,
-        'imagenes' : imagenes
+        'producto' : data,
+        'addProducts': producto.query.limit(6).all(),
+        'imagenes' : imagenes,
+        'allImages': imagenesProducto.query.all(),
+        'random': random
     }
 
     return render_template('productDescription.html', **context)
@@ -172,7 +185,10 @@ def deleteItem(id):
         for key, item in session['Shoppingcart'].items():
             if int(key) == id:
                 session['Shoppingcart'].pop(key, None)
-                return redirect(url_for('buyShopping'))
+                if not session['Shoppingcart']:
+                    session.pop('Shoppingcart', None)
+                    return redirect(url_for('navigationPages', _route = 'tienda'))
+                return redirect(request.referrer)
     except Exception as e:
         print(e)
         return redirect(url_for('buyShopping'))
