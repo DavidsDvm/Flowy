@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block css_style %}
-    {{ url_for('static', filename='css/description_css.css') }}
+    {{ url_for('static', filename='css/style.css') }}
 {% endblock css_style %}
 
 {% block title %}
     {{ super() }}
-    Detalle Producto
+    Detalle producto
 {% endblock title %}
 
 {% block header_type %}
@@ -14,53 +14,698 @@
 {% endblock header_type %}
 
 {% block main__content %}
-
-   <section class="mainContent">
-        <div class="mainContent__main">
-            <div class="mainContent__main--bigProduct">
-                <div class="imagenContent">
-                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen1) }}" alt="Flores en un jarron" class="aligment-center">
-                </div>
-                <div class="textContent">
-                    <h1>{{data.nombreProducto}}</h1>
-                    <p>${{data.precioProducto}}<br>
-                       Descuento:<c class="text-muted p-0"> NO APLICA </c><br>´
-                       <hr class="dropdown-divider pt-0"></hr>
-                        Descripcion del producto:<br><br>
-                        {{data.especificacionProducto}}<br>
-                    </p>
-                    <form action="{{url_for('addCart')}}" method="POST">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <div class="input-group">
-                            <input type="hidden" name="product_id" value="{{data.idProducto}}">
-                            <div class="input-quantity">
-                                <span class="input-group-text">Cantidad</span>
-                                <input type="number" name="quantity" value="1" min="1" max="{{data.cantidadProducto}}">
-                            </div>
-                            <button class="btn-agregate">Agregar Carrito</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="mainContent__main--products text-center">
-                {% if imagenes.imagen2 != none %}
-                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen2) }}">
-                {% endif %}
-                {% if imagenes.imagen3 != none %}
-                    <p>{{'imagenes.imagen'~i | safe}}</p>
-                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen3) }}">
-                {% endif %}
-                {% if imagenes.imagen4 != none %}
-                    <p>{{'imagenes.imagen'~i | safe}}</p>
-                    <img src="{{ url_for('static' ,filename='/img/'+imagenes.imagen4) }}">
-                {% endif %}
+    <!--===== Pre-Loading area Start =====-->
+    <!-- <div id="preloader">
+        <div class="preloader">
+            <div class="spinner-block">
+                <h1 class="spinner spinner-3 mb-0">.</h1>
             </div>
         </div>
-    </section>
+    </div> -->
+    <!--==== Pre-Loading Area End ====-->
+
+    <!-- Single Product Main Area Start -->
+    <div class="single-product-main-area">
+        <div class="container container-default custom-area">
+            <div class="row">
+                <div class="col-lg-5 offset-lg-0 col-md-8 offset-md-2 col-custom">
+                    <div class="product-details-img">
+                        <div class="single-product-img swiper-container gallery-top popup-gallery">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <a class="w-100" href="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}">
+                                        <img class="w-100" src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a class="w-100" href="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}">
+                                        <img class="w-100" src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a class="w-100" href="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}">
+                                        <img class="w-100" src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-product-thumb swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ url_for('static', filename='img/jarron_brillo_solar.jpg') }}" alt="Product">
+                                </div>
+                            </div>
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next swiper-button-white"><i class="lnr lnr-arrow-right"></i></div>
+                            <div class="swiper-button-prev swiper-button-white"><i class="lnr lnr-arrow-left"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-custom">
+                    <div class="product-summery position-relative">
+                        <div class="product-head mb-3">
+                            <h2 class="product-title">Jarron Brillo Solar</h2>
+                        </div>
+                        <div class="price-box mb-2">
+                            <span class="regular-price">$80.00</span>
+                            <span class="old-price"><del>$90.00</del></span>
+                        </div>
+                        <div class="product-rating mb-3">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="sku mb-3">
+                            <span>SKU: 12345</span>
+                        </div>
+                        <p class="desc-content mb-5">Hermoso Jarron de 12 Girasoles amarillos Lo recomendamos como regalo corporativo, para Él, En Amor y amistad, el día del Abuelo. .</p>
+                        <div class="quantity-with_btn mb-5">
+                            <div class="quantity">
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                    <div class="dec qtybutton">-</div>
+                                    <div class="inc qtybutton">+</div>
+                                </div>
+                            </div>
+                            <div class="add-to_cart">
+                                <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Agrega al Carrito</a>
+                                <a class="btn flosun-button secondary-btn secondary-border rounded-0" href="Lista Deseos.html">Agreaga a La Lista de Deseos</a>
+                            </div>
+                        </div>
+                        <div class="social-share mb-4">
+                            <span>Compartir :</span>
+                            <a href="#"><i class="fa fa-facebook-square facebook-color"></i></a>
+                            <a href="#"><i class="fa fa-twitter-square twitter-color"></i></a>
+                            <a href="#"><i class="fa fa-linkedin-square linkedin-color"></i></a>
+                            <a href="#"><i class="fa fa-pinterest-square pinterest-color"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-no-text">
+                <div class="col-lg-12 col-custom">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" id="profile-tab" data-toggle="tab" href="#connect-2" role="tab" aria-selected="false">Opiniones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" id="contact-tab" data-toggle="tab" href="#connect-3" role="tab" aria-selected="false">Politica De Servicios</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mb-text" id="myTabContent">
+                        <div class="tab-pane fade show active" id="connect-1" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="desc-content">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="connect-2" role="tabpanel" aria-labelledby="profile-tab">
+                            <!-- Start Single Content -->
+                            <div class="product_tab_content  border p-3">
+                                <div class="review_address_inner">
+                                    <!-- Start Single Review -->
+                                    <div class="pro_review mb-5">
+                                        <div class="review_thumb">
+                                            <img alt="review images" src="{{ url_for('static', filename='img/Avatar.png') }}">
+                                        </div>
+                                        <div class="review_details">
+                                            <div class="review_info mb-2">
+                                                <div class="product-rating mb-2">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <h5>Juan - <span> Enero 19, 2021</span></h5>
+                                            </div>
+                                            <p>Muy buen produco,El envio fue muy rapido ya que lo necesitaba urgente,Lo recomiendo mucho.</p>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Review -->
+                                </div>
+                                <!-- Start RAting Area -->
+                                <div class="rating_wrap">
+                                    <h5 class="rating-title-1 font-weight-bold mb-2">Agrega Su Opinion </h5>
+                                    <p class="mb-2">Su dirección de correo electrónico no será publicada. Los campos obligatorios están marcados *</p>
+                                    <h6 class="rating-title-2 mb-2">Su Rating</h6>
+                                    <div class="rating_list mb-4">
+                                        <div class="review_info">
+                                            <div class="product-rating mb-3">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End RAting Area -->
+                                <div class="comments-area comments-reply-area">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-custom">
+                                            <form action="#" class="comment-form-area">
+                                                <div class="row comment-input">
+                                                    <div class="col-md-6 col-custom comment-form-author mb-3">
+                                                        <label>Nombre <span class="required">*</span></label>
+                                                        <input type="text" required="required" name="Name">
+                                                    </div>
+                                                    <div class="col-md-6 col-custom comment-form-emai mb-3">
+                                                        <label>Email <span class="required">*</span></label>
+                                                        <input type="text" required="required" name="email">
+                                                    </div>
+                                                </div>
+                                                <div class="comment-form-comment mb-3">
+                                                    <label>Comentario</label>
+                                                    <textarea class="comment-notes" required="required"></textarea>
+                                                </div>
+                                                <div class="comment-form-submit">
+                                                    <button class="btn flosun-button secondary-btn rounded-0">Enviar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Content -->
+                        </div>
+                        <div class="tab-pane fade" id="connect-3" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="shipping-policy">
+                                <h4 class="title-3 mb-4">Politica de servicios</h4>
+                                <p class="desc-content mb-2">Devoluciones
+
+                                    Nuestra política dura 30 días. Si han pasado 30 días desde su compra, desafortunadamente no podemos ofrecerle un reembolso o cambio. 
+                                   
+                                   
+                                   
+                                    Para ser elegible para una devolución, su artículo debe estar sin usar y en las mismas condiciones en que lo recibió. También debe estar en el embalaje original. 
+                                   
+                                   
+                                   
+                                    Varios tipos de productos están exentos de ser devueltos. Los productos perecederos como alimentos, flores, periódicos o revistas no pueden devolverse. Tampoco aceptamos productos que sean productos íntimos o sanitarios, materiales peligrosos o líquidos o gases inflamables. 
+                                   
+                                   
+                                   
+                                    Artículos adicionales no retornables: 
+                                   
+                                    - Tarjetas de regalo 
+                                   
+                                    - Productos de software descargables 
+                                   
+                                    - Algunos artículos de salud y cuidado personal 
+                                   
+                                   
+                                   
+                                    Para completar su devolución, requerimos un recibo o comprobante de compra. 
+                                   
+                                    No envíe su compra de vuelta al fabricante. 
+                                   
+                                   
+                                   
+                                    Hay ciertas situaciones en las que solo se otorgan reembolsos parciales (si corresponde) 
+                                   
+                                    - Libro con signos evidentes de uso 
+                                   
+                                    - CD, DVD, cinta VHS, software, videojuego, cinta de cassette o disco de vinilo que se ha abierto 
+                                   
+                                    - Cualquier artículo que no esté en su estado original, está dañado o le faltan piezas por razones que no se deben a nuestro error 
+                                   
+                                    - Cualquier artículo devuelto más de 30 días después entrega 
+                                   
+                                   
+                                   
+                                    Reembolsos (si corresponde) 
+                                   
+                                    Una vez que se reciba e inspeccione su devolución, le enviaremos un correo electrónico para notificarle que hemos recibido su artículo devuelto. También le notificaremos la aprobación o rechazo de su reembolso. 
+                                   
+                                    Si es aprobado, su reembolso será procesado y se aplicará automáticamente un crédito a su tarjeta de crédito o método de pago original, dentro de un cierto cantidad de días 
+                                   
+                                   
+                                   
+                                    Reembolsos tardíos o faltantes (si corresponde) 
+                                   
+                                    Si aún no ha recibido un reembolso, primero verifique su cuenta bancaria nuevamente. 
+                                   
+                                    Luego comuníquese con la compañía de su tarjeta de crédito, puede pasar algún tiempo antes de que su reembolso se publique oficialmente. 
+                                   
+                                    Luego contacte a su banco. A menudo hay algún tiempo de procesamiento antes de que se publique un reembolso. 
+                                   
+                                    Si ha hecho todo esto y aún no ha recibido su reembolso, contáctenos en jdpulido61@misena.edu.co. 
+                                   
+                                   
+                                   
+                                    Artículos en oferta (si corresponde) 
+                                   
+                                    Solo se pueden reembolsar los artículos a precio regular, desafortunadamente los artículos en oferta no se pueden reembolsar. 
+                                   
+                                   
+                                   
+                                    Intercambios (si corresponde) 
+                                   
+                                    Solo reemplazamos los artículos si están defectuosos o dañados. Si necesita cambiarlo por el mismo artículo, envíenos un correo electrónico a jdpulido61@misena.edu.co y envíe su artículo a: calle 52 NO, 21122123 bogota, Cundinamarca, Colombia. 
+                                   
+                                   
+                                   
+                                    Regalos 
+                                   
+                                    Si el artículo se marcó como regalo cuando se compró y se le envió directamente a usted, recibirá un crédito de regalo por el valor de su devolución. Una vez que se reciba el artículo devuelto, se le enviará un certificado de regalo. 
+                                   
+                                   
+                                   
+                                    Si el artículo no se marcó como regalo cuando lo compró, o si el donante recibió el pedido para que se lo envíen más tarde, le enviaremos un reembolso al donante y él encontrará fuera de su regreso. 
+                                   
+                                   
+                                   
+                                    Envío 
+                                   
+                                    Para devolver su producto, debe enviarlo por correo a: calle 52 NO, 21122123 bogota, Cundinamarca, Colombia. 
+                                   
+                                   
+                                   
+                                    Usted será responsable de pagar sus propios costos de envío para devolver su artículo. Los gastos de envío no son reembolsables. Si recibe un reembolso, el costo del envío de devolución se deducirá de su reembolso. 
+                                   
+                                   
+                                   
+                                    Dependiendo de dónde viva, el tiempo que le tome a su producto intercambiado llegar a usted puede variar. 
+                                   
+                                   
+                                   
+                                    Si está enviando un artículo de más de $ 75, debería considerar usar un servicio de envío rastreable o comprar un seguro de envío. No garantizamos que recibiremos su artículo devuelto.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="connect-4" role="tabpanel" aria-labelledby="review-tab">
+                            <div class="size-tab table-responsive-lg">
+                                <h4 class="title-3 mb-4">Size Chart</h4>
+                                <table class="table border">
+                                    <tbody>
+                                        <tr>
+                                            <td class="cun-name"><span>UK</span></td>
+                                            <td>18</td>
+                                            <td>20</td>
+                                            <td>22</td>
+                                            <td>24</td>
+                                            <td>26</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cun-name"><span>European</span></td>
+                                            <td>46</td>
+                                            <td>48</td>
+                                            <td>50</td>
+                                            <td>52</td>
+                                            <td>54</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cun-name"><span>usa</span></td>
+                                            <td>14</td>
+                                            <td>16</td>
+                                            <td>18</td>
+                                            <td>20</td>
+                                            <td>22</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cun-name"><span>Australia</span></td>
+                                            <td>28</td>
+                                            <td>10</td>
+                                            <td>12</td>
+                                            <td>14</td>
+                                            <td>16</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cun-name"><span>Canada</span></td>
+                                            <td>24</td>
+                                            <td>18</td>
+                                            <td>14</td>
+                                            <td>42</td>
+                                            <td>36</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Single Product Main Area End -->
+    <!--Product Area Start-->
+    <div class="product-area mt-text-3">
+        <div class="container custom-area-2 overflow-hidden">
+            <div class="row">
+                <!--Section Title Start-->
+                <div class="col-12 col-custom">
+                    <div class="section-title text-center mb-30">
+                        <h3 class="section-title-3">Productos Destacados</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+            <div class="row product-row">
+                <div class="col-12 col-custom">
+                    <div class="product-slider swiper-container anime-element-multi">
+                        <div class="swiper-wrapper">
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <span class="onsale">Sale!</span>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Lavanda</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$98.00</span>
+                                            <span class="old-price"><del>$110.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/jarron_flores.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/jarron_flores.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Jarron 36 Flores</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/Rosas_Lirios_Blancos.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/Rosas_Lirios_Blancos.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Rosas y Lirios Blancos</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/Bouquet_de_6_girasoles.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/Bouquet_de_6_girasoles.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Bouquet de 6 Girasoles</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/Flor_Rosa_1.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/Flor_Rosa_1.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Flor Roja</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="product-details.html">
+                                            <img src="{{ url_for('static', filename='img/Flor_Carnation_1.jpg') }}" alt="" class="product-image-1 w-100">
+                                            <img src="{{ url_for('static', filename='img/Flor_Carnation_1.jpg') }}" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="product-details.html">Rosa Tipo Gardenia</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <br>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Agrega Al Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                        </div>
+                        <!-- Slider pagination -->
+                        <div class="swiper-pagination default-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Product Area End-->
 
 
-{% endblock main__content %}
+    <!-- Modal -->
+    <div class="modal flosun-modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span class="close-icon" aria-hidden="true">x</span>
+                </button>
+                <div class="modal-body">
+                    <div class="container-fluid custom-area">
+                        <div class="row">
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product-img">
+                                    <a class="w-100" href="#">
+                                        <img class="w-100" src="{{ url_for('static', filename='img/product/large-size/1.jpg') }}" alt="Product">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product">
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title">Product dummy name</h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span>1 Review</span>
+                                        </div>
+                                        <p class="desc-content">we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame bel...</p>
+                                        <form class="d-flex flex-column w-100" action="#">
+                                            <div class="form-group">
+                                                <select class="form-control nice-select w-100">
+                                                    <option>S</option>
+                                                    <option>M</option>
+                                                    <option>L</option>
+                                                    <option>XL</option>
+                                                    <option>XXL</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div class="quantity-with-btn">
+                                            <div class="quantity">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                                    <div class="dec qtybutton">-</div>
+                                                    <div class="inc qtybutton">+</div>
+                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="add-to_btn">
+                                                <a class="btn product-cart button-icon flosun-button dark-btn" href="cart.html">Añadir Carrito</a>
+                                                <a class="btn flosun-button secondary-btn rounded-0" href="Lista Deseos.html">Add to Lista Deseos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main__content%}
+
+{% block js_scripts %}
+    <script src="../static/js/main.js"></script>
+{% endblock js_scripts %}
 
 {% block footer_type %}
-    {% include 'footer.html' %}
+    {%include 'footer.html'%}
 {% endblock footer_type %}
