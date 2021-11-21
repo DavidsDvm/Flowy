@@ -140,7 +140,8 @@
       <div class="signin-signup">
         <form action="{{ url_for('auth.login') }}" method="POST" class="sign-in-form">
           {{ login_form.csrf_token }}
-          <h2 class="title">Iniciar Sesion</h2>
+          <img src="../static/img/LOGOF.svg" style="width: 200px;"/><br>
+          <h2 class="title">Iniciar Sesión</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
             {{ login_form.username() }}
@@ -153,7 +154,8 @@
         </form>
         <form method="POST" action="" class="sign-up-form">
           {{ register_form.csrf_token }}
-          <h2 class="title">Registrase</h2>
+          <img src="../static/img/LOGOF.svg"style=" width: 200px;" /><br>
+          <h2 class="title">Registrarse</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
             {{ register_form.usernameRegister() }}
@@ -187,7 +189,7 @@
             Registrase
           </button>
         </div>
-        <img src="{{ url_for('static', filename='img/login_welcome.svg') }}" class="image" alt="" />
+        <img src="{{ url_for('static', filename='img/Logo_Flor_2.svg') }}" class="image" alt="" />
       </div>
       <div class="panel right-panel">
         <div class="content">
@@ -199,7 +201,7 @@
             Iniciar Sesion
           </button>
         </div>
-        <img src="{{ url_for('static', filename='img/register_spring.svg') }}" class="image" alt="" />
+        <img src="{{ url_for('static', filename='img/Logo_Flor_1.svg') }}" class="image" alt="" />
       </div>
     </div>
   </div>
