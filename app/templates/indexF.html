@@ -1,0 +1,757 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/style.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Inicio
+{% endblock title %}
+
+{% block header_type %}
+    {% include 'header.html' %}
+{% endblock header_type %}
+
+{% block main__content %}
+    <!--===== Pre-Loading area Start =====-->
+    <div id="preloader">
+        <div class="preloader">
+            <div class="spinner-block">
+                <h1 class="spinner spinner-3 mb-0">.</h1>
+            </div>
+        </div>
+    </div>
+    <!--==== Pre-Loading Area End ====-->
+
+    <!-- Slider/Intro Section Start -->
+    <div class="intro11-slider-wrap section">
+        <div class="intro11-slider swiper-container">
+            <div class="swiper-wrapper">
+                <div class="intro11-section swiper-slide slide-1 slide-bg-1 bg-position">
+                    <!-- Intro Content Start -->
+                    <div class="intro11-content text-left">
+                        <h3 class="title-slider text-uppercase">¡Tendencia!</h3>
+                        <h2 class="title">Bienvenidos</h2>
+                        <p class="desc-content">Bienvenidos A nuestro sitio Web...No esperes más ¡Compra ahora!</p>
+                        <a href="{{ url_for('navigationPages', _route = 'tienda') }}" class="btn flosun-button secondary-btn theme-color  rounded-0">Comprar ahora</a>
+                    </div>
+                    <!-- Intro Content End -->
+                </div>
+                <div class="intro11-section swiper-slide slide-2 slide-bg-1 bg-position">
+                    <!-- Intro Content Start -->
+                    <div class="intro11-content text-left">
+                        <h3 class="title-slider black-slider-title text-uppercase">Las Mejores Collecciones</h3>
+                        <h2 class="title">Flores y Arreglos <br>Calidad de regalos</h2>
+                        <p class="desc-content">Arreglos de alta calidad y con los mejores estilos del pais.</p>
+                        <a href="{{ url_for('shopAdd', id = '1') }}" class="btn flosun-button secondary-btn rounded-0">Comprar Ahora</a>
+                    </div>
+                    <!-- Intro Content End -->
+                </div>
+            </div>
+            <!-- Slider Navigation -->
+            <!-- Slider pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    <a  name="services"></a>
+    <div class="content-section-a">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">¡La flor ideal para ti!</h2>
+                    <p class="lead">Visita nuestro  <a target="_blank" href="/tienda">Catálogo </a> de productos para regalárselo a esa persona especial para ti .</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="../static/img/Arreglo_Flor_2.jpg" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!--Categories Area End-->
+    <!--Product Area Start-->
+    <div class="content-section-b">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="../static/img/Envio2.jpg" alt="" style="width: 68%;">
+                </div>  
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">¡Confía en Nosotros!</h2>
+                    <p class="lead">Somos la tienda más confiable ya que contamos con un grupo de personas experimentadas en servicio al cliente exclusivamente para ti, Si no recibes tu producto en el tiempo indicado o no es lo mismo que prometemos, puedes estar segur@ de que lo solucionaremos!</p>
+                </div>
+  
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+        </div>
+    </div>
+    <!--Product Area End-->
+    <!-- Testimonial Area Start Here -->
+    <div class="content-section-a">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">¡Nosotros!</h2>
+                    <p class="lead">Te queremos dar una buena impresión, Por cual queremos que tengas una experiencia increíble con nosotros ¡Te Esperamos!.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="../static/img/Flores_Multi_3.jpg" alt="" style="width: 80% ;">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+        <!-- /.container -->
+
+    </div>
+                            <!--Single Testimonial End-->
+                        </div>
+                        <div class="single-item swiper-slide">
+                            <!--Single Testimonial Start-->
+                            <!--Single Testimonial End-->
+                        </div>
+                    </div>
+                    <div class="swiper-pagination default-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial Area End Here -->
+
+     <!--Product Area Start-->
+     <div class="product-area mt-text-2">
+        <div class="container custom-area-2 overflow-hidden">
+            <div class="row">
+                <!--Section Title Start -->
+                <div class="col-12 col-custom">
+                    <div class="section-title text-center mb-30">
+                        <h3 class="section-title-3">Nuestro Catálogo</h3>
+                    </div>
+                </div>
+                <!--Section Title End-->
+            </div>
+            <div class="row product-row">
+                <div class="col-12 col-custom">
+                    <div class="product-slider swiper-container anime-element-multi">
+                        <div class="swiper-wrapper">
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/Rosas_Lirios_Blancos.jpg" alt="" class="product-image-1 w-100" style="height: 260px;">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <span class="onsale">Sale!</span>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosas con Lirios Arreglo</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/shop_flower_1.jpg" alt="" class="product-image-1 w-100" style="height: 260px;">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Arreglo Sencillo</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/Orquidea_Italiana.jpg" alt="" class="product-image-1 w-100" style="height: 260px;">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Orquidea Italiana</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/Bouquet_de_6_girasoles.jpg" alt="" class="product-image-1 w-100" style="height: 260px;">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Girasoles Bouquet</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/Flor_Rosa_1.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Rosa Unidad</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/Girasol_Amarillo.jpg" alt="" class="product-image-1 w-100" style="height: 260px;">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Hyacinth white stick</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/jarron_brillo_solar.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="../static/img/product/4.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Jarron Brillo Solar</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/lilyIcon_1.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Lirio Unidad</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/product/8.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="../static/img/product/7.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Pearly Everlasting</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/product/9.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="../static/img/product/8.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flowers daisy pink stick</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                            </div>
+                            <div class="single-item swiper-slide">
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/product/2.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="../static/img/product/1.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flowers white</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                </div>
+                                <!--Single Product End-->
+                                <!--Single Product Start-->
+                                <div class="single-product position-relative mb-30">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = '1') }}">
+                                            <img src="../static/img/product/9.jpg" alt="" class="product-image-1 w-100">
+                                            <img src="../static/img/product/3.jpg" alt="" class="product-image-2 position-absolute w-100">
+                                        </a>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="compare.html" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="Lista Deseos.html" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter" title="Quick View" data-toggle="modal" data-target="#exampleModalCenter">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Quick View"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = '1') }}">Flower red stick</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <a href="cart.html" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                    
+                                </div>
+                               
+                                <!--Single Product End-->
+                            </div>
+                            
+                        </div>
+                        <div style="padding: 20px;" class="flores">Ver mas en <a href="/tienda">Catálogo</a></div>
+                        <!-- Slider pagination -->
+                        <div class="swiper-pagination default-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Product Area End-->
+
+
+    <!-- Newsletter Area Start Here -->
+ <div class="news-letter-area gray-bg pt-no-text pb-no-text mt-text-3">
+    <div class="container custom-area">
+        <div class="row align-items-center">
+            <!--Section Title Start-->
+            <div class="col-md-6 col-custom">
+                <div class="section-title text-left mb-35">
+                    <h3 class="section-title-3">Contactar Vendedor</h3>
+                    <p class="desc-content mb-0">Ingresa tu correo para enviarle un mensaje el vendedor</p>
+                </div>
+            </div>
+            <!--Section Title End-->
+            <div class="col-md-6 col-custom">
+                <div class="news-latter-box">
+                    <div class="newsletter-form-wrap text-center">
+                        <form id="mc-form" class="mc-form">
+                            <input type="email" id="mc-email" class="form-control email-box" placeholder="email@example.com" name="EMAIL">
+                            <button id="mc-submit" class="btn rounded-0" type="submit">Enviar</button>
+                        </form>
+                        <!-- mailchimp-alerts Start -->
+                        <div class="mailchimp-alerts text-centre">
+                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                            <div class="mailchimp-success text-success"></div><!-- mailchimp-success end -->
+                            <div class="mailchimp-error text-danger"></div><!-- mailchimp-error end -->
+                        </div>
+                        <!-- mailchimp-alerts end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Newsletter Area End Here -->
+
+
+    <!-- Modal -->
+    <div class="modal flosun-modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span class="close-icon" aria-hidden="true">x</span>
+                </button>
+                <div class="modal-body">
+                    <div class="container-fluid custom-area">
+                        <div class="row">
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product-img">
+                                    <a class="w-100" href="../static/img/Rosas_Lirios_Blancos.jpg">
+                                        <img class="w-100" src="../static/img/Rosas_Lirios_Blancos.jpg" alt="Product">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product">
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title">Rosas con Lirio Arreglo</h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">$80.00</span>
+                                            <span class="old-price"><del>$90.00</del></span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span>1 Review</span>
+                                        </div>
+                                        <p class="desc-content">Este elegante producto tiene en su interior rosas blancas ecuatorianas de alta calidad y con los cuidados necesarios para el hogar, tambien encontrara lirio blanco colombiano</p>
+                                        <form class="d-flex flex-column w-100" action="#">
+                                            <!-- <div class="form-group">
+                                                <select class="form-control nice-select w-100">
+                                                    <option>L</option>
+                                                    <option>M</option>
+                                                    <option>L</option>
+                                                    <option>XL</option>
+                                                    <option>XXL</option>
+                                                </select>
+                                            </div> -->
+                                        </form>
+                                        <div class="quantity-with-btn">
+                                            <div class="quantity">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                                    <div class="dec qtybutton"></div>
+                                                    <div class="inc qtybutton"></div>
+                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="add-to_btn">
+                                                <a class="btn product-cart button-icon flosun-button dark-btn" href="compra.html">Añadir Carrito</a>
+                                                <a class="btn flosun-button secondary-btn rounded-0" href="Lista Deseos.html">Lista Deseos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Start -->
+    <a class="scroll-to-top" href="#">
+        <i class="lnr lnr-arrow-up"></i>
+    </a>
+
+{% endblock main__content %}
+    
+{% block js_scripts %}
+    <script src="../static/js/main.js"></script>
+{% endblock js_scripts %}
+
+{% block footer_type %}
+    {%include 'footer.html'%}
+{% endblock footer_type %}
