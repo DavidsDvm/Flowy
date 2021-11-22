@@ -24,9 +24,9 @@ proovedor1 = proovedor('Flores C SAS', 'Raul', '1052487895', 'CC', 'flores@flore
 proovedor2 = proovedor('LasFloresdePedro', 'Pedro', '1030699585', 'CC', 'Pedro@Flowers.com', '3198274715')
 proovedor3 = proovedor('Flowers CORP', 'Will', '1030574151', 'CE', 'FlowerC@gmail.com', '3165024147')
 
-compra1 = compra('2021-06-25', '50000', 'Compra de Tulipanes x100,Rosas x800', 'Activo', 1, 2)
-compra2 = compra('2021-05-31', '600000', 'Compra orquideas x30, Compra azucenax 300', 'Activo', 2, 1)
-compra3 = compra('2020-06-25', '500000', 'Compra Dalia x50, Compra hortensiax100', 'Activo', 3, 1)
+compra1 = compra('2021-06-25', '50000', '01', 'Compra de Tulipanes x100,Rosas x800', 'Activo', 1, 2)
+compra2 = compra('2021-05-31', '600000','02', 'Compra orquideas x30, Compra azucenax 300', 'Activo', 2, 1)
+compra3 = compra('2020-06-25', '500000','03', 'Compra Dalia x50, Compra hortensiax100', 'Activo', 3, 1)
 
 cliente1 = cliente('cll 54 bs24-2', '31030445467', 'Ramiro Gonzalez','CC', '5465765489765432', None, '547', '06', '2023', 'Ramiro Gonzalez', '1')
 cliente2 = cliente('Crr 28 v67-21', '3143143142', 'Calceto oliente','Paypal', None, 'calcetoRo@gmail.com', None, None, None, 'Calceto', '2')
