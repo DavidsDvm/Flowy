@@ -1,127 +1,253 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- index css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_css.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}"> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
-    <!-- Boostrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <!-- iconos-->
-    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Floowy</title>
-</head>
-<body>
-    <div id="header">
-        <header class="header" id="header_navbar">
-            <nav class="navbar navbar-expand-lg navbar-light header__nav">
-                <div class="container-fluid header__nav__main">
-                    <div class="header__nav__main--title">
-                        <a class="navbar-brand" href="/">
-                            <img src="{{ url_for('static', filename='img/Logo_Flowy.svg') }}" id="header_logo" alt="" width="45" height="30" class="d-inline-block align-text-top">
-                            <h>FLOOWY</h>
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/style.css') }}
+{% endblock css_style %}
+
+{% block main__content %}
+<!-- Header Area Start Here -->
+<header class="main-header-area">
+    <!-- Main Header Area Start -->
+   
+    {% if "/tienda" in request.path or request.path == "/contacto" or request.path == "/compra" or request.path == "/checkout" %}
+        <div class="main-header header-sticky">        
+    {% else %}
+        <div class="main-header header-transparent header-sticky">
+    {% endif %}
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-xl-2 col-md-6 col-6 col-custom">
+                    <div class="header-logo d-flex align-items-center">
+                        <a href="{{ url_for('index') }}">
+                            <img class="img-full" src="{{ url_for('static', filename='img/LOGODEF.svg') }}" style="width: 200px; margin-left:30%;" alt="Header Logo">
                         </a>
                     </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="header__nav__main--options collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/nosotros">Nosotros</a>
+                </div>
+                <div class="col-lg-8 d-none d-lg-flex justify-content-center col-custom">
+                    <nav class="main-nav d-none d-lg-flex">
+                        <ul class="nav color-n">
+                            <li>
+                                <a {% if request.path == "/"%} class="active"{% endif %} href="{{ url_for('index') }}">
+                                    <span class="menu-text"> Inicio</span>
+                                </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/tienda">Tienda</a>
+                            <li>
+                                <a {% if request.path == "/tienda"%} class="active"{% endif %} href="{{ url_for('navigationPages', _route = 'tienda') }}">
+                                    <span class="menu-text">Catálogo</span>
+                                </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/flores">Flores</a>
+                            <li>
+                                <a {% if request.path == "/contacto"%} class="active" {% endif %} href="{{ url_for('navigationPages', _route = 'contacto') }}">
+                                    <span class="menu-text">Contactenos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if request.path == "/auth/login"%} class="active"{% endif %} href="{{ url_for('auth.login') }}">
+                                    <span class="menu-text">Inicia Sesión</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- shopping cart start -->
+                <div class="col-lg-2 col-md-6 col-6 col-custom">
+                    <div class="header-right-area main-nav">
+                        <ul class="nav">
+                            <li class="minicart-wrap">
+                                <a href="{{url_for('buyShopping')}}" class="minicart-btn toolbar-btn">
+                                    <i class="fa fa-shopping-cart btn-index-end"></i>
+                                    <span class="cart-item_count">{{session['Shoppingcart']|length}}</span>
+                                </a>
+                                <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+                                    {% if 'Shoppingcart' in session %}
+                                        {% for key, product in session['Shoppingcart'].items() %}
+                                        <div class="single-cart-item">
+                                            <div class="cart-img">
+                                                <a href="{{url_for('buyShopping')}}"><img src="{{ url_for('static', filename='img/'+product.imagen) }}" alt=""></a>
+                                            </div>
+                                            <div class="cart-text">
+                                                <h5 class="title"><a href="{{url_for('buyShopping')}}">{{product.nombre}}</a></h5>
+                                                <div class="cart-text-btn">
+                                                    <div class="cart-qty">
+                                                        <span>{{product.cantidad}}×</span>
+                                                        <span class="cart-price">${{product.precio}}</span>
+                                                    </div>
+                                                    <button type="button"><a href="{{url_for('deleteItem', id=key)}}"><i class="lnr lnr-trash"></i></a></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}                                        
+                                    {% endif %}
+                                    <div class="cart-links d-flex justify-content-between">
+                                        <a class="btn product-cart button-icon flosun-button dark-btn" href="{{url_for('buyShopping')}}">Ver Carrito</a>
+                                        <a class="btn flosun-button secondary-btn rounded-0" href="{{url_for('clearCart')}}">Vaciar carrito</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="sidemenu-wrap">
+                                <a href="#"><i class="fa fa-search"></i> </a>
+                                <ul class="dropdown-sidemenu dropdown-hover-2 dropdown-search">
+                                    <li>
+                                        <form action="#">
+                                            <input name="search" id="search" placeholder="Search" type="text">
+                                            <button type="submit"><i class="fa fa-search"></i></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="account-menu-wrap d-none d-lg-flex">
+                                <a href="#" class="off-canvas-menu-btn">
+                                    <i class="fa fa-bars"></i>
+                                </a>
+                            </li>
+                            <li class="mobile-menu-btn d-lg-none">
+                                <a class="off-canvas-btn" href="#">
+                                    <i class="fa fa-bars"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
-
-                    <div class="row">
-                        <div class="two columns">
-                            <ul>
-                                <li class="submenu" style="list-style: none;">
-                                    <i class="fa" style="font-size: 25px;">&#xf07a;</i>
-                                    <span class='badge badge-warning' id='lblCartCount'> {{session['Shoppingcart']|length}} </span>
-                                    <div id="carrito">
-                                        <table id="lista-carrito" class="u-full-width">
-                                            <thead>
-                                                <tr>
-                                                    <th>Imagen</th>
-                                                    <th>Productos</th>
-                                                    <th>Precio</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% if 'Shoppingcart' in session %}
-                                                    {% for key, product in session['Shoppingcart'].items() %}
-                                                        <tr>
-                                                            <td><img src="{{ url_for('static', filename='img/'+product.imagen) }}" width="100px" class="shopping_card-picture"></td>
-                                                            <td>{{product.nombre}}</td>
-                                                            <td>${{product.precio}}</td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </tbody>
-                                        </table>
-                                        <hr class="dropdown-divider">
-                                        <a href="{{url_for('clearCart')}}" id="vaciar-carrito" class="w-50 btn btn-primary btn-block f">Varciar</a>
-                                        <a href="/compra" id="procesar-pedido" class=" w-50 btn btn-danger btn-block pt-1">Pagar</a>
-                                    </div>	
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <!-- <div class="navbar-collapse header__nav__main--cart d-flex justify-content-end" id="navbarCollapse">
-                        <div class="dropstart">
-                            <i class="fa" style="font-size: 25px;" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="5">&#xf07a;</i>
-                            <span class='badge badge-warning' id='lblCartCount'> {{session['Shoppingcart']|length}} </span>
-                            <div id="carrito" class="dropdown-menu" style="width:2%" aria-labelledby="navbarCollapse">
-                                
-                                <table id="lista-carrito" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Imagen</th>
-                                            <th>Productos</th>
-                                            <th>Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% if 'Shoppingcart' in session %}
-                                            {% for key, product in session['Shoppingcart'].items() %}
-                                                <tr>
-                                                    <td><img src="{{ url_for('static', filename='img/'+product.imagen) }}" width="100px" class="shopping_card-picture"></td>
-                                                    <td>{{product.nombre}}</td>
-                                                    <td>${{product.precio}}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        {% endif %}
-                                    </tbody>
-                                    
-                                </table>
-                                <hr class="dropdown-divider">
-                                <a href="{{url_for('clearCart')}}" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar</a>
-                                <a href="/compra" id="procesar-pedido" class="btn btn-danger btn-block">Pagar</a>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
-            </nav>
-        </header>
+                <!-- shopping cart start -->
+            </div>
+        </div>
     </div>
-            
-    <!-- Boostrap JavaScript -->
-    <script src="../static/js/carrito.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
-</body>
-</html>
+    <!-- Main Header Area End -->
+    <!-- off-canvas menu start -->
+    <aside class="off-canvas-wrapper" id="mobileMenu">
+        <div class="off-canvas-overlay"></div>
+        <div class="off-canvas-inner-content">
+            <div class="btn-close-off-canvas">
+                <i class="fa fa-times"></i>
+            </div>
+            <div class="off-canvas-inner">
+                <div class="search-box-offcanvas">
+                    <form>
+                        <input type="text" placeholder="Search product...">
+                        <button class="search-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <!-- mobile menu start -->
+                <div class="mobile-navigation">
+                    <!-- mobile menu navigation start -->
+                    <nav>
+                        <ul class="mobile-menu">
+                            <li>
+                                <a {% if request.path == "/"%} class="active"{% endif %} href="{{ url_for('index') }}">
+                                    <span class="menu-text"> Inicio</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if request.path == "/tienda"%} class="active"{% endif %} href="{{ url_for('navigationPages', _route = 'tienda') }}">
+                                    <span class="menu-text">Catálogo</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if request.path == "/contacto"%} class="active" {% endif %} href="{{ url_for('navigationPages', _route = 'contacto') }}">
+                                    <span class="menu-text">Contactenos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if request.path == "/auth/login"%} class="active"{% endif %} href="{{ url_for('auth.login') }}">
+                                    <span class="menu-text">Inicia Sesión</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu navigation end -->
+                </div>
+                <!-- mobile menu end -->
+                <div class="offcanvas-widget-area">
+                    <div class="top-info-wrap text-left text-black">
+                        <ul class="address-info">
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <a href="+57 3168097495">+57 3168097495</a>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope"></i>
+                                <a href="FlowyDomain@gmail.com">FlowyDomain@gmail.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- off-canvas menu end -->
+     <!-- off-canvas menu start -->
+     <aside class="off-canvas-menu-wrapper" id="sideMenu">
+        <div class="off-canvas-overlay"></div>
+        <div class="off-canvas-inner-content">
+            <div class="off-canvas-inner">
+                <div class="btn-close-off-canvas">
+                    <i class="fa fa-times"></i>
+                </div>
+                <!-- offcanvas widget area start -->
+                <div class="offcanvas-widget-area">
+                    <ul class="menu-top-menu">
+                        <li><a href="about-us.html">Conocenos</a></li>
+                    </ul>
+                    <p class="desc-content">Somos una empresa colombiana que brinda a sus clientes productos y<br>
+                        servicios de excelente calidad.<br>
+                        En Flowy podemos ayudarlo a expresar sus sentimientos con hermosas<br>
+                        flores a precios favorables y entregas a tiempo.<br>
+                        Entendemos lo importante que es usted al elegirnos para una experiencia<br>
+                        especial y estamos comprometidos a hacer todo lo posible para que usted y<br>
+                        sus seres queridos tengan momentos memorables. </p>
+                    <div class="top-info-wrap text-left text-black">
+                        <ul class="address-info">
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <a href="SoporteFloowy@Floowy.com">(57) 3168097495</a>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope"></i>
+                                <a href="SoporteFloowy@Floowy.com">SoporteFloowy@Floowydomain.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- offcanvas widget area end -->
+            </div>
+        </div>
+    </aside>
+    <!-- off-canvas menu end -->
+    <!-- off-canvas menu start -->
+    <aside class="off-canvas-menu-wrapper" id="sideMenu">
+        <div class="off-canvas-overlay"></div>
+        <div class="off-canvas-inner-content">
+            <div class="off-canvas-inner">
+                <div class="btn-close-off-canvas">
+                    <i class="fa fa-times"></i>
+                </div>
+                <!-- offcanvas widget area start -->
+                <div class="offcanvas-widget-area">
+                    <ul class="menu-top-menu">
+                        <li><a href="about-us.html">FLOOWY</a></li>
+                    </ul>
+                    <p class="desc-content">Sistema de venta de todo tipo de flores con los mejores beneficios, consigue tu producto deseado el mejor precio y sin demora de entrega</p>
+                    <p><strong>El uso De FLOOWY permitira tener un control total de ventas y compras, teniendo como base ciertos productos en el sistema</strong></p>
+                        <p>Tambien al usar este sistema tendras reportes, control de todos los modulos del sistema desde un punto enfocado y sin problemas, dejando asi uno de los mejores aplicativos para este sistema</p>
+                    <div class="top-info-wrap text-left text-black">
+                        <ul class="address-info">
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <a href="https://wa.me/573168097495/" target="_blank" rel="noopener noreferrer">+57 3168097495</a>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope"></i>
+                                <a href="mailto:FlowyDomain@gmail.com">FlowyDomain@gmail.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- offcanvas widget area end -->
+            </div>
+        </div>
+    </aside>
+    <!-- off-canvas menu end -->
+</header>
+<!-- Header Area End Here -->
+
+{% endblock main__content%}

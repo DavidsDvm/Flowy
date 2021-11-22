@@ -51,7 +51,8 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
-# Usuarios
+# Usuarios ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/usuarios')
 def usuariosPanel():
     all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
@@ -90,6 +91,10 @@ def allowed_file(filename):
 def perfilPanel():
     if current_user.idTipoUsuario == 2:
         clienteData = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
+        if not clienteData:
+            flash('No se encontro el cliente, prueba comprando un articulo primero', 'info')
+            return redirect(url_for('panel.inicioPanel'))
+
         context = {
             'usuarioLogeadoActualmente' : current_user,
             'tipoUsuario': 'cliente',
@@ -163,103 +168,13 @@ def perfilPanel():
 
     return render_template('panelPerfil.html', **context)
 
-
-@panel.route('/usuarios/insert', methods =['GET','POST'])
-@employ_required
-def addUsuarios():
-    if (request.method == 'POST'):
-        nombreUsuario= request.form['nombreUsuario']
-        avatar= 'userImage_1.png'
-        password= request.form['password']  
-        emailUsuario= request.form['email']  
-        estadoUsuario= 'activo'
-        tipoUsuario= request.form.get('tipoUsuario')
-        nombreEmpleado= request.form['nombreEmpleado']
-        tipoEmpleado = request.form['tipoEmpleado']
-        celularEmpleado= request.form['celularEmpleado']
-        estadoemplado= 'activo'
-        tipoDocEmpleado = request.form['tipoDocEmpleado']
-        DocEmpleado = request.form['DocEmpleado']
-        confirmationHash = str(uuid.uuid4().hex)    
-        
-        user = usuario.query.filter_by(usuario = nombreUsuario).first()
-        userEmail = usuario.query.filter_by(emailUsuario = emailUsuario).first()
-
-        if user or userEmail:
-            flash('Este usuario ya existe', 'error')
-            return redirect(request.referrer)
-
-
-        if tipoUsuario == 1 or tipoUsuario == '1':
-            newUsuario = usuario(nombreUsuario,avatar,password,emailUsuario,estadoUsuario,confirmationHash,tipoUsuario)
-
-            db.session.add(newUsuario)
-            db.session.commit()
-            
-            if  nombreEmpleado==None or tipoEmpleado==None or celularEmpleado==None or  tipoDocEmpleado==None or DocEmpleado==None:
-                db.session.delete(newUsuario)
-                db.session.commit()
-                flash('No envio los datos de empleado correctamente', 'error')
-            else:
-                newEmpleado = empleado(nombreEmpleado,tipoEmpleado,celularEmpleado,estadoemplado,tipoDocEmpleado,DocEmpleado,newUsuario.idUsuario)
-                db.session.add(newEmpleado)
-                db.session.commit()
-
-                flash('Usuario creado correctamente', 'success')
-
-            return redirect(url_for('panel.usuariosPanel'))
-        else:
-            newUsuario = usuario(nombreUsuario,avatar,password,emailUsuario,estadoUsuario,confirmationHash,tipoUsuario)
-
-            db.session.add(newUsuario)
-            db.session.commit()
-                
-            flash('Usuario creado correctamente', 'success')
-
-            return redirect(url_for('panel.usuariosPanel'))
-
-            
-    return render_template('panelUsuarios.html', **context)
-    
-
-
-
-@panel.route('/usuarios/delete/<int:id>', methods = ['GET', 'POST'])
-@employ_required
-def deleteUsuario(id):
-    my_data = usuario.query.get(id)
-
-    my_data.estadoUsuario = "Inactivo"
-    db.session.commit()
-
-    return redirect(url_for('panel.usuariosPanel'))
-
-
-@panel.route('/usuarios/update/<int:id>', methods =['GET', 'POST'])
-@employ_required
-def editUsuarios(id):
-    if (request.method == 'POST'):
-        my_data = usuario.query.get(id)
-        my_data.usuario = request.form['usuario']
-        my_data.password = request.form['password']
-        my_data.emailUsuario = request.form['emailUsuario']
-        db.session.commit()
-        flash('Usuario actualizado correctamente')
-
-    return redirect(url_for('panel.usuariosPanel'))
-
-
-
-
-
-
-
-
-
+# Compras ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/compras')
 @employ_required
 def comprasPanel():
     all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
     compras = {}
     for key, data in enumerate(all_data, start=1):
         empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
@@ -269,7 +184,8 @@ def comprasPanel():
     context = {
         'usuarioLogeadoActualmente' : current_user,
         'today' : date.today(),
-        'compras' : compras
+        'compras' : compras,
+        'producto' : productoComp
     }
 
     return render_template('panelCompras.html', **context)
@@ -301,17 +217,41 @@ def comprasPanelEspecific(id):
 
     return render_template('panelCompras.html', **context)
 
+@panel.route('/compras/addnew/<int:id>')
+@employ_required
+def comprasPanelNewEspecificItem(id):
+    all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
+    exactProduct = producto.query.filter_by(idProducto = id).first()
+    compras = {}
+    for key, data in enumerate(all_data, start=1):
+        empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
+        nombreProvedor = proovedor.query.filter_by(idProovedor = data.idProovedor).first().nombreProovedor
+        compras[key] = {'especificacionCompra' : data.especificacionCompra, 'totalCompra' : data.totalCompra, 'empleadoNombre' : empleadoNombre, 'fechaCompra' : data.fechaCompra, 'proovedorNombre' : nombreProvedor, 'idCompras' : data.idCompra, 'idProovedor' : data.idProovedor}
+
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'today' : date.today(),
+        'compras' : compras,
+        'exactProducto' : exactProduct,
+        'producto' : productoComp
+    }
+
+    return render_template('panelCompras.html', **context)
+
 @panel.route('/compras/insert', methods =['POST'])
 @employ_required
 def addCompras():
     if (request.method == 'POST'):
         fechaCompra = str(date.today())
         totalCompra = request.form['totalPurchase']
-        idEmpleado = 1
+        idEmpleado = current_user.idUsuario
         idProovedor = request.form['proovedorName']
         especificacionCompra = request.form['buyEspecification']
+        Producto = request.form.get('idProductoa', False)
+        estadoCompra = "Completo"
 
-        my_data = compra(fechaCompra, totalCompra, idEmpleado, idProovedor, especificacionCompra)
+        my_data = compra(fechaCompra, totalCompra, Producto, especificacionCompra, estadoCompra, idEmpleado, idProovedor)
         db.session.add(my_data)
         db.session.commit()
 
@@ -348,7 +288,8 @@ def deleteCompras(id):
 
     return redirect(url_for('panel.comprasPanel'))
 
-# Pedidos
+# Pedidos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/pedidos')
 @employ_required
 def pedidosPanel():
@@ -426,7 +367,8 @@ def deletePedidos(id):
 
 
 
-# Productos
+# Productos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/productos')
 def productosPanel():
     all_data = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
