@@ -57,6 +57,13 @@
 
                             <!-- Modales -->
                             <!-- Modal de Registro -->
+                            {% if exactProducto %}
+                                <script>
+                                    $(document).ready(function(){
+                                        $("#modalAdd").modal("show");
+                                    });
+                                </script>
+                            {% endif %}
                             <div id="modalAdd" class="modal" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -65,27 +72,34 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="{{ url_for('panel.addCompras') }}" method="POST">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                                 <div class="form-group">
                                                     <label>Total de la compra</label>
                                                     <input type="number" class="form-control" name="totalPurchase" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Nombre del Proovedor</label>
+                                                    <label>id Proovedor</label>
                                                     <input type="text" class="form-control" name="proovedorName" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Productos:</label>
-                                                    <button type="button" class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalProductos"><i class="icon ion-md-add"></i></button>
+                                                        <button type="button" class="more btn btn-light position-absolute  mr-2 btn-edit"  data-bs-toggle="modal" data-bs-target="#modalProductos"><i class="icon ion-md-add"></i></button>
+                                                   
                                                     <div id="product"></div>
                                                 </div>
-                                                <!-- <div class="form-group">
-                                                    <label>Especificacion Compra</label>
-                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>Productos:</textarea>
-                                                </div>
+                                                {% if exactProducto %}
+                                                    <div class="form-group">
+                                                        <label>Nombre Producto</label>
+                                                        <input disabled="disabled" type="text" value="{{exactProducto.nombreProducto}}" name="nombreProducto" class="form-control"  required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input disabled="disabled" type="hidden" name="idProductoa" value="{{exactProducto.idProducto}}" class="form-control"  required>
+                                                    </div>
+                                                {% endif %}
                                                 <div class="form-group">
-                                                    <label>Cantidad Pedida</label>
-                                                    <input type="number" name="quantity" class="form-control"  required>
-                                                </div> -->
+                                                    <label>Especificacion Compra</label>
+                                                    <textarea class="form-control" rows="3" name="buyEspecification" required>Cantidad Pedida - Tipo:</textarea>
+                                                </div>
                                                 <div class="form-group">
                                                     <button class="btn btn-success" type="submit">Añadir</button>
                                                 </div>
@@ -110,8 +124,9 @@
                                             <label>Producto</label>
                                             {% for pro in producto %}
                                                 <div class="input-group mb-3">
+                                                    <input type="hidden" value="{{pro.idProducto}}">
                                                     <label type="text" class="form-control">{{ pro.nombreProducto }}</label>
-                                                    <button class="btn btn-outline-secondary" type="button" id="producto{{pro.idProducto}}"><i class="icon ion-md-add"></i></button>
+                                                    <button class="btn btn-outline-secondary" type="button" id="producto{{pro.idProducto}}"><a href="{{ url_for('panel.comprasPanelNewEspecificItem', id = pro.idProducto) }}"><i class="icon ion-md-add"></i></a></button>
                                                 </div>
                                             {% endfor %}
                                         </div>
