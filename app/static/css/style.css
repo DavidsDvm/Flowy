@@ -7516,3 +7516,13 @@ body, h1, h2, h3, h4, h5, h6 {
 .height-team{
   height: 423px !important;
 }
+
+.Checkout-inputs-payment{
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  height: 30px;
+  width: 100%;
+  padding: 0 10px 0 10px;
+  font-size: 10px;
+}
