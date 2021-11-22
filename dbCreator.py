@@ -12,7 +12,7 @@ tipoUsuario1 = tipoUsuario('Empleado')
 tipoUsuario2 = tipoUsuario('Cliente')
 tipoUsuario3 = tipoUsuario('Admin')
 
-usuario1 = usuario('blash', 'userImage_1.png', 'sadsad', 'davids.dvm@gmail.com', 'activo', None, '3')
+usuario1 = usuario('admin', 'userImage_1.png', 'sadsad', 'davids.dvm@gmail.com', 'activo', None, '3')
 usuario2 = usuario('santiago', 'userImage_1.png', 'sadsad', 'santiago@gmail.com', 'activo', None, '2')
 usuario3 = usuario('juan', 'userImage_1.png', 'sadsad', 'juan@gmail.com', 'activo', None, '2')
 usuario4 = usuario('prueba', 'userImage_1.png', 'sadsad', 'preuba@gmail.com', 'activo', None, '1')
