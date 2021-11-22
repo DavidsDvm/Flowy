@@ -27,7 +27,7 @@ def not_found(error):
 
 @app.route('/')
 def index():
-    return render_template('indexF.html')
+    return render_template('index.html')
 
 @app.route('/contacto', defaults={'_route': 'contacto'})
 @app.route('/tienda', defaults={'_route': 'tienda'})
