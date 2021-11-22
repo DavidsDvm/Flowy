@@ -10,6 +10,8 @@ from app.auth import auth
 from app.auth.views import load_user
 from app.models import producto, imagenesProducto, cliente, pedido, pedidoProducto, db
 from app.mailing import s
+from flask_login.utils import login_required
+from flask_login import current_user
 
 app = create_app()
 
@@ -33,7 +35,6 @@ def index():
 @app.route('/tienda', defaults={'_route': 'tienda'})
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/error404', defaults={'_route': '404'})
-@app.route('/checkout', defaults={'_route': 'checkout'})
 def navigationPages(_route):
     if _route == 'tienda':
         context = {
@@ -116,64 +117,6 @@ def buyShopping():
         for key, product in session['Shoppingcart'].items():
             total += int(product['precio']) * int(product['cantidad'])
 
-    if request.method == 'POST':
-        if current_user.is_authenticated:
-            currentUserIsClient = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
-            if currentUserIsClient:
-                especificacionPedido = "Compra del usuario: " + str(current_user.usuario)
-                newPedido = pedido(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total, especificacionPedido, 'Activo', currentUserIsClient.idCliente)
-                db.session.add(newPedido)
-                db.session.commit()
-                                
-                for key in session['Shoppingcart']:
-                    precio = int(session['Shoppingcart'][key]['precio'])
-                    inventario = int(session['Shoppingcart'][key]['cantidad'])
-                    subtotal = precio * inventario
-                    nuevoProducto = pedidoProducto(newPedido.idPedido, key, subtotal , int(session['Shoppingcart'][key]['cantidad']))
-                    db.session.add(nuevoProducto)
-
-                db.session.commit()
-
-                msg = MIMEMultipart('alternative')
-
-                contextMail = {
-                    'idPedido' : newPedido.idPedido,
-                    'fecha' : newPedido.fechaPedido,
-                    'total' : newPedido.totalPedido,
-                    'estadoPedido': newPedido.estadoPedido,
-                    'productos' : session['Shoppingcart'],
-                    'cliente' : currentUserIsClient
-                }
-
-                file = render_template('mail_newFacture.html', **contextMail )
-
-                text = """\
-                this is your buy invoice
-                here are the products of your buy
-                total: {}
-                """.format(newPedido.totalPedido)
-
-                msg['From']= 'david@mi.com.co'
-                msg['To']= str(current_user.emailUsuario)
-                msg['Subject']= "#{} Thanks for your purchase on FLOWY".format(newPedido.idPedido)
-
-                part1 = MIMEText(text, "plain")
-                part2 = MIMEText(file, "html")
-
-                msg.attach(part1)
-                msg.attach(part2)
-
-                s.send_message(msg)
-
-                flash('comprado!', 'success')
-                clearCart()
-                return redirect(url_for('index'))
-            else:
-                flash('Ya solo falta tu info bancaria', 'info')
-        else:
-            flash('Ya casi tienes tu producto, primero registrate', 'info')
-            return redirect(url_for('auth.login', next='buyShopping'))
-
     return render_template('compra.html', total = total)
 
 @app.route('/compra/delete/<int:id>', methods=['GET', 'POST'])
@@ -200,3 +143,205 @@ def clearCart():
         return redirect(url_for('navigationPages', _route = 'tienda'))
     except Exception as e:
         print(e)
+
+@app.route('/checkout', methods=['GET', 'POST'])
+@login_required
+def checkout():
+    if (request.method == 'GET'):
+        total = 0
+        for key, product in session['Shoppingcart'].items():
+            total += int(product['precio']) * int(product['cantidad'])
+    
+        return render_template('checkout.html', total = total)
+
+    if (request.method == 'POST'):
+        nameClient = request.form['nameClient']
+        lastNameClient = request.form['lastNameClient']
+        directionClient = request.form['directionClient']
+        postalCodeClient = request.form['postalCodeClient']
+        mailClient = request.form['mailClient']
+        phoneClient = request.form['phoneClient']
+
+        # Bank info
+        cardNumber = request.form['cardNumber']
+        cardDateMonth = request.form['cardDateMonth']
+        cardDateYear = request.form['cardDateYear']
+        cardCVV = request.form['cardCVV']
+        paypalClient = request.form['paypalClient']
+
+        # Calculations
+
+        total = 0
+        for key, product in session['Shoppingcart'].items():
+            total += int(product['precio']) * int(product['cantidad'])
+        
+        # Create client
+
+        if (nameClient == '' or lastNameClient == '' or directionClient == '' or postalCodeClient == '' or mailClient == '' or phoneClient == ''):
+            flash('Todos los campos son obligatorios', 'error')
+            return redirect(url_for('checkout'))
+        else:
+            if current_user.idTipoUsuario != 2:
+                flash('Solo los usuarios que son clientes pueden hacer compras', 'error')
+                return redirect(url_for('index'))
+            else:
+                currentUserIsClient = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
+                if currentUserIsClient:
+                    especificacionPedido = "Compra del usuario: " + str(current_user.usuario)
+                    newPedido = pedido(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total, especificacionPedido, 'Activo', currentUserIsClient.idCliente)
+                    db.session.add(newPedido)
+                    db.session.commit()
+                                    
+                    for key in session['Shoppingcart']:
+                        precio = int(session['Shoppingcart'][key]['precio'])
+                        inventario = int(session['Shoppingcart'][key]['cantidad'])
+                        subtotal = precio * inventario
+                        nuevoProducto = pedidoProducto(newPedido.idPedido, key, subtotal , int(session['Shoppingcart'][key]['cantidad']))
+                        db.session.add(nuevoProducto)
+
+                    db.session.commit()
+
+                    msg = MIMEMultipart('alternative')
+
+                    contextMail = {
+                        'idPedido' : newPedido.idPedido,
+                        'fecha' : newPedido.fechaPedido,
+                        'total' : newPedido.totalPedido,
+                        'estadoPedido': newPedido.estadoPedido,
+                        'productos' : session['Shoppingcart'],
+                        'cliente' : currentUserIsClient
+                    }
+
+                    file = render_template('mail_newFacture.html', **contextMail )
+
+                    text = """\
+                    this is your buy invoice
+                    here are the products of your buy
+                    total: {}
+                    """.format(newPedido.totalPedido)
+
+                    msg['From']= 'david@mi.com.co'
+                    msg['To']= str(current_user.emailUsuario)
+                    msg['Subject']= "#{} Thanks for your purchase on FLOWY".format(newPedido.idPedido)
+
+                    part1 = MIMEText(text, "plain")
+                    part2 = MIMEText(file, "html")
+
+                    msg.attach(part1)
+                    msg.attach(part2)
+
+                    s.send_message(msg)
+
+                    flash('comprado!', 'success')
+                    clearCart()
+                    return redirect(url_for('index'))
+                else:
+                    if (cardNumber != None or cardDateMonth != None or cardDateYear != None or cardCVV != None):
+                        newClient = cliente(directionClient, phoneClient, nameClient, 'CC', cardNumber, None, cardCVV, cardDateMonth, cardDateYear, nameClient+lastNameClient, current_user.idUsuario)
+                        db.session.add(newClient)
+                        db.session.commit()
+
+                        especificacionPedido = "Compra del usuario: " + str(current_user.usuario)
+                        newPedido = pedido(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total, especificacionPedido, 'Activo', newClient.idCliente)
+                        db.session.add(newPedido)
+                        db.session.commit()
+                                        
+                        for key in session['Shoppingcart']:
+                            precio = int(session['Shoppingcart'][key]['precio'])
+                            inventario = int(session['Shoppingcart'][key]['cantidad'])
+                            subtotal = precio * inventario
+                            nuevoProducto = pedidoProducto(newPedido.idPedido, key, subtotal , int(session['Shoppingcart'][key]['cantidad']))
+                            db.session.add(nuevoProducto)
+
+                        db.session.commit()
+
+                        msg = MIMEMultipart('alternative')
+
+                        contextMail = {
+                            'idPedido' : newPedido.idPedido,
+                            'fecha' : newPedido.fechaPedido,
+                            'total' : newPedido.totalPedido,
+                            'estadoPedido': newPedido.estadoPedido,
+                            'productos' : session['Shoppingcart'],
+                            'cliente' : currentUserIsClient
+                        }
+
+                        file = render_template('mail_newFacture.html', **contextMail )
+
+                        text = """\
+                        this is your buy invoice
+                        here are the products of your buy
+                        total: {}
+                        """.format(newPedido.totalPedido)
+
+                        msg['From']= 'david@mi.com.co'
+                        msg['To']= str(current_user.emailUsuario)
+                        msg['Subject']= "#{} Thanks for your purchase on FLOWY".format(newPedido.idPedido)
+
+                        part1 = MIMEText(text, "plain")
+                        part2 = MIMEText(file, "html")
+
+                        msg.attach(part1)
+                        msg.attach(part2)
+
+                        s.send_message(msg)
+
+                        flash('comprado!', 'success')
+                        clearCart()
+                        return redirect(url_for('index'))
+                    elif (paypalClient != None):
+                        newClient = cliente(directionClient, phoneClient, nameClient, 'CC', None, paypalClient, None, None, None, nameClient+lastNameClient, current_user.idUsuario)
+                        db.session.add(newClient)
+                        db.session.commit()
+
+                        especificacionPedido = "Compra del usuario: " + str(current_user.usuario)
+                        newPedido = pedido(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), total, especificacionPedido, 'Activo', newClient.idCliente)
+                        db.session.add(newPedido)
+                        db.session.commit()
+                                        
+                        for key in session['Shoppingcart']:
+                            precio = int(session['Shoppingcart'][key]['precio'])
+                            inventario = int(session['Shoppingcart'][key]['cantidad'])
+                            subtotal = precio * inventario
+                            nuevoProducto = pedidoProducto(newPedido.idPedido, key, subtotal , int(session['Shoppingcart'][key]['cantidad']))
+                            db.session.add(nuevoProducto)
+
+                        db.session.commit()
+
+                        msg = MIMEMultipart('alternative')
+
+                        contextMail = {
+                            'idPedido' : newPedido.idPedido,
+                            'fecha' : newPedido.fechaPedido,
+                            'total' : newPedido.totalPedido,
+                            'estadoPedido': newPedido.estadoPedido,
+                            'productos' : session['Shoppingcart'],
+                            'cliente' : currentUserIsClient
+                        }
+
+                        file = render_template('mail_newFacture.html', **contextMail )
+
+                        text = """\
+                        this is your buy invoice
+                        here are the products of your buy
+                        total: {}
+                        """.format(newPedido.totalPedido)
+
+                        msg['From']= 'david@mi.com.co'
+                        msg['To']= str(current_user.emailUsuario)
+                        msg['Subject']= "#{} Thanks for your purchase on FLOWY".format(newPedido.idPedido)
+
+                        part1 = MIMEText(text, "plain")
+                        part2 = MIMEText(file, "html")
+
+                        msg.attach(part1)
+                        msg.attach(part2)
+
+                        s.send_message(msg)
+
+                        flash('comprado!', 'success')
+                        clearCart()
+                        return redirect(url_for('index'))
+                    else:
+                        flash('Todos los campos son obligatorios', 'error')
+                        return redirect(url_for('checkout'))
