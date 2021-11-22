@@ -1,3 +1,4 @@
+
 from os.path import join, dirname, realpath
 
 class Config:
