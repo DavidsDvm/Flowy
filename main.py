@@ -33,6 +33,7 @@ def index():
 @app.route('/tienda', defaults={'_route': 'tienda'})
 @app.route('/flores', defaults={'_route': 'flores'})
 @app.route('/error404', defaults={'_route': '404'})
+@app.route('/checkout', defaults={'_route': 'checkout'})
 def navigationPages(_route):
     if _route == 'tienda':
         context = {
@@ -83,7 +84,6 @@ def addCart():
             if product_id and quantity and request.method == 'POST':
                 dictItems = {product_id:{'precio': product.precioProducto,'nombre': product.nombreProducto, 'cantidad': quantity, 'imagen': imagenes.imagen1}}
                 if 'Shoppingcart' in session:
-                    print(session['Shoppingcart'])
                     if product_id in session['Shoppingcart']:
                         for key, item in session['Shoppingcart'].items():
                             if int(key) == int(product_id):
