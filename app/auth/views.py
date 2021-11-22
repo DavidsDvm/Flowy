@@ -50,7 +50,7 @@ def login():
                     if session['nextUrl']:
                         redirectRute = session['nextUrl']
                         session.pop('nextUrl')
-                        return redirect(url_for(redirectRute))
+                        return redirect(url_for('panel.inicioPanel'))
                     else:
                         return redirect(url_for('panel.inicioPanel'))
                 else:
