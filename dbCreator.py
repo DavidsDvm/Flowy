@@ -16,6 +16,8 @@ usuario1 = usuario('blash', 'userImage_1.png', 'sadsad', 'davids.dvm@gmail.com',
 usuario2 = usuario('santiago', 'userImage_1.png', 'sadsad', 'santiago@gmail.com', 'activo', None, '2')
 usuario3 = usuario('juan', 'userImage_1.png', 'sadsad', 'juan@gmail.com', 'activo', None, '2')
 usuario4 = usuario('prueba', 'userImage_1.png', 'sadsad', 'preuba@gmail.com', 'activo', None, '1')
+usuario5 = usuario('preubapepito', 'userImage_1.png', 'sadsad', 'pepito@gmail.com', 'activo', None, '2')
+
 
 empleado1 = empleado('Pepito Gonzales', 'Administrador', '3105628923', 'Activo', 'CE', '25252525', '3')
 empleado2 = empleado('Lucia Cardenas', 'Gerente', '3198524759', 'Inactivo', 'CC', '1052628978', '2')
@@ -64,6 +66,7 @@ db.session.add(usuario1)
 db.session.add(usuario2)
 db.session.add(usuario3)
 db.session.add(usuario4)
+db.session.add(usuario5)
 db.session.add(empleado1)
 db.session.add(empleado2)
 db.session.add(empleado3)

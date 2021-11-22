@@ -5,6 +5,8 @@ from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functools import wraps
 from datetime import date
+import uuid
+
 
 from . import panel
 from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, usuario 
@@ -162,31 +164,63 @@ def perfilPanel():
     return render_template('panelPerfil.html', **context)
 
 
-# @panel.route('/usuarios/insert', methods =['POST'])
-# @employ_required
-# def addUsuarios():
-#     if (request.method == 'POST'):
-#             my_dataUser = usuario.query.get(current_user.idUsuario)
-#             clienteData.nombreCliente = request.form['nombreUsuario']
-#             clienteData.direccionCliente = request.form['direccionCliente']
-#             clienteData.celularCliente = request.form['celularCliente']
-#             my_data = usuario(nombreCliente,direccionCliente,celularCliente)
-#             db.session.add(my_data)
-#             db.session.commit()
-#     else:
-#         my_dataUser = usuario.query.get(current_user.idUsuario)
-#         empleadoData = empleado.query.filter_by(idUsuario = current_user.idUsuario).first()
-#     return redirect(url_for('panel.usuariosPanel'))
+@panel.route('/usuarios/insert', methods =['GET','POST'])
+@employ_required
+def addUsuarios():
+    if (request.method == 'POST'):
+        nombreUsuario= request.form['nombreUsuario']
+        avatar= 'userImage_1.png'
+        password= request.form['password']  
+        emailUsuario= request.form['email']  
+        estadoUsuario= 'activo'
+        tipoUsuario= request.form.get('tipoUsuario')
+        nombreEmpleado= request.form['nombreEmpleado']
+        tipoEmpleado = request.form['tipoEmpleado']
+        celularEmpleado= request.form['celularEmpleado']
+        estadoemplado= 'activo'
+        tipoDocEmpleado = request.form['tipoDocEmpleado']
+        DocEmpleado = request.form['DocEmpleado']
+        confirmationHash = str(uuid.uuid4().hex)    
+        
+        user = usuario.query.filter_by(usuario = nombreUsuario).first()
+        userEmail = usuario.query.filter_by(emailUsuario = emailUsuario).first()
 
-#     if (request.method == 'POST'):
-#             empleadoData.nombreEmpleado = request.form['nombreEmpleado']
-#             empleadoData.celularEmpleado = request.form['telefonoEmpleado']
-#             empleadoData.tipoDocEmplead = request.form['tipDocumento']
-#             empleadoData.docEmpleado = request.form['documento']
-#             my_data = usuario(nombreEmpleado,celularEmpleado,tipoDocEmplead,docEmpleado)
-#             db.session.commit()
+        if user or userEmail:
+            flash('Este usuario ya existe', 'error')
+            return redirect(request.referrer)
 
-#     return redirect(url_for('panel.usuariosPanel'))
+
+        if tipoUsuario == 1 or tipoUsuario == '1':
+            newUsuario = usuario(nombreUsuario,avatar,password,emailUsuario,estadoUsuario,confirmationHash,tipoUsuario)
+
+            db.session.add(newUsuario)
+            db.session.commit()
+            
+            if  nombreEmpleado==None or tipoEmpleado==None or celularEmpleado==None or  tipoDocEmpleado==None or DocEmpleado==None:
+                db.session.delete(newUsuario)
+                db.session.commit()
+                flash('No envio los datos de empleado correctamente', 'error')
+            else:
+                newEmpleado = empleado(nombreEmpleado,tipoEmpleado,celularEmpleado,estadoemplado,tipoDocEmpleado,DocEmpleado,newUsuario.idUsuario)
+                db.session.add(newEmpleado)
+                db.session.commit()
+
+                flash('Usuario creado correctamente', 'success')
+
+            return redirect(url_for('panel.usuariosPanel'))
+        else:
+            newUsuario = usuario(nombreUsuario,avatar,password,emailUsuario,estadoUsuario,confirmationHash,tipoUsuario)
+
+            db.session.add(newUsuario)
+            db.session.commit()
+                
+            flash('Usuario creado correctamente', 'success')
+
+            return redirect(url_for('panel.usuariosPanel'))
+
+            
+    return render_template('panelUsuarios.html', **context)
+    
 
 
 
@@ -201,17 +235,18 @@ def deleteUsuario(id):
     return redirect(url_for('panel.usuariosPanel'))
 
 
-# @panel.route('/usuarios/update/<int:id>', methods =['GET', 'POST'])
-# @employ_required
-# def editUsuarios(id):
-#     if (request.method == 'POST'):
-#         my_data = usuario.query.get(id)
-#         my_data.nombreCliente = request.form['nombreUsuario']
-#         my_data.direccionCliente = request.form['direccionCliente']
-#         my_data.celularCliente = request.form['celularCliente']
-#         db.session.commit()
+@panel.route('/usuarios/update/<int:id>', methods =['GET', 'POST'])
+@employ_required
+def editUsuarios(id):
+    if (request.method == 'POST'):
+        my_data = usuario.query.get(id)
+        my_data.usuario = request.form['usuario']
+        my_data.password = request.form['password']
+        my_data.emailUsuario = request.form['emailUsuario']
+        db.session.commit()
+        flash('Usuario actualizado correctamente')
 
-#     return redirect(url_for('panel.usuariosPanel'))
+    return redirect(url_for('panel.usuariosPanel'))
 
 
 
