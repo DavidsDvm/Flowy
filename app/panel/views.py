@@ -89,6 +89,10 @@ def allowed_file(filename):
 def perfilPanel():
     if current_user.idTipoUsuario == 2:
         clienteData = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
+        if not clienteData:
+            flash('No se encontro el cliente, prueba comprando un articulo primero', 'info')
+            return redirect(url_for('panel.inicioPanel'))
+
         context = {
             'usuarioLogeadoActualmente' : current_user,
             'tipoUsuario': 'cliente',
