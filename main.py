@@ -12,6 +12,8 @@ from app.models import producto, imagenesProducto, cliente, pedido, pedidoProduc
 from app.mailing import s
 from flask_login.utils import login_required
 from flask_login import current_user
+from decouple import config as config_decouple
+import os
 
 app = create_app()
 
@@ -345,3 +347,10 @@ def checkout():
                     else:
                         flash('Todos los campos son obligatorios', 'error')
                         return redirect(url_for('checkout'))
+
+if __name__ == '__main__':
+    os.system('python dbCreator.py')
+
+    port = int(os.environ.get('PORT', 5000))
+
+    app.run(host='0.0.0.0', port=port, debug=1)
