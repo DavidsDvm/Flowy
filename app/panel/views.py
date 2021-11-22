@@ -168,6 +168,7 @@ def perfilPanel():
 @employ_required
 def comprasPanel():
     all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
     compras = {}
     for key, data in enumerate(all_data, start=1):
         empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
@@ -177,7 +178,8 @@ def comprasPanel():
     context = {
         'usuarioLogeadoActualmente' : current_user,
         'today' : date.today(),
-        'compras' : compras
+        'compras' : compras,
+        'producto' : productoComp
     }
 
     return render_template('panelCompras.html', **context)
@@ -209,17 +211,41 @@ def comprasPanelEspecific(id):
 
     return render_template('panelCompras.html', **context)
 
+@panel.route('/compras/addnew/<int:id>')
+@employ_required
+def comprasPanelNewEspecificItem(id):
+    all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
+    exactProduct = producto.query.filter_by(idProducto = id).first()
+    compras = {}
+    for key, data in enumerate(all_data, start=1):
+        empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
+        nombreProvedor = proovedor.query.filter_by(idProovedor = data.idProovedor).first().nombreProovedor
+        compras[key] = {'especificacionCompra' : data.especificacionCompra, 'totalCompra' : data.totalCompra, 'empleadoNombre' : empleadoNombre, 'fechaCompra' : data.fechaCompra, 'proovedorNombre' : nombreProvedor, 'idCompras' : data.idCompra, 'idProovedor' : data.idProovedor}
+
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'today' : date.today(),
+        'compras' : compras,
+        'exactProducto' : exactProduct,
+        'producto' : productoComp
+    }
+
+    return render_template('panelCompras.html', **context)
+
 @panel.route('/compras/insert', methods =['POST'])
 @employ_required
 def addCompras():
     if (request.method == 'POST'):
         fechaCompra = str(date.today())
         totalCompra = request.form['totalPurchase']
-        idEmpleado = 1
+        idEmpleado = current_user.idUsuario
         idProovedor = request.form['proovedorName']
         especificacionCompra = request.form['buyEspecification']
+        Producto = request.form.get('idProductoa', False)
+        estadoCompra = "Completo"
 
-        my_data = compra(fechaCompra, totalCompra, idEmpleado, idProovedor, especificacionCompra)
+        my_data = compra(fechaCompra, totalCompra, Producto, especificacionCompra, estadoCompra, idEmpleado, idProovedor)
         db.session.add(my_data)
         db.session.commit()
 
