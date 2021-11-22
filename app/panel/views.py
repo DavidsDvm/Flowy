@@ -5,6 +5,8 @@ from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functools import wraps
 from datetime import date
+import uuid
+
 
 from . import panel
 from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, usuario 
