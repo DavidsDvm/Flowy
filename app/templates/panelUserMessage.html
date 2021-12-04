@@ -32,9 +32,11 @@
                         <h1 class="font-weight-bold mb-0">Bienvenido "{{tipoUsuario}}"</h1>
                         <p class="lead text-muted">Revisa la ultima informacion</p>
                     </div>
-                    <!-- <div class="col-lg-3 d-flex">
-                        <button class="btn btn-primary w-100 align-self-center">Generar Reporte</button>
-                    </div> -->
+                    {% if usuarioLogeadoActualmente.idTipoUsuario == 3 %}
+                    <div class="col-lg-3 d-flex">
+                        <a class="btn btn-primary w-100 align-self-center" style="color: white;" href="{{ url_for('panel.download_report') }}">Generar Reporte</a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </section>

@@ -1,15 +1,16 @@
 import os
-from flask import render_template, session, redirect, url_for, request, flash, current_app
+from flask import render_template, session, redirect, url_for, request, flash, current_app, Response
 from sqlalchemy import Integer, func
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functools import wraps
-from datetime import date
+from fpdf import FPDF
+from datetime import date, datetime
+from time import strftime
 import uuid
 
-
 from . import panel
-from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, usuario 
+from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, tipoUsuario, usuario 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -51,7 +52,8 @@ def inicioPanel():
 
     return render_template('panelIndex.html', **context)
 
-# Usuarios
+# Usuarios ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/usuarios')
 def usuariosPanel():
     all_data = usuario.query.filter(usuario.estadoUsuario != 'Inactivo').all()
@@ -90,6 +92,10 @@ def allowed_file(filename):
 def perfilPanel():
     if current_user.idTipoUsuario == 2:
         clienteData = cliente.query.filter_by(idUsuario = current_user.idUsuario).first()
+        if not clienteData:
+            flash('No se encontro el cliente, prueba comprando un articulo primero', 'info')
+            return redirect(url_for('panel.inicioPanel'))
+
         context = {
             'usuarioLogeadoActualmente' : current_user,
             'tipoUsuario': 'cliente',
@@ -260,6 +266,7 @@ def editUsuarios(id):
 @employ_required
 def comprasPanel():
     all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
     compras = {}
     for key, data in enumerate(all_data, start=1):
         empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
@@ -269,7 +276,8 @@ def comprasPanel():
     context = {
         'usuarioLogeadoActualmente' : current_user,
         'today' : date.today(),
-        'compras' : compras
+        'compras' : compras,
+        'producto' : productoComp
     }
 
     return render_template('panelCompras.html', **context)
@@ -301,17 +309,41 @@ def comprasPanelEspecific(id):
 
     return render_template('panelCompras.html', **context)
 
+@panel.route('/compras/addnew/<int:id>')
+@employ_required
+def comprasPanelNewEspecificItem(id):
+    all_data = compra.query.filter(compra.estadoCompra != 'Inactivo').all()
+    productoComp = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
+    exactProduct = producto.query.filter_by(idProducto = id).first()
+    compras = {}
+    for key, data in enumerate(all_data, start=1):
+        empleadoNombre = empleado.query.filter_by(idEmpleado = data.idEmpleado).first().nombreEmpleado
+        nombreProvedor = proovedor.query.filter_by(idProovedor = data.idProovedor).first().nombreProovedor
+        compras[key] = {'especificacionCompra' : data.especificacionCompra, 'totalCompra' : data.totalCompra, 'empleadoNombre' : empleadoNombre, 'fechaCompra' : data.fechaCompra, 'proovedorNombre' : nombreProvedor, 'idCompras' : data.idCompra, 'idProovedor' : data.idProovedor}
+
+    context = {
+        'usuarioLogeadoActualmente' : current_user,
+        'today' : date.today(),
+        'compras' : compras,
+        'exactProducto' : exactProduct,
+        'producto' : productoComp
+    }
+
+    return render_template('panelCompras.html', **context)
+
 @panel.route('/compras/insert', methods =['POST'])
 @employ_required
 def addCompras():
     if (request.method == 'POST'):
         fechaCompra = str(date.today())
         totalCompra = request.form['totalPurchase']
-        idEmpleado = 1
+        idEmpleado = current_user.idUsuario
         idProovedor = request.form['proovedorName']
         especificacionCompra = request.form['buyEspecification']
+        Producto = request.form.get('idProductoa', False)
+        estadoCompra = "Completo"
 
-        my_data = compra(fechaCompra, totalCompra, idEmpleado, idProovedor, especificacionCompra)
+        my_data = compra(fechaCompra, totalCompra, Producto, especificacionCompra, estadoCompra, idEmpleado, idProovedor)
         db.session.add(my_data)
         db.session.commit()
 
@@ -348,7 +380,8 @@ def deleteCompras(id):
 
     return redirect(url_for('panel.comprasPanel'))
 
-# Pedidos
+# Pedidos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/pedidos')
 @employ_required
 def pedidosPanel():
@@ -426,7 +459,8 @@ def deletePedidos(id):
 
 
 
-# Productos
+# Productos ---------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 @panel.route('/productos')
 def productosPanel():
     all_data = producto.query.filter(producto.estadoProducto != 'Inactivo').all()
@@ -481,3 +515,89 @@ def deleteProductos(id):
     db.session.commit()
 
     return redirect(url_for('panel.productosPanel'))
+
+
+# Reportes-----------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@panel.route('/reportes')
+def download_report():
+        datosPedido = db.session.query(pedido, cliente).join(cliente).limit(10)
+
+        pdf = FPDF()
+        pdf.add_page()
+
+        page_with = pdf.w - 2 * pdf.l_margin
+        col_width = page_with/5
+
+        pdf.set_font('Helvetica', 'B', 14.0)
+        pdf.cell(page_with, 0.0, 'Reporte Ventas', align='C')
+        pdf.ln(10)
+
+        pdf.set_font('Helvetica', '', 12)
+        pdf.cell(col_width, pdf.font_size, 'id', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Fecha', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Total', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Estado', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width + 5, pdf.font_size, 'Cliente', border=1, ln=0, align='C', fill=0)
+
+        pdf.ln(4)
+
+        th = pdf.font_size
+        pdf.set_font('Helvetica', '', 12)
+
+        for row, row2 in datosPedido:
+            fecha = (row.fechaPedido).strftime("%Y-%m-%d")
+            pdf.cell(col_width, th, str(row.idPedido) , border=1, ln=0, align='C')
+            pdf.cell(col_width, th, fecha, border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.totalPedido), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.estadoPedido), border=1, ln=0, align='C')
+            pdf.cell(col_width + 5, th, str(row2.nombreCliente), border=1, ln=0, align='C')
+            pdf.ln(th)
+
+        pdf.ln(10)
+
+        # --------------------------------------------------------------------------------------------
+
+        pdf.add_page()
+
+        page_with = pdf.w - 2 * pdf.l_margin
+        col_width = page_with/6
+
+        registros = db.session.query(usuario, tipoUsuario).join(tipoUsuario).limit(10)
+
+        pdf.set_font('Helvetica', 'B', 14.0)
+        pdf.cell(page_with, 0.0, 'Reporte Ultimos registros', align='C')
+        pdf.ln(9)
+
+        pdf.set_font('Helvetica', '', 12)
+        pdf.cell(col_width, pdf.font_size, 'id', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Usuario', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width + col_width, pdf.font_size, 'Email', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Estado', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Tipo Usuario', border=1, ln=0, align='C', fill=0)
+
+        pdf.ln(4)
+
+        th = pdf.font_size
+        pdf.set_font('Helvetica', '', 12)
+
+        for row, row2 in registros:
+            pdf.cell(col_width, th, str(row.idUsuario) , border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.usuario), border=1, ln=0, align='C')
+            pdf.cell(col_width + col_width, th, str(row.emailUsuario), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.estadoUsuario), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row2.tipoUsuario), border=1, ln=0, align='C')
+            pdf.ln(th)
+
+        pdf.ln(10)
+
+
+        pdf.set_font('Helvetica',  '', 10.0)
+        pdf.cell(page_with, 0.0, '- Fin del reporte -', align='C')
+
+
+
+        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=ReporteGeneral.pdf'})
+
+

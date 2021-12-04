@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block css_style %}
+    {{ url_for('static', filename='css/style.css') }}
+{% endblock css_style %}
+
+{% block title %}
+    {{ super() }}
+    Carrito de compras
+{% endblock title %}
+
+{% block header_type %}
+    {% include 'header.html' %}
+{% endblock header_type %}
+
+{% block main__content %}
+
+    <!--===== Pre-Loading area Start =====-->
+    <div id="preloader">
+        <div class="preloader">
+            <div class="spinner-block">
+                <h1 class="spinner spinner-3 mb-0">.</h1>
+            </div>
+        </div>
+    </div>
+    <!--==== Pre-Loading Area End ====-->
+
+    <!-- Checkout Area Start Here -->
+    <form action="{{url_for('checkout')}}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div class="checkout-area mt-no-text">
+            <div class="container custom-container">
+                <div class="row">
+                    <div class="col-lg-6 col-12 col-custom">
+                        <div class="checkbox-form">
+                            <h3>Detalles de Facturación</h3>
+                            <div class="row">
+                                <div class="col-md-12 col-custom">
+                                    <div class="country-select clearfix">
+                                        <label>Pais</label><span class="required">*</span></label>
+                                        <select class="myniceselect nice-select wide rounded-0">
+                                            <option data-display="Colombia">Colombia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Nombres<span class="required">*</span></label>
+                                        <input placeholder="" type="text" name="nameClient">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Apellidos<span class="required">*</span></label>
+                                        <input placeholder="" type="text" name="lastNameClient">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Nombre de Compañia</label>
+                                        <input placeholder="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Direccion<span class="required">*</span></label>
+                                        <input placeholder="Direccion de residencia " type="text" name="directionClient">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-custom">
+                                    <div class="checkout-form-list">
+                                        <input placeholder="Apartmento, habitacion,etc. (optional)" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Codigo Postal<span class="required">*</span></label>
+                                        <input placeholder="" type="text" name="postalCodeClient">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Correo<span class="required">*</span></label>
+                                        <input placeholder="" type="email" name="mailClient">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-custom">
+                                    <div class="checkout-form-list">
+                                        <label>Telefono Celular <span class="required">*</span></label>
+                                        <input type="text" name="phoneClient">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 col-custom">
+                        <div class="your-order">
+                            <h3>Tu Pedido</h3>
+                            <div class="your-order-table table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="cart-product-name">Productos</th>
+                                            <th class="cart-product-total">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if 'Shoppingcart' in session %}
+                                            {% for key, product in session['Shoppingcart'].items() %}
+                                            <tr class="cart_item">
+                                                <td class="cart-product-name">{{product.nombre}}<strong class="product-quantity">
+                                                    × {{product.cantidad}}</strong>
+                                                </td>
+                                                {% set subtotal = product.cantidad|int * product.precio|int %}
+                                                <td class="cart-product-total text-center"><span class="amount">${{subtotal}}</span></td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td class="text-center"><span class="amount">${{total}}</span></td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Order Total</th>
+                                            <td class="text-center"><strong><span class="amount">${{total}}</span></strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-accordion">
+                                    <div id="accordion">
+                                        <div class="card">
+                                            <div class="card-header" id="#payment-1">
+                                                <h5 class="panel-title mb-3">
+                                                    <a href="#" class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Targeta Debito o credito
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                                <div class="card-body mb-2 mt-2">
+                                                <b>Datos de pago</b>
+                                                    <div class="card-body mb-2 mt-2">
+                                                        <div class="col-md-12 col-custom">
+                                                            <div class="checkout-form-list ">
+                                                                <label>Numero de Targeta<span class="required">*</span></label>
+                                                                <input type="text" maxlength="16" minlength="16" class="Checkout-inputs-payment" name="cardNumber">
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="col-md-12 col-custom">
+                                                            <div class="checkout-form-list ">
+                                                                <label>Fecha de vencimiento<span class="required">*</span></label>
+                                                                <br>
+                                                                <input class="col-md-3" placeholder="mes" type="text" maxlength="2" minlength="2" class="Checkout-inputs-payment" name="cardDateMonth">
+                                                                <input class="col-md-3" placeholder="ano" type="text" maxlength="2" minlength="2" class="Checkout-inputs-payment" name="cardDateYear">
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="col-md-12 col-custom">
+                                                            <div class="checkout-form-list ">
+                                                                <label>CVV<span class="required">*</span></label>
+                                                                <input type="text" maxlength="3" minlength="3" class="Checkout-inputs-payment" name="cardCVV">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="#payment-3">
+                                            <h5 class="panel-title mb-3">
+                                                <a href="#" class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    PayPal
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                            <b>Datos de pago</b>
+                                            <div class="card-body mb-2 mt-2">
+                                                <div class="col-md-12 col-custom">
+                                                    <div class="checkout-form-list ">
+                                                        <label>Correo<span class="required">*</span></label>
+                                                        <input type="mail" maxlength="250" class="Checkout-inputs-payment" name="paypalClient">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-button-payment">
+                                    <button type="submit" class="btn flosun-button secondary-btn black-color rounded-0 w-100">Ordenar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Checkout Area End Here -->
+{% endblock main__content%}
+
+{% block footer_type %}
+    {%include 'footer.html'%}
+{% endblock footer_type %}
+
+{% block js_scripts %}
+    <script src="../static/js/main.js"></script>
+{% endblock js_scripts %}
+
+<!-- Contact Us Area End Here -->

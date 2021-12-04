@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css_style %}
-    {{ url_for('static', filename='css/tienda_css.css') }}
+    {{ url_for('static', filename='css/index_css.css') }}
 {% endblock css_style %}
 
 {% block title %}
@@ -14,120 +14,225 @@
 {% endblock header_type %}
 
 {% block main__content %}
-    <section class="mainContent">
-        <div class="mainContent__main">
-            <div class="mainContent__main--img">
-                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                        <img src="{{ url_for('static', filename='img/flower_background_shop_1.jpg') }}" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Nuevas colecciones</h5>
-                            <p>Descrubre nuestros nuevos arreglos florales</p>
+    <!--===== Pre-Loading area Start =====-->
+    <div id="preloader">
+        <div class="preloader">
+            <div class="spinner-block">
+                <h1 class="spinner spinner-3 mb-0">.</h1>
+            </div>
+        </div>
+    </div>
+    <!--==== Pre-Loading Area End ====-->
+
+    <!-- Shop Main Area Start Here -->
+    <div class="shop-main-area">
+        <div class="container container-default custom-area">
+            <div class="row flex-row-reverse">
+                <div class="col-12 col-custom widget-mt">
+                    <!--shop toolbar start-->
+                    <div class="shop_toolbar_wrapper mb-30">
+                        <div class="shop_toolbar_btn">
+                            <button data-role="grid_4" type="button" class="active btn-grid-4" title="Grid-4"><i class="fa fa-th"></i></button>
+                            <button data-role="grid_3" type="button" class="btn-grid-3" title="Grid-3"> <i class="fa fa-th-large"></i></button>
+                            <button data-role="grid_list" type="button" class="btn-list" title="List"><i class="fa fa-th-list"></i></button>
                         </div>
-                        </div>
-                        <div class="carousel-item">
-                        <img src="{{ url_for('static', filename='img/flower_background_shop_1.jpg') }}" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Nuevas colecciones</h5>
-                            <p>Descrubre nuestros nuevos arreglos florales</p>
-                        </div>
-                        </div>
-                        <div class="carousel-item">
-                        <img src="{{ url_for('static', filename='img/flower_background_shop_1.jpg') }}" class="d-block w-100" alt="...">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Nuevas colecciones</h5>
-                            <p>Descrubre nuestros nuevos arreglos florales</p>
-                        </div>
+                        <div class="shop-select">
+                            <form class="d-flex flex-column w-100" action="#">
+                                <div class="form-group">
+                                    <select class="form-control nice-select w-100">
+                                        <option selected value="1">Alfabeticamente, A-Z</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-            <div class="mainContent__main--buttons">
-                <img src="{{ url_for('static', filename='img/filter-filled-tool-symbol.svg') }}" alt="icon filter" class="aligment-center">
-                <div class="input-group flex-nowrap">
-                    <input type="text" class="form-control" placeholder="Busca tus flores" aria-label="Username" aria-describedby="addon-wrapping">
-                </div>
-                <button class="btn">Buscar</button>
-            </div>
-            <div class="mainContent__main--bigProduct">
-                <div class="imagenContent">
-                    <img src="{{ url_for('static', filename='img/shop_flowers_1.jpg') }}" alt="Flores en un jarron" class="aligment-center">
-                </div>
-                <div class="textContent">
-                    <form action="/tienda/1" method="GET">
-                        <h1>Arreglo Tulipanes</h1>
-                        <p>Flor tipo tulipán de la familia "Liliaceae" flor con gran aroma, viene con jarrón<br>
-                            Características:<br>
-                                +Tulipanes: Tulipa gesneriana<br>
-                                +Colores: A elección del usuario<br>
-                        </p>
-                        <button class="btn">COMPRAR</button>
-                    </form>
-                </div>
-            </div>
-            <div class="mainContent__main--products text-center">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', filename='img/shop_flower_1.jpg') }}" class="card-img-top" alt="...">
-                    <form action="/tienda/2" method="GET">
-                        <div class="card-body">
-                            <h5 class="card-title">Lavanda</h5>
-                            <p class="card-text">
-                                Flor tipo lavanda de la familia "Lamiaceae" flor con increíble aroma, viene con jarrón<br>
-                                Características:<br>
-                                +Lavanda: Lavándula<br>
-                                +Colores: A elección del usuario
-                            </p>
-                            <button class="btn">COMPRAR</button>
+                    <!--shop toolbar end-->
+                    <!-- Shop Wrapper Start -->
+                    <div class="row shop_wrapper grid_4">
+                        {% for producto in productos %}
+                        <div class="col-lg-3 col-md-6 col-sm-6  col-custom product-area">
+                            <div class="product-item">
+                                <div class="single-product position-relative mr-0 ml-0">
+                                    <div class="product-image">
+                                        <a class="d-block" href="{{ url_for('shopAdd', id = producto.idProducto) }}">
+                                            {% for imagen in imagenes %}
+                                                {% if imagen.idImagenes == producto.idImagenes %}   
+                                                    {% set imagenProducto = imagen.imagen1 %}
+                                                    <img src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="" class="product-image-1 w-100">
+                                                    <img src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="" class="product-image-2 position-absolute w-100">
+                                                {% endif %}
+                                            {% endfor %}
+                                        </a>
+                                        <span class="onsale">Oferta!</span>
+                                        <div class="add-action d-flex flex-column position-absolute">
+                                            <a href="#" title="Comparar">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="left" title="Compare"></i>
+                                            </a>
+                                            <a href="#" title="Agregar a la lista de deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="left" title="Lista Deseos"></i>
+                                            </a>
+                                            <a href="#exampleModalCenter{{producto.idProducto}}" title="Vista rapida" data-toggle="modal" data-target="#exampleModalCenter{{producto.idProducto}}">
+                                                <i class="lnr lnr-eye" data-toggle="tooltip" data-placement="left" title="Vista rapida"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = producto.idProducto) }}">{{producto.nombreProducto}}</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            {% set randomStars = random.randint(1,5) + 1 %}
+                                            {% for x in range(1, 6) %}
+                                                {% if x <= randomStars %}
+                                                    <i class="fa fa-star"></i>
+                                                {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
+                                        </div>
+                                        <a href="{{ url_for('shopAdd', id = producto.idProducto) }}" class="btn product-cart">Añadir Carrito</a>
+                                    </div>
+                                    <div class="product-content-listview">
+                                        <div class="product-title">
+                                            <h4 class="title-2"> <a href="{{ url_for('shopAdd', id = producto.idProducto) }}">{{producto.nombreProducto}}</a></h4>
+                                        </div>
+                                        <div class="product-rating">
+                                            {% for x in range(1, 6) %}
+                                                {% if x <= randomStars %}
+                                                    <i class="fa fa-star"></i>
+                                                {% else %}
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
+                                        </div>
+                                        <p class="desc-content">{{producto.especificacionProducto}}</p>
+                                        <div class="button-listview">
+                                            <a href="#" class="btn product-cart button-icon flosun-button dark-btn" data-toggle="tooltip" data-placement="top" title="Añadir Carrito"> <span>Añadir Carrito</span> </a>
+                                            <a class="list-icon" href="#" title="Compare">
+                                                <i class="lnr lnr-sync" data-toggle="tooltip" data-placement="top" title="Compare"></i>
+                                            </a>
+                                            <a class="list-icon" href="#" title="Add To Lista Deseos">
+                                                <i class="lnr lnr-heart" data-toggle="tooltip" data-placement="top" title="Lista Deseos"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', filename='img/shop_flower_2.jpg') }}" class="card-img-top" alt="...">
-                    <form action="/tienda/3" method="GET">
-                        <div class="card-body">
-                            <h5 class="card-title">Bouquet mixto</h5>
-                            <p class="card-text">
-                                Flores de diferentes tipos y de diversas familias, viene con jarron y dedicatoria<br>
-                                Características:<br>
-                                +Tulipanes: Tulipa gesneriana<br>
-                                +Rosa: Rosa<br>
-                                +Hortanesia: Hydrangea<br>
-                                + Ranúnculos: Ranunculus<br>
-                                +Colores: A elección del usuario, mixto elegido por el sistema
-                            </p>
-                            <button class="btn">COMPRAR</button>
+                        {% endfor %}
+                    </div>
+                    <!-- Shop Wrapper End -->
+                    <!-- Bottom Toolbar Start -->
+                    <div class="row">
+                        <div class="col-sm-12 col-custom">
+                            <div class="toolbar-bottom">
+                                <div class="pagination">
+                                    <ul>
+                                        <li class="current">1</li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li class="next"><a href="#">next</a></li>
+                                        <li><a href="#">&gt;&gt;</a></li>
+                                    </ul>
+                                </div>
+                                <p class="desc-content text-center text-sm-right mb-0">Mostrando 1 - 12 De 34 Resultados</p>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ url_for('static', filename='img/shop_flower_3.jpg') }}" class="card-img-top" alt="...">
-                    <form action="/tienda/4" method="GET">
-                        <div class="card-body">
-                            <h5 class="card-title">Bouquet boton de oro persa</h5>
-                            <p class="card-text">
-                                Flor tipo botón de oro persa de la familia "Ranunculaceae" flor con leve aroma, viene con jarrón<br>
-                                Características:<br>
-                                +Tulipanes: Tulipa gesneriana<br>
-                                +Colores: A elección del usuario
-                            </p>
-                            <button class="btn">COMPRAR</button>
-                        </div>
-                    </form>
+                    </div>
+                    <!-- Bottom Toolbar End -->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- Shop Main Area End Here -->
+    
+
+    <!-- Modal -->
+    {% for producto in productos %}
+    <div class="modal flosun-modal fade" id="exampleModalCenter{{producto.idProducto}}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span class="close-icon" aria-hidden="true">x</span>
+                </button>
+                <div class="modal-body">
+                    <div class="container-fluid custom-area">
+                        <div class="row">
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product-img">
+                                    <a class="w-100" href="#">
+                                        {% for imagen in imagenes %}
+                                            {% if imagen.idImagenes == producto.idImagenes %}   
+                                                {% set imagenProducto = imagen.imagen1 %}
+                                                <img class="w-100" src="{{ url_for('static', filename='img/'+imagenProducto) }}" alt="Product">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-custom">
+                                <div class="modal-product">
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title">{{producto.nombreProducto}}</h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">${{producto.precioProducto}}</span>
+                                            <span class="old-price"><del>${{producto.precioProducto + 20000 }}</del></span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span>1 Review</span>
+                                        </div>
+                                        <p class="desc-content">{{producto.especificacionProducto}}</p>
+                                        <div class="quantity-with-btn">
+                                            <div class="quantity">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                                    <div class="dec qtybutton">-</div>
+                                                    <div class="inc qtybutton">+</div>
+                                                    <div class="dec qtybutton"><i class="fa fa-minus"></i></div>
+                                                    <div class="inc qtybutton"><i class="fa fa-plus"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="add-to_btn">
+                                                <a class="btn product-cart button-icon flosun-button dark-btn" href="{{ url_for('shopAdd', id = producto.idProducto) }}">Añadir Carrito</a>
+                                                <a class="btn flosun-button secondary-btn rounded-0" href="#">Add to Lista Deseos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>        
+    {% endfor %}
+
+    <!-- Scroll to Top Start -->
+    <a class="scroll-to-top" href="#">
+        <i class="lnr lnr-arrow-up"></i>
+    </a>
 {% endblock main__content %}
 
+{% block js_scripts %}
+    <script src="../static/js/main.js"></script>
+{% endblock js_scripts %}
+
 {% block footer_type %}
-    {% include 'footer.html' %}
+    {%include 'footer.html'%}
 {% endblock footer_type %}
