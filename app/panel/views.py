@@ -1,13 +1,15 @@
 import os
-from flask import render_template, session, redirect, url_for, request, flash, current_app
+from flask import render_template, session, redirect, url_for, request, flash, current_app, Response
 from sqlalchemy import Integer, func
 from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functools import wraps
-from datetime import date
+from fpdf import FPDF
+import datetime
+from time import strftime
 
 from . import panel
-from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, usuario 
+from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, tipoUsuario, usuario 
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -421,3 +423,89 @@ def deleteProductos(id):
     db.session.commit()
 
     return redirect(url_for('panel.productosPanel'))
+
+
+# Reportes-----------------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@panel.route('/reportes')
+def download_report():
+        datosPedido = db.session.query(pedido, cliente).join(cliente).limit(10)
+
+        pdf = FPDF()
+        pdf.add_page()
+
+        page_with = pdf.w - 2 * pdf.l_margin
+        col_width = page_with/5
+
+        pdf.set_font('Helvetica', 'B', 14.0)
+        pdf.cell(page_with, 0.0, 'Reporte Ventas', align='C')
+        pdf.ln(10)
+
+        pdf.set_font('Helvetica', '', 12)
+        pdf.cell(col_width, pdf.font_size, 'id', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Fecha', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Total', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Estado', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width + 5, pdf.font_size, 'Cliente', border=1, ln=0, align='C', fill=0)
+
+        pdf.ln(4)
+
+        th = pdf.font_size
+        pdf.set_font('Helvetica', '', 12)
+
+        for row, row2 in datosPedido:
+            fecha = (row.fechaPedido).strftime("%Y-%m-%d")
+            pdf.cell(col_width, th, str(row.idPedido) , border=1, ln=0, align='C')
+            pdf.cell(col_width, th, fecha, border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.totalPedido), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.estadoPedido), border=1, ln=0, align='C')
+            pdf.cell(col_width + 5, th, str(row2.nombreCliente), border=1, ln=0, align='C')
+            pdf.ln(th)
+
+        pdf.ln(10)
+
+        # --------------------------------------------------------------------------------------------
+
+        pdf.add_page()
+
+        page_with = pdf.w - 2 * pdf.l_margin
+        col_width = page_with/6
+
+        registros = db.session.query(usuario, tipoUsuario).join(tipoUsuario).limit(10)
+
+        pdf.set_font('Helvetica', 'B', 14.0)
+        pdf.cell(page_with, 0.0, 'Reporte Ultimos registros', align='C')
+        pdf.ln(9)
+
+        pdf.set_font('Helvetica', '', 12)
+        pdf.cell(col_width, pdf.font_size, 'id', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Usuario', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width + col_width, pdf.font_size, 'Email', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Estado', border=1, ln=0, align='C', fill=0)
+        pdf.cell(col_width, pdf.font_size, 'Tipo Usuario', border=1, ln=0, align='C', fill=0)
+
+        pdf.ln(4)
+
+        th = pdf.font_size
+        pdf.set_font('Helvetica', '', 12)
+
+        for row, row2 in registros:
+            pdf.cell(col_width, th, str(row.idUsuario) , border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.usuario), border=1, ln=0, align='C')
+            pdf.cell(col_width + col_width, th, str(row.emailUsuario), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row.estadoUsuario), border=1, ln=0, align='C')
+            pdf.cell(col_width, th, str(row2.tipoUsuario), border=1, ln=0, align='C')
+            pdf.ln(th)
+
+        pdf.ln(10)
+
+
+        pdf.set_font('Helvetica',  '', 10.0)
+        pdf.cell(page_with, 0.0, '- Fin del reporte -', align='C')
+
+
+
+        return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=ReporteGeneral.pdf'})
+
+
