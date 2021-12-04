@@ -3,6 +3,7 @@ from email.mime.text import MIMEText
 from flask import render_template, session, redirect, url_for, flash, request
 from flask_login import login_manager, login_user, LoginManager, login_required, logout_user, current_user
 import uuid
+import os
 
 from app.forms import LoginForm, RegisterForm
 from ..models import usuario, db
@@ -88,6 +89,11 @@ def login():
                 'nombreUsuario' : nombreUsuario,
                 'hash' : confirmationHash
             }
+
+            if os.environ.get('PRODUCTION'):
+                contextMail['url'] = 'http://floowy.herokuapp.com'
+            else:
+                contextMail['url'] = 'http://127.0.0.1:5000'
 
             file = render_template('mail_accountConfirmation.html', **contextMail )
 
