@@ -22,254 +22,269 @@
 {% endblock userMessage %}
 
 {% block content %}
-<section class="bg-grey">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 my-3 " >
-                <div class="card rounded-0">
-                    <div class="card-header bg-light">
-                        <!-- <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAdd"><i class="icon ion-md-add "></i></h6> -->
-                    </div>
-                    <div class="card-body">
-                        {% for usuario in usuarios %}
-                        <div class="d-flex border-bottom py-2">
-                            <div class="mr-3 d-flex">
-                            <h2 class="mb-0 align-self-center"><a href="/panel/usuarios/{{usuario.idUsuario}}" style="color: inherit;"><i class="icon ion-md-contact"></i></a></h2></div>
-                            <div class="align-self-center">
-                                <div id="foto">
-                                    <a href="/panel/pedidos/delete/{{usuario.idUsuario}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
-                                        <img src="{{ url_for('static', filename='img/'+usuario.avatar) }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
-                                        <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
-                                            <h2><i class="icon ion-md-close"></i></h2>
-                                        </div>
-                                    </a>
-                                </div>
-                                <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="icon ion-md-create"></i></button>
+    <section class="bg-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 my-3 ">
+                    <div class="card rounded-0">
+                        <div class="card-header bg-light">
+                            <h6 class="font-weight-bold mb-0 py-2">Usuarios<button class="more btn btn-light" data-bs-toggle="modal" data-bs-target="#modalAddUsuarios">Usuarios</h6>
+                        </div>
+                        <div class="card-body">
+                            {% for usuario in usuarios %}
+                            <div class="d-flex border-bottom py-2">
+                                <div class="mr-3 d-flex">
+                                <h2 class="mb-0 align-self-center"><a href="/panel/usuarios/{{usuario.idUsuario}}" style="color: inherit;"><i class="icon ion-md-contact"></i></a></h2></div>
+                                <div class="align-self-center">
+                                    <div id="foto">
+                                        <a href="/panel/usuarios/delete/{{usuario.idUsuario}}" onclick="return confirm('Estas seguro de que quieres eliminar este registro?')">
+                                            <img src="{{ url_for('static', filename='img/'+usuario.avatar) }}" class="position-absolute flower img-fluid rounded-circle avatar mr-2">
+                                            <div id="info" class="position-absolute flower pl-1 pt-10 rounded-circle">
+                                                <h2><i class="icon ion-md-close"></i></h2>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <button class="more btn btn-light position-absolute  mr-2 btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit{{usuario.idUsuario}}"><i class="icon ion-md-create"></i></button>
                                 <h6 class="text-muted d-inline-block">{{usuario.usuario}}</h6>
-                                {% if usuario.idTipoUsuario == 1 %}
-                                    {% set tipoUsuario = 'Empleado' %}
-                                {% endif %}
-                                {% if usuario.idTipoUsuario == 2 %}
-                                    {% set tipoUsuario = 'Cliente' %}
-                                {% endif %}
-                                {% if usuario.idTipoUsuario == 3 %}
-                                    {% set tipoUsuario = 'Admin' %}
-                                {% endif %}
+                                {% if usuario.idTipoUsuario == 1 %} {% set tipoUsuario = 'Empleado' %} {% endif %} {% if usuario.idTipoUsuario == 2 %} {% set tipoUsuario = 'Cliente' %} {% endif %} {% if usuario.idTipoUsuario == 3 %} {% set tipoUsuario = 'Admin' %} {% endif %}
                                 <span class="badge badge-dark ml-2">{{tipoUsuario}}</span>
                                 <small class="d-block text-muted">{{usuario.emailUsuario}}</small>
-                            </div>
+                                <small class="d-block text-muted">{{usuario.estadoUsuario}}</small>
                         </div>
-
-                        <!-- Modales -->
-                        <!-- Modal New Empleado -->
-                        <div id="modalAdd" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="name-f">Seleccionar Tipo</h4>
-                                    </div>
-                                    <form class="modal-body" action="" method="POST">
-                                        <input type="button" class="btn btn-dark btn-f" onclick="fun()" value="Seleccionar">
-                                        <select class="form-select in-f" id="DIST" >
-                                            <option selected>Seleccione Tipo Usuario</option>
-                                            <option value="1">Usuario</option>
-                                            <option value="2">Empleado</option>
-                                        </select>
+                    </div>
+                    <!-- Modal usuarios -->
+                    <div id="modalAddUsuarios" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Agregar Usuarios</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('panel.addUsuarios')}}" method="POST">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                        <div class="form-group">
+                                            <label>Nombre:</label>
+                                            <input type="text" class="form-control" name="nombreUsuario" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Contraseña</label>
+                                            <input type="password" class="form-control" name="password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Correo</label>
+                                            <input type="email" class="form-control" name="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Seleccione el tipo de usuario  :</label>
+                                            <select class="form-select in-f" name="tipoUsuario" id="tipoUsuario" required>
+                                                <option vazºlue="nada" selected>Seleccione Tipo Usuario</option>
+                                                <option value="1">Empleado </option>
+                                                <option value="2">Cliente</option>
+                                                <option value="3">Admin</option>
+                                            </select>
+                                        </div>
+                                        <div id="divNombreEmpleado" class="form-group" style="display: none">
+                                            <div class="form-group">
+                                                <label>nombreEmpleado:</label>
+                                                <input type="text" class="form-control" name="nombreEmpleado" id="nombreEmpleado" required>
+                                            </div>
+                                        </div>
+                                        <div id="divTipoEmpleado" class="form-group" style="display: none">
+                                            <div class="form-group">
+                                                <label>TipoEmpleado:</label>
+                                                <select class="form-select in-f" name="tipoEmpleado" id="tipoEmpleado" required>
+                                                    <option selected>Seleccione Tipo Empleado</option>
+                                                    <option value="1">Administrador </option>
+                                                    <option value="2">Gerente</option>
+                                                    <option value="3">Auxiliar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="divCelularEmpleado" class="form-group" style="display: none">
+                                            <div class="form-group">
+                                                <label>Celular Empleado:</label>
+                                                <input type="text" class="form-control" name="celularEmpleado" id="celularEmpleado" required>
+                                            </div>
+                                        </div>
+                                        <div id="divTipoDocEmpleado" class="form-group" style="display: none">
+                                            <div class="form-group">
+                                                <label>Tipo Doc Empleado:</label>
+                                                <select class="form-select in-f" name="tipoDocEmpleado" id="tipoDocEmpleado" required>
+                                                    <option selected>Seleccione Tipo Doc Empleado</option>
+                                                    <option value="1">CC </option>
+                                                    <option value="2">CE</option>
+                                                    <option value="3">PAS</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="divDocEmpleado" class="form-group" style="display: none">
+                                            <div class="form-group">
+                                                <label>Doc Empleado:</label>
+                                                <input type="text" class="form-control" name="DocEmpleado" id="DocEmpleado" required>
+                                            </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ url_for('panel.addUsuarios')}}" method="POST">
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                            <div class="form-group">
+                                                                <label>Nombre:</label>
+                                                                    <input type="text" class="form-control" name="nombreUsuario"  required="1">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Contraseña</label>
+                                                                    <input type="password" class="form-control" name="password" required="1">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Correo</label>
+                                                                    <input type="email" class="form-control" name="email" required="1">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label>Seleccione el tipo de usuario  :</label>
+                                                                    <select class="form-select in-f" name="tipoUsuario" id="tipoUsuario" required>
+                                                                    <option selected>Seleccione Tipo Usuario</option>
+                                                                    <option value="1">Empleado </option>
+                                                                    <option value="2">Cliente</option>
+                                                                    <option value="3">Admin</option>
+                                                                    </select>                             
+                                                            </div>
+                                                                <div id="nombreEmpleado" class="form-group" style="display: none">
+                                                                    <div class="form-group">
+                                                                        <label>nombreEmpleado:</label>
+                                                                        <input type="text" class="form-control" name="nombreEmpleado" required="1">
+                                                                    </div> 
+                                                                </div> 
+                                                            <div id="tipoEmpleado" class="form-group" style="display: none">                            
+                                                                <div class="form-group">
+                                                                    <label>TipoEmpleado:</label>
+                                                                    <select class="form-select in-f" name="tipoEmpleado" required>
+                                                                    <option selected>Seleccione Tipo Empleado</option>
+                                                                    <option value="1">Administrador </option>
+                                                                    <option value="2">Gerente</option>
+                                                                    <option value="3">Auxiliar</option>
+                                                                    </select>                                                                  
+                                                                </div>  
+                                                            </div> 
+                                                            <div id="celularEmpleado" class="form-group" style="display: none">
+                                                                <div class="form-group">                            
+                                                                    <label>Celular Empleado:</label>
+                                                                    <input type="text" class="form-control" name="celularEmpleado" required="1">
+                                                                </div>
+                                                            </div> 
+                                                            <div id="tipoDocEmpleado" class="form-group" style="display: none">
+                                                                <div class="form-group">                          
+                                                                    <label>Tipo Doc Empleado:</label>
+                                                                    <select class="form-select in-f" name="tipoDocEmpleado" required>
+                                                                    <option selected>Seleccione Tipo Doc Empleado</option>
+                                                                    <option value="1">CC </option>
+                                                                    <option value="2">CE</option>
+                                                                    <option value="3">PAS</option>
+                                                                    </select>                                
+                                                                </div>
+                                                            </div> 
+                                                            <div id="DocEmpleado" class="form-group" style="display: none">
+                                                                <div class="form-group">
+                                                                    <label>Doc Empleado:</label>
+                                                                    <input type="text" class="form-control" name="DocEmpleado" required="1">
+                                                                </div>
+                                                            </div>                                       
+                                                <button class="btn btn-primary" type="submit">Add Usuario</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Add Usuario</button>
                                     </form>
-                                    <div class="modal-body" id="Users" style="display: none;">
-                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                            <div class="form-group">
-                                                <label>Nombre Usuario</label>
-                                                <input type="text" class="form-control" name="name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Contraseña</label>
-                                                <input type="password" class="form-control" name="pass" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Correo</label>
-                                                <input type="email" class="form-control" name="email" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Foto</label>
-                                                <input type="file" class="form-control" name="fechaCompra" placeholder="Foto" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success" type="submit">Añadir</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-body" id="Empleados" style="display: none;">
-                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                            <div class="form-group">
-                                                <label>Nombre Empleado</label>
-                                                <input type="text" class="form-control" name="nameEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tipo Empleado</label>
-                                                <input type="text" class="form-control" name="tipEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Celular Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>tipoDocEmpleado</label>
-                                                <select class="form-select">
-                                                    <option selected>Seleccione Documento</option>
-                                                    <option value="CE">CE</option>
-                                                    <option value="CC">CC</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Doc Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Usuario</label>
-                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success" type="submit">Añadir</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Modal de Editar Empleados -->
-                        <div id="modalEdit" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Editar Pedido</h4>
-                                    </div>
-                                    <div class="modal-body" id="Empleados" style="display: none;">
-                                        <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                            <div class="form-group">
-                                                <label>Nombre Empleado</label>
-                                                <input type="text" class="form-control" name="nameEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tipo Empleado</label>
-                                                <input type="text" class="form-control" name="tipEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Celular Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>tipoDocEmpleado</label>
-                                                <select class="form-select">
-                                                    <option selected>Seleccione Documento</option>
-                                                    <option value="CE">CE</option>
-                                                    <option value="CC">CC</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Doc Empleado</label>
-                                                <input type="number" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Usuario</label>
-                                                <input type="text" maxlength="10" class="form-control" name="celEmp" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success" type="submit">Modificar</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
+                    </div>
+                    <!-- Modal de Editar usuarios -->
+                    <div id="modalEdit{{usuario.idUsuario}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Actualizar Informacion</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/panel/usuarios/update/{{usuario.idUsuario}}" method="POST">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                        <div class="form-group">
+                                            <label>Usuario:</label>
+                                            <input type="text" class="form-control" name="usuario" value="{{usuario.usuario}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Password:</label>
+                                            <input type="password" class="form-control" name="password" value="{{usuario.password}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Correo</label>
+                                            <input type="email" class="form-control" name="emailUsuario" value="{{usuario.emailUsuario}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Editar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Modal Editar Cliente -->
-                        <div class="modal-body" id="Users" style="display: none;">
-                            <form action="{{ url_for('panel.addPedidos') }}" method="POST">
-                                <div class="form-group">
-                                    <label>Nombre Usuario</label>
-                                    <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <br> {% if especificacionUsuarioEmp or especificacionUsuarioCli %}
+                    <script>
+                        $(document).ready(function() {
+                            $("#modalShowEsp").modal("show");
+                        });
+                    </script>
+                    <div id="modalShowEsp" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Especificacion Pedidos</h4>
                                 </div>
-                                <div class="form-group">
-                                    <label>Contraseña</label>
-                                    <input type="password" class="form-control" name="pass" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Correo</label>
-                                    <input type="email" class="form-control" name="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Foto</label>
-                                    <input type="file" class="form-control" name="fechaCompra" placeholder="Foto" required>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-success" type="submit">Modificar</button>
-                                </div>
-                            </form>
-                        </div><br>
-                        {% if especificacionUsuarioEmp or especificacionUsuarioCli %}
-                        <script>
-                            $(document).ready(function(){
-                                $("#modalShowEsp").modal("show");
-                            });
-                        </script>
-                        <div id="modalShowEsp" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Especificacion Pedidos</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                            <div class="form-group">
-                                                {% if especificacionUsuarioEmp %}
-                                                    <div class="d-flex border-bottom py-2">
-                                                        <div class="mr-3 d-flex">
-                                                            <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioEmp.nombreEmpleado}}</h6>
-                                                            <span class="badge badge-dark ml-2">Tipo de empleado: {{especificacionUsuarioEmp.tipoEmpleado}}</span>
-                                                            <small class="d-block text-muted">celular: {{especificacionUsuarioEmp.celularEmpleado}}</small>
-                                                            <small class="d-block text-muted">estado: {{especificacionUsuarioEmp.estadoemplado}}</small>
-                                                            <small class="d-block text-muted">tipo doc: {{especificacionUsuarioEmp.tipoDocEmpleado}}</small>
-                                                            <small class="d-block text-muted">Numero doc: {{especificacionUsuarioEmp.docEmpleado}}</small>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
-                                                {% if especificacionUsuarioCli %}
-                                                    <div class="d-flex border-bottom py-2">
-                                                        <div class="mr-3 d-flex">
-                                                            <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioCli.nombreCliente}}</h6>
-                                                            <span class="badge badge-dark ml-2">Metodo de pago: {{especificacionUsuarioCli.tipoMetodoPago}}</span>
-                                                            <small class="d-block text-muted">Celular: {{especificacionUsuarioCli.celularCliente}}</small>
-                                                            <small class="d-block text-muted">direccion: {{especificacionUsuarioCli.direccionCliente}}</small>
-                                                        </div>
-                                                    </div>
-                                                {% endif %}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        {% if especificacionUsuarioEmp %}
+                                        <div class="d-flex border-bottom py-2">
+                                            <div class="mr-3 d-flex">
+                                                <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
                                             </div>
-                                        </form>
+                                            <div class="align-self-center">
+                                                <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioEmp.nombreEmpleado}}</h6>
+                                                <span class="badge badge-dark ml-2">Tipo de empleado: {{especificacionUsuarioEmp.tipoEmpleado}}</span>
+                                                <small class="d-block text-muted">celular: {{especificacionUsuarioEmp.celularEmpleado}}</small>
+                                                <small class="d-block text-muted">estado: {{especificacionUsuarioEmp.estadoemplado}}</small>
+                                                <small class="d-block text-muted">tipo doc: {{especificacionUsuarioEmp.tipoDocEmpleado}}</small>
+                                                <small class="d-block text-muted">Numero doc: {{especificacionUsuarioEmp.docEmpleado}}</small>
+                                            </div>
+                                        </div>
+                                        {% endif %} {% if especificacionUsuarioCli %}
+                                        <div class="d-flex border-bottom py-2">
+                                            <div class="mr-3 d-flex">
+                                                <img class="mb-0 align-self-center" style="width: 3em; height: 3em;" src="{{ url_for('static', filename='img/'+usuario.avatar) }}" alt="flower">
+                                            </div>
+                                            <div class="align-self-center">
+                                                <h6 class="text-muted d-inline-block">Nombre: {{especificacionUsuarioCli.nombreCliente}}</h6>
+                                                <span class="badge badge-dark ml-2">Metodo de pago: {{especificacionUsuarioCli.tipoMetodoPago}}</span>
+                                                <small class="d-block text-muted">Celular: {{especificacionUsuarioCli.celularCliente}}</small>
+                                                <small class="d-block text-muted">direccion: {{especificacionUsuarioCli.direccionCliente}}</small>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
-
-                        {% endfor %}
-                        <div>
-                            <ul class="pagination justify-content-center">
+                    </div>
+                    {% endif %} {% endfor %}
+                    <div>
+                        <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
                             </li>
@@ -281,28 +296,65 @@
                             <li class="page-item">
                                 <a class="page-link" href="#">Next</a>
                             </li>
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<script type="text/javascript">
-    function fun(){
-    var LOCK = document.getElementById('DIST');
-    var Select = LOCK.options[LOCK.selectedIndex].value;
 
-    if (Select == "1") {
-        document.getElementById("name-f").innerHTML = "Agregar Usuario";
-        document.getElementById("Users").style.display = "block";
-        document.getElementById("Empleados").style.display = "none";
-    }else if (Select == "2") {
-        document.getElementById("name-f").innerHTML = "Agregar Empleado";
-        document.getElementById("Users").style.display = "none";
-        document.getElementById("Empleados").style.display = "block";
-    }
-}
-</script>
+    <script type="text/javascript">
+        const nombreUsuario = document.getElementById("nombreUsuario");
+        const password = document.getElementById("password");
+        const email = document.getElementById("email");
+        const nombreEmpleado = document.getElementById("nombreEmpleado");
+        const tipoEmpleado = document.getElementById("tipoEmpleado");
+        const celularEmpleado = document.getElementById("celularEmpleado");
+        const tipoDocEmpleado = document.getElementById("tipoDocEmpleado");
+        const DocEmpleado = document.getElementById("DocEmpleado");
+
+        const divNombreEmpleado = document.getElementById("divNombreEmpleado");
+        const divTipoEmpleado = document.getElementById("divTipoEmpleado");
+        const divCelularEmpleado = document.getElementById("divCelularEmpleado");
+        const divTipoDocEmpleado = document.getElementById("divTipoDocEmpleado");
+        const divDocEmpleado = document.getElementById("divDocEmpleado");
+
+
+        function fun() {
+            var LOCK = document.getElementById('DIST');
+            var Select = LOCK.options[LOCK.selectedIndex].value;
+        }
+        const tipoUsuario = document.getElementById("tipoUsuario");
+        tipoUsuario.addEventListener('change', (event) => {
+            const tipoUsuario = document.getElementById("tipoUsuario").selectedIndex;
+            console.log(tipoUsuario);
+
+            if (tipoUsuario == 1) {
+                divNombreEmpleado.style.display = 'initial';
+                divTipoEmpleado.style.display = 'initial';
+                divCelularEmpleado.style.display = 'initial';
+                divTipoDocEmpleado.style.display = 'initial';
+                divDocEmpleado.style.display = 'initial';
+            } else {
+                divNombreEmpleado.style.display = 'none';
+                divTipoEmpleado.style.display = 'none';
+                divCelularEmpleado.style.display = 'none';
+                divTipoDocEmpleado.style.display = 'none';
+                divDocEmpleado.style.display = 'none';
+                nombreEmpleado.removeAttribute("required");
+                nombreEmpleado.required = false;
+                tipoEmpleado.removeAttribute("required");
+                tipoEmpleado.required = false;
+                celularEmpleado.removeAttribute("required");
+                celularEmpleado.required = false;
+                tipoDocEmpleado.removeAttribute("required");
+                tipoDocEmpleado.required = false;
+                DocEmpleado.removeAttribute("required");
+                DocEmpleado.required = false;
+            }
+        });
+    </script>
+
+
 {% endblock content %}
