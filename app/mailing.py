@@ -1,12 +1,13 @@
-
 import smtplib
 import os
 
-username = 'david@mi.com.co'
-password = os.environ.get('mailDavidPass')
-# file = codecs.open("index.html", "r", "utf-8")
+# Variables con los datos del correo
+username = 'flowydomain@gmail.com'
+password = os.getenv('MAIL_PASS', 'flowysi1')
 
-s = smtplib.SMTP('smtp.mi.com.co')
-s.connect(host='smtp.mi.com.co', port='587')
+# Conexion con servidor SMTP
+s = smtplib.SMTP('smtp.gmail.com')
+s.connect(host='smtp.gmail.com', port='587')
 s.starttls()
+
 s.login(username, password)
