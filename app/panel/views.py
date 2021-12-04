@@ -224,7 +224,7 @@ def addUsuarios():
 
 
 
-@panel.route('/usuarios/delete/<int:id>', methods = ['GET', 'POST'])
+@panel.route('/usuarios/delete/<int:id>',   methods = ['GET', 'POST'])
 @employ_required
 def deleteUsuario(id):
     my_data = usuario.query.get(id)
@@ -232,7 +232,7 @@ def deleteUsuario(id):
     my_data.estadoUsuario = "Inactivo"
     db.session.commit()
 
-    return redirect(url_for('panel.usuariosPanel'))
+    return redirect(url_for('panel.usuariosPanel')) 
 
 
 @panel.route('/usuarios/update/<int:id>', methods =['GET', 'POST'])
