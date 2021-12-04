@@ -5,8 +5,9 @@ from flask_login import current_user
 from werkzeug.utils import secure_filename
 from functools import wraps
 from fpdf import FPDF
-import datetime
+from datetime import date, datetime
 from time import strftime
+import uuid
 
 from . import panel
 from ..models import pedido, compra, pedidoProducto, producto, empleado, proovedor, imagenesProducto, compraProducto, cliente, db, tipoProducto, tipoUsuario, usuario 
