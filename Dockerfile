@@ -18,4 +18,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip3 install --upgrade pip 
 RUN pip3 --no-cache-dir install -r requirements.txt
 
+EXPOSE 8080
+
 CMD [ "python3", "main.py" ]
