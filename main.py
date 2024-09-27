@@ -349,9 +349,13 @@ def checkout():
                         return redirect(url_for('checkout'))
 
 if __name__ == '__main__':
+    print("trying to run floowy app")
+
     os.system('python dbCreator.py')
 
     port = int(os.environ.get('PORT', 5000))
+
+    print("port", os.environ.get('PORT', 5000))
 
     app.run(host='0.0.0.0', port=port, debug=1)
     

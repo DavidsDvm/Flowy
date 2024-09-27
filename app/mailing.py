@@ -6,8 +6,7 @@ username = 'flowydomain@gmail.com'
 password = os.getenv('MAIL_PASS', 'flowysi1')
 
 # Conexion con servidor SMTP
-s = smtplib.SMTP('smtp.gmail.com')
-s.connect(host='smtp.gmail.com', port='587')
-s.starttls()
+s = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+s.ehlo()
 
 s.login(username, password)
